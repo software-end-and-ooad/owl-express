@@ -1,4 +1,4 @@
-# Webserv V2.5
+# Owl-Express
 
 ====== PLEASE READ THIS FIRST =======
 
