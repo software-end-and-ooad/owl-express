@@ -1,10 +1,9 @@
 {
-  "name": "webserv",
-  "version": "2.0.0",
-  "license": "CSAG KMITL",
+  "name": "Owl-Express",
+  "version": "1.0.0",
+  "license": "babyjazz",
   "author": {
-    "name": "babyjazz",
-    "email": "jralphabet@gmail.com"
+    "name": "babyjazz"
   },
   "scripts": {
     "start": "ng serve",
