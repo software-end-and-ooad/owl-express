@@ -1,11 +1,12 @@
-# NgxHttpAuth
+# Webserv V2.5
 
-This project just a demo for library ngx-auth.
+====== PLEASE READ THIS FIRST =======
 
-```npm install ngx-auth --save-dev```
+After cloen this repo
+```npm install``` (Cannot use yarn)
 
 ## Run
 
-Run `npm start` for a dev server. Navigate to `http://localhost:4200/`.
+Run `ng serve` `--host ${ip}` for a dev server. Navigate to `http://localhost:4200/`.
 Also to run server, which is required for demo run following command:
 ```npm run server```. It will start demo server

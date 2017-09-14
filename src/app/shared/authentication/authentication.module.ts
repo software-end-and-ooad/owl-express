@@ -18,8 +18,8 @@ export function factory(authenticationService: AuthenticationService) {
     providers: [
       TokenStorage,
       AuthenticationService,
-      { provide: PROTECTED_FALLBACK_PAGE_URI, useValue: '/' },
-      { provide: PUBLIC_FALLBACK_PAGE_URI, useValue: '/login' },
+      { provide: PROTECTED_FALLBACK_PAGE_URI, useValue: '/dashboard' },
+      { provide: PUBLIC_FALLBACK_PAGE_URI, useValue: '/' },
       {
         provide: AUTH_SERVICE,
         deps: [ AuthenticationService ],

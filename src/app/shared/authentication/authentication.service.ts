@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { AuthService } from 'ngx-auth';
+import { Router } from '@angular/router';
 import { API } from '../../../../constance/url';
 
 import { TokenStorage } from './token-storage.service';
 
 interface AccessData {
-  accessToken: string;
-  refreshToken: string;
+  token: string;
 }
 
 @Injectable()
@@ -16,7 +16,8 @@ export class AuthenticationService {
 
   constructor(
     private http: HttpClient,
-    private tokenStorage: TokenStorage
+    private tokenStorage: TokenStorage,
+    private router: Router,
   ) {}
 
   /**
@@ -49,15 +50,16 @@ export class AuthenticationService {
    */
   public refreshToken(): Observable < AccessData > {
     return this.tokenStorage
-      .getRefreshToken()
-      .switchMap((refreshToken: string) => {
-        return this.http.post(API.refreshToken, { refreshToken });
-      })
-      .do(this.saveAccessData.bind(this))
-      .catch((err) => {
-        this.logout();
-
-        return Observable.throw(err);
+      .getAccessToken()
+      .switchMap((token: string) => {
+        const headers = new HttpHeaders({
+          'Authorization': 'bearer ' + token
+        });
+        return this.http.get(API.protect.refreshToken, { headers: headers })
+          .do(
+            (res: any) => this.saveAccessData(res),
+            (err: any) => this.logout()
+          )
       });
   }
 
@@ -87,7 +89,7 @@ export class AuthenticationService {
    */
 
   public login(email, password): Observable<any> {
-    return this.http.post(API.login, { email: email, password: password })
+    return this.http.post(API.api.auth, { email: email, password: password })
     .do( (res: AccessData) =>  this.saveAccessData(res) );
   }
 
@@ -96,7 +98,8 @@ export class AuthenticationService {
    */
   public logout(): void {
     this.tokenStorage.clear();
-    location.reload(true);
+    //location.reload(true);
+    this.router.navigateByUrl('/');
   }
 
   /**
@@ -105,10 +108,9 @@ export class AuthenticationService {
    * @private
    * @param {AccessData} data
    */
-  private saveAccessData({ accessToken, refreshToken }: AccessData) {
+  private saveAccessData({token}: AccessData) {
     this.tokenStorage
-      .setAccessToken(accessToken)
-      .setRefreshToken(refreshToken);
+      .setAccessToken(token)
   }
 
 }

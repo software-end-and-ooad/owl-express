@@ -1,9 +1,21 @@
-const domain =  'http://localhost:3000/';
+<<<<<<< Updated upstream
+const domain =  'http://localhost:3000/api/';
+=======
+const domain =  'http://localhost:3001/api/';
+>>>>>>> Stashed changes
 
 const api = {
-  login: domain + 'auth',
+  auth: domain + 'auth',
   register: domain + 'register',
-  refreshToken: domain + 'refresh-token'
 }
 
-export const API = api;
+const domainProtect = domain + 'user/';
+
+const protect = {
+
+  refreshToken: domainProtect + 'refresh',
+  auth: domainProtect + 'auth'
+
+}
+
+export const API = {api, protect};

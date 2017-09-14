@@ -17,15 +17,6 @@ export class TokenStorage {
   }
 
   /**
-   * Get refresh token
-   * @returns {Observable<string>}
-   */
-  public getRefreshToken(): Observable<string> {
-    const token: string = <string>localStorage.getItem('refreshToken');
-    return Observable.of(token);
-  }
-
-  /**
    * Set access token
    * @returns {TokenStorage}
    */
@@ -36,20 +27,9 @@ export class TokenStorage {
   }
 
    /**
-   * Set refresh token
-   * @returns {TokenStorage}
-   */
-  public setRefreshToken(token: string): TokenStorage {
-    localStorage.setItem('refreshToken', token);
-
-    return this;
-  }
-
-   /**
    * Remove tokens
    */
   public clear() {
     localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
   }
 }

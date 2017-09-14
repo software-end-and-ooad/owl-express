@@ -4,19 +4,14 @@ import { PublicGuard, ProtectedGuard } from 'ngx-auth';
 
 const routes: Routes = [
   {
-    path: 'login',
+    path: '',
     canActivate: [ PublicGuard ],
-    loadChildren: './login/login.module#LoginModule'
+    loadChildren: './main/main.module#MainModule'
   },
   {
     path: 'dashboard',
     canActivate: [ ProtectedGuard ],
     loadChildren: './dashboard/dashboard.module#DashboardModule'
-  },
-  {
-    path: '',
-    redirectTo: 'dashboard',
-    pathMatch: 'full'
   },
   {
     path: '**',

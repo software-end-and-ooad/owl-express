@@ -6,22 +6,34 @@ import { DataService, AuthenticationService } from '../shared';
 
 @Component({
   selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html'
+  templateUrl: './dashboard.component.html',
 })
+
 export class DashboardComponent {
 
-  public users$: Observable<any>;
-  public data$: Observable<any>;
+  public users: Object;
 
   constructor(
     private router: Router,
     private dataService: DataService,
     private authService: AuthenticationService
-  ) { }
+  ) {
+    /**
+     * Refresh token for first page
+     */
+    this.dataService.refreshToken()
+  }
 
   public loadData() {
-    this.users$ = this.dataService.getUsers();
-    this.data$ = this.dataService.getData();
+    this.dataService.getUsers()
+      .subscribe(
+        (res: any) => {
+          this.users = res.data;
+        },
+        (err: any) => {
+          alert("Cannot load data")
+        }
+      );
   }
 
   public check() {

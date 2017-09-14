@@ -1,17 +1,41 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { TokenStorage } from './authentication/token-storage.service'
+import { AuthenticationService } from './authentication/authentication.service';
+import { API } from '../../../constance/url';
 
 @Injectable()
 export class DataService {
 
-    constructor(private http: HttpClient) {}
+  private token: string;
 
-    getUsers() {
-        return this.http.get('http://localhost:3000/users');
-    }
+  constructor(private http: HttpClient, private tokenStorage: TokenStorage, private authService: AuthenticationService) {
+     this.tokenStorage.getAccessToken()
+      .subscribe((res: any) => this.token = res)
+  }
 
-    getData() {
-        return this.http.get('http://localhost:3000/data');
-    }
+  refreshToken() {
+    const headers = new HttpHeaders({
+      'Authorization': 'bearer ' + this.token
+    })
+    return this.authService.refreshToken()
+      .subscribe(
+        (res: any) => {
+          this.token = res.token
+        }
+      )
+  }
+
+  getToken() {
+    return this.token
+  }
+
+  getUsers() {
+    const headers = new HttpHeaders({
+      'Authorization': 'bearer ' + this.token
+    })
+    return this.http.get(API.protect.auth, {headers: headers})
+  }
 
 }

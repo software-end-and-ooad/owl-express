@@ -1,0 +1,56 @@
+<div class="card card-signup" style="padding-bottom: 20px; border-radius: 10px">
+
+  <form class="form" [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)" method="POST">
+
+    <div class="header header-info text-center">
+      <h4 style="font-size: 18px">เข้าสู่ระบบด้วยอีเมลสถาบัน</h4>
+    </div>
+
+
+    <div class="content" style="padding: 30px 40px 40px">
+
+      <div class="input-group">
+        <div class="form-group is-info label-floating is-empty">
+          <label class="control-label">อีเมล</label>
+          <input type="TEXT" class="form-control" required formControlName="email">
+        </div>
+        <span class="input-group-addon">@kmitl.ac.th</span>
+      </div>
+      <div class="text-left">
+      <strong class="text-danger" *ngIf="loginForm.controls['email'].hasError('required')" [hidden]="loginForm.controls['email'].pristine">กรุณากรอกอีเมล</strong>
+      </div>
+
+      <div class="form-group is-info label-floating is-empty text-left">
+        <label class="control-label">รหัสผ่าน</label>
+        <input type="PASSWORD" class="form-control" required formControlName="password">
+        <span class="material-input"></span>
+      </div>
+      <div class="text-left">
+        <strong class="text-danger text-left" *ngIf="loginForm.controls['password'].hasError('required')" [hidden]="loginForm.controls['password'].pristine">กรุณากรอกรหัสผ่าน</strong>
+      </div>
+
+    </div>
+
+
+    <div class="footer text-center" style="padding-left: 50px; padding-right: 50px">
+
+      <strong class="text-danger" *ngIf="formInvalid!=null">{{ formInvalid }}</strong>
+
+      <button type="submit" class="btn btn-info btn-block btn-round" style="font-size: 14px" [disabled]="loginForm.invalid || submit">
+        <i class="fa fa-spinner ld ld-spin" *ngIf="submit"></i>
+        <span *ngIf="!submit">เข้าสู่ระบบ</span>
+      </button>
+      <br />
+
+      <p style="opacity: 0.4">ยังไม่มีบัญชี?
+      <a (click)="closeModal()" data-toggle="modal" data-target="#registerModal"  class="text-info" style="font-weight: bold">ลงทะเบียน</a>
+      <br />
+      ไม่สามารถเข้าสู่ระบบได้?
+      <a [routerLink]="forget" class="text-info">ลืมรหัสผ่าน</a>
+      </p>
+
+    </div>
+
+  </form>
+
+</div>

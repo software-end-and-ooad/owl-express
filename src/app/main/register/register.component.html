@@ -1,0 +1,108 @@
+<div class="card card-signup" style="padding-bottom: 20px; border-radius: 10px;">
+
+  <form class="form" [formGroup]="registerForm" (ngSubmit)="register(registerForm.value)" method="POST">
+    <div class="header header-info text-center">
+      <h4 style="font-size: 18px">ลงทะเบียนด้วยอีเมลสถาบัน</h4>
+    </div>
+
+    <div class="content text-left" style="padding: 30px 40px 40px">
+
+      <div class="form-group is-empty is-info">
+        <select formControlName="role" required class="form-control">
+          <option value="" selected> -----เลือกประเภทบุคลากร (Select role)----- </option>
+          <option value="student">นักศึกษา (Student)</option>
+          <option value="teacher">อาจารย์ / เจ้าหน้าที่ (Staff)</option>
+        </select>
+      </div>
+      <strong class="text-danger" *ngIf="registerForm.controls['role'].hasError('required')" [hidden]="registerForm.controls['role'].pristine">กรุณากรอกประเภทบคลากร</strong>
+
+      <div class="form-group is-info" id="faculty" *ngIf="registerForm.controls['role'].value=='student'">
+        <select formControlName="faculty" class="form-control">
+          <option value="" selected> ----- เลือกคณะ (Faculty) -----</option>
+          <option value="engineer">วิศวกรรมศาสตร์</option>
+          <option value="science">วิทยาศาสตร์</option>
+          <option value="architecture">สถาปัตยกรรมศาสตร์</option>
+          <option value="technical">ครุศาสตร์อุตสาหกรรม</option>
+          <option value="technology">เทคโนโลยีการเกษตร</option>
+          <option value="industry">อุตสาหกรรมเกษตร</option>
+          <option value="it">เทคโนโลยีสารสนเทศ</option>
+          <option value="inter">วิทยาลัยนานาชาติ</option>
+          <option value="nano">วิทยาลัยนาโนเทคโนโลยีพระจอมเกล้าลาดกระบัง</option>
+          <option value="innovation">วิทยาลัยนวัตกรรมการผลิตขั้นสูง</option>
+          <option value="manage">การบริหารและจัดการ</option>
+          <option value="aviation">วิทยาลัยอุตสาหกรรมการบินนานาชาติ</option>
+        </select>
+      </div>
+      <strong class="text-danger" *ngIf="registerForm.controls['faculty'].hasError('required')" [hidden]="registerForm.controls['faculty'].pristine">กรุณากรอกคณะ</strong>
+      <strong class="text-danger" *ngIf="registerForm.controls['faculty'].hasError('maxlength')" [hidden]="registerForm.controls['faculty'].pristine">ชื่อคณะต้องไม่น้อยกว่า {{ inputLength.facultyMax }} ตัวอักษร</strong>
+
+      <div class="form-group label-floating is-empty is-info">
+        <label class="control-label">ชื่อ</label>
+        <input class="form-control" type="text" formControlName="name" required>
+      </div>
+      <strong class="text-danger" *ngIf="registerForm.controls['name'].hasError('required')" [hidden]="registerForm.controls['name'].pristine">กรุณากรอกชื่อ-สกุล</strong>
+      <strong class="text-danger" *ngIf="registerForm.controls['name'].hasError('maxlength')" [hidden]="registerForm.controls['name'].pristine">ชื่อ-สกุลต้องไม่น้อยกว่า {{ inputLength.nameMax }} ตัวอักษร</strong>
+
+      <div class="input-group">
+        <div class="form-group label-floating is-empty is-info">
+          <label class="control-label">อีเมลสถาบัน</label>
+          <input class="form-control" type="text" formControlName="studentid" required>
+        </div>
+        <span class="input-group-addon" style="padding-right: 0px">
+          @kmitl.ac.th
+        </span>
+      </div>
+      <strong class="text-danger" *ngIf="registerForm.controls['studentid'].hasError('required')" [hidden]="registerForm.controls['studentid'].pristine">กรุณากรอกอีเมล</strong>
+      <strong class="text-danger" *ngIf="registerForm.controls['studentid'].hasError('maxlength')" [hidden]="registerForm.controls['studentid'].pristine">อีเมลต้องไม่น้อยกว่า {{ inputLength.studentidMax }} ตัวอักษร</strong>
+      <strong class="text-danger" *ngIf="formInvalid.studentid!=null">{{ formInvalid.studentid }}</strong>
+
+      <div class="input-group">
+        <span class="input-group-addon is-info" style="padding-left: 0px">
+          webserv.kmitl.ac.th/
+        </span>
+        <div class="form-group label-floating is-empty is-info">
+          <label class="control-label">โดเมน</label>
+          <input class="form-control" type="text" formControlName="domain" required>
+        </div>
+      </div>
+      <strong class="text-danger" *ngIf="registerForm.controls['domain'].hasError('required')" [hidden]="registerForm.controls['domain'].pristine">กรุณากรอกโดเมน</strong>
+      <strong class="text-danger" *ngIf="registerForm.controls['domain'].hasError('minlength')" [hidden]="registerForm.controls['domain'].pristine">ชื่อโดเมนต้องไม่น้อยกว่า {{ inputLength.domainMin }} ตัวอักษร</strong>
+      <strong class="text-danger" *ngIf="registerForm.controls['domain'].hasError('maxlength')" [hidden]="registerForm.controls['domain'].pristine">ชื่อโดเมนต้องไม่เกิน {{ inputLength.domainMax }} ตัวอักษร</strong>
+      <strong class="text-danger" *ngIf="registerForm.controls['domain'].hasError('pattern')" [hidden]="registerForm.controls['domain'].untouched || registerForm.controls['domain'].hasError('minlength') || registerForm.controls['domain'].hasError('maxlength')">รูปแบบชื่อโดเมนไม่ถูกต้อง</strong>
+      <strong class="text-danger" *ngIf="formInvalid.domain!=null">{{ formInvalid.domain }}</strong>
+
+      <div class="form-group label-floating is-empty is-info">
+        <label class="control-label">รหัสผ่าน</label>
+        <input class="form-control" type="password" formControlName="password" required>
+      </div>
+      <strong class="text-danger" *ngIf="registerForm.controls['password'].hasError('required')" [hidden]="registerForm.controls['password'].pristine">กรุณากรอกรหัสผ่าน</strong>
+      <strong class="text-danger" *ngIf="registerForm.controls['password'].hasError('minlength')" [hidden]="registerForm.controls['password'].pristine">รหัสผ่านต้องไม่น้อยกว่า {{ inputLength.passwordMin }} ตัวอักษร</strong>
+
+      <div class="form-group label-floating is-empty is-info">
+        <label class="control-label">ยืนยันรหัสผ่าน</label>
+        <input class="form-control" type="password" formControlName="repassword" required>
+      </div>
+      <strong class="text-danger" *ngIf="registerForm.controls.repassword.errors?.MatchPassword" >รหัสผ่านไม่ตรงกัน</strong>
+      <strong class="text-danger" *ngIf="registerForm.controls['repassword'].hasError('required')" [hidden]="registerForm.controls['repassword'].pristine">กรุณากรอกรหัสผ่านอีกครั้ง</strong>
+
+    </div>
+
+    <div class="footer text-center" style="padding-left: 50px; padding-right: 50px">
+
+      <strong class="text-danger" *ngIf="formInvalid.other!=null">{{ formInvalid.other }}</strong>
+
+      <button type="submit" class="btn btn-info btn-block btn-round" style="font-size: 14px" [disabled]="registerForm.invalid || submit">
+        <i class="fa fa-spinner ld ld-spin" *ngIf="submit"></i>
+        <span *ngIf="!submit">ลงทะเบียน</span>
+      </button>
+      <br />
+
+      <p style="opacity: 0.4">ยังไม่มีบัญชี?
+      <a (click)="closeModal()" data-toggle="modal" data-target="#loginModal"  class="text-info" style="font-weight: bold">เข้าสู่ระบบ</a>
+      </p>
+
+    </div>
+
+  </form>
+
+</div>
