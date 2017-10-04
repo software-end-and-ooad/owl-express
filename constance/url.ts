@@ -1,4 +1,4 @@
-const domain =  'http://localhost:3001/api/';
+const domain =  'http://localhost:3000/api/';
 
 const api = {
   auth: domain + 'auth',
