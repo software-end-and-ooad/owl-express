@@ -137,4 +137,8 @@ export class RegisterComponent implements OnInit {
     this.mainComponent.registerModal.nativeElement.click();
   }
 
+  public routerIsRegister() {
+    return this.mainComponent.routerIsRegister();
+  }
+
 }

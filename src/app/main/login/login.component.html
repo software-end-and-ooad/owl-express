@@ -41,10 +41,11 @@
       </button>
       <br />
 
-      <p style="opacity: 0.4">ยังไม่มีบัญชี?
+      <p style="opacity: 0.4" *ngIf="!routerIsLogin()">ยังไม่มีบัญชี?
       <a (click)="closeModal()" data-toggle="modal" data-target="#registerModal"  class="text-info" style="font-weight: bold">ลงทะเบียน</a>
+      </p>
       <br />
-      ไม่สามารถเข้าสู่ระบบได้?
+      <p style="opacity: 0.4"> ไม่สามารถเข้าสู่ระบบได้?
       <a [routerLink]="forget" class="text-info">ลืมรหัสผ่าน</a>
       </p>
 

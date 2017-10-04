@@ -74,6 +74,10 @@ export class LoginComponent implements OnInit {
     );
   }
 
+  public routerIsLogin() {
+    return this.mainComponent.routerIsLogin();
+  }
+
   public closeModal() {
     this.mainComponent.loginModal.nativeElement.click();
   }

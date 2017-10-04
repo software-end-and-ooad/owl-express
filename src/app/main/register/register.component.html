@@ -58,7 +58,7 @@
       </button>
       <br />
 
-      <p style="opacity: 0.4">ยังไม่มีบัญชี?
+      <p style="opacity: 0.4" *ngIf="!routerIsRegister()">ยังไม่มีบัญชี?
       <a (click)="closeModal()" data-toggle="modal" data-target="#loginModal"  class="text-info" style="font-weight: bold">เข้าสู่ระบบ</a>
       </p>
 
