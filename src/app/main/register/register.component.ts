@@ -65,7 +65,6 @@ export class RegisterComponent implements OnInit {
   register(value: any) {
     this.submit = true; // Set to true for loading icon
 
-    console.log(value);
     this.http.post(API.api.register, value)
       .subscribe(
         res => {
@@ -95,7 +94,6 @@ export class RegisterComponent implements OnInit {
           setTimeout(() => {
             this.submit = false;
 
-            console.log(error.data);
             if (error.success == false && error.data == 'INVALID_CREDENTIALS')
               this.formInvalid.other = 'อีเมลหรือรหัสผ่านไม่ถูกต้อง';
 
