@@ -8,29 +8,35 @@
     <div class="content text-left" style="padding: 30px 40px 40px">
 
       <div class="form-group is-empty is-info">
-        <select formControlName="role" required class="form-control">
-          <option value="" selected> เลือกบางอย่าง</option>
-          <option value="student">value1</option>
-          <option value="teacher">value2</option>
+        <select formControlName="type" required class="form-control">
+          <option value="" selected> เลือกประเภทบุคคลากร </option>
+          <option value="personal">บุคคลทั่วไป</option>
+          <option value="enterprise">องค์กร/ร้านค้า</option>
         </select>
       </div>
-      <strong class="text-danger" *ngIf="registerForm.controls['role'].hasError('required')" [hidden]="registerForm.controls['role'].pristine">กรุณากรอกประเภทบคลากร</strong>
-
-      <div class="form-group is-info" id="faculty" *ngIf="registerForm.controls['role'].value=='student'">
-        <select formControlName="value1" class="form-control">
-          <option value="" selected> ----- เลือกบางอย่าง  -----</option>
-          <option value="sdf">บางอย่าง</option>
-        </select>
-      </div>
-      <strong class="text-danger" *ngIf="registerForm.controls['faculty'].hasError('required')" [hidden]="registerForm.controls['faculty'].pristine">กรุณากรอกคณะ</strong>
-      <strong class="text-danger" *ngIf="registerForm.controls['faculty'].hasError('maxlength')" [hidden]="registerForm.controls['faculty'].pristine">ชื่อคณะต้องไม่น้อยกว่า {{ inputLength.facultyMax }} ตัวอักษร</strong>
+      <strong class="text-danger" *ngIf="registerForm.controls['type'].hasError('required')" [hidden]="registerForm.controls['type'].pristine">กรุณากรอกประเภทบคลากร</strong>
 
       <div class="form-group label-floating is-empty is-info">
-        <label class="control-label">ชื่อ</label>
-        <input class="form-control" type="text" formControlName="name" required>
+        <label class="control-label">ชื่อ-สกุล</label>
+        <input class="form-control" type="text" formControlName="fullname" required>
       </div>
-      <strong class="text-danger" *ngIf="registerForm.controls['name'].hasError('required')" [hidden]="registerForm.controls['name'].pristine">กรุณากรอกชื่อ-สกุล</strong>
-      <strong class="text-danger" *ngIf="registerForm.controls['name'].hasError('maxlength')" [hidden]="registerForm.controls['name'].pristine">ชื่อ-สกุลต้องไม่น้อยกว่า {{ inputLength.nameMax }} ตัวอักษร</strong>
+      <strong class="text-danger" *ngIf="registerForm.controls['fullname'].hasError('required')" [hidden]="registerForm.controls['fullname'].pristine">กรุณากรอกชื่อ-สกุล</strong>
+      <strong class="text-danger" *ngIf="registerForm.controls['fullname'].hasError('maxlength')" [hidden]="registerForm.controls['fullname'].pristine">ชื่อ-สกุลต้องไม่น้อยกว่า {{ inputLength.fullnameMin }} ตัวอักษร</strong>
+
+      <div class="form-group label-floating is-empty is-info">
+        <label class="control-label">อีเมล</label>
+        <input class="form-control" type="email" formControlName="email" required>
+      </div>
+      <strong class="text-danger" *ngIf="registerForm.controls['email'].hasError('required')" [hidden]="registerForm.controls['email'].pristine">กรุณากรอกอีเมล</strong>
+      <strong class="text-danger" *ngIf="registerForm.controls['email'].hasError('email') && !registerForm.controls['email'].hasError('required')" [hidden]="registerForm.controls['email'].untouched">รูปแบบอีเมลไม่ถูกต้อง</strong>
+
+      <div class="form-group label-floating is-empty is-info">
+        <label class="control-label">เบอร์ติดต่อ</label>
+        <input class="form-control" type="tell" formControlName="tell" required>
+      </div>
+      <strong class="text-danger" *ngIf="registerForm.controls['tell'].hasError('required')" [hidden]="registerForm.controls['tell'].pristine">กรุณากรอกเบอร์ติดต่อ</strong>
+      <strong class="text-danger" *ngIf="registerForm.controls['tell'].hasError('maxlength')" [hidden]="registerForm.controls['tell'].pristine">เบอร์ติดต่อต้องไม่มากกว่า {{ inputLength.tellMax }} ตัวอักษร</strong>
+      <strong class="text-danger" *ngIf="registerForm.controls['tell'].hasError('minlength')" [hidden]="registerForm.controls['tell'].pristine">เบอร์ติดต่อต้องไม่น้อยกว่า {{ inputLength.tellMin }} ตัวอักษร</strong>
 
       <div class="form-group label-floating is-empty is-info">
         <label class="control-label">รหัสผ่าน</label>
@@ -38,12 +44,13 @@
       </div>
       <strong class="text-danger" *ngIf="registerForm.controls['password'].hasError('required')" [hidden]="registerForm.controls['password'].pristine">กรุณากรอกรหัสผ่าน</strong>
       <strong class="text-danger" *ngIf="registerForm.controls['password'].hasError('minlength')" [hidden]="registerForm.controls['password'].pristine">รหัสผ่านต้องไม่น้อยกว่า {{ inputLength.passwordMin }} ตัวอักษร</strong>
+      <strong class="text-danger" *ngIf="formInvalid.email!=null">{{ formInvalid.email }}</strong>
 
       <div class="form-group label-floating is-empty is-info">
         <label class="control-label">ยืนยันรหัสผ่าน</label>
         <input class="form-control" type="password" formControlName="repassword" required>
       </div>
-      <strong class="text-danger" *ngIf="registerForm.controls.repassword.errors?.MatchPassword" >รหัสผ่านไม่ตรงกัน</strong>
+      <strong class="text-danger" *ngIf="registerForm.controls.repassword.errors?.MatchPassword && !registerForm.controls['password'].hasError('required')" [hidden]="registerForm.controls['repassword'].untouched">รหัสผ่านไม่ตรงกัน</strong>
       <strong class="text-danger" *ngIf="registerForm.controls['repassword'].hasError('required')" [hidden]="registerForm.controls['repassword'].pristine">กรุณากรอกรหัสผ่านอีกครั้ง</strong>
 
     </div>

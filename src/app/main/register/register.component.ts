@@ -17,8 +17,8 @@ export class RegisterComponent implements OnInit {
 
   registerForm: FormGroup;
   formInvalid: any = {
-    domain: null,
-    studentid: null, //email
+    email: null,
+    tell: null,
     other: null
   };
   submit: boolean = false;
@@ -35,59 +35,37 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {
     let inputLength = this.inputLength; // Just lazy to write this.
     inputLength = {
+      fullnameMax: 40,
+      tellMax: 10,
+      tellMin: 9,
       passwordMin: 6,
-      nameMax: 40,
-      studentidMax: 38,
-      facultyMax: 40,
-      domainMin: 4,
-      domainMax: 14,
     }
     this.inputLength = inputLength;
 
     this.registerForm = this.formBuilder.group({
-      name: [null, [ Validators.required, Validators.maxLength(inputLength.nameMax) ]],
-      studentid: [null, [ Validators.required, Validators.maxLength(inputLength.studentidMax) ]],
-      role: ['', [ Validators.required ]],
-      faculty: ['', [ Validators.maxLength(inputLength.facultyMax) ]],
-      domain: [null, Validators.compose([ Validators.required, Validators.minLength(inputLength.domainMin), Validators.maxLength(inputLength.domainMax), Validators.pattern('[a-zA-Z]+[0-9\-]*[A-Za-z0-9]+$') ])],
+      fullname: [null, [ Validators.required, Validators.maxLength(inputLength.fullnameMax) ]],
+      email: [null, [ Validators.required, Validators.email ]],
+      tell: [null, [ Validators.required, Validators.minLength(inputLength.tellMin), Validators.maxLength(inputLength.tellMax) ]],
+      type: ['', [ Validators.required ]],
       password: [null, [ Validators.required, Validators.minLength(inputLength.passwordMin) ]],
       repassword: [null, Validators.required]
     }, {validator: PasswordValidation.MatchPassword }) // My validation method
 
-    this.registerForm.get('role').valueChanges.subscribe(
-      (validate) => {
-        if (validate == 'student')
-          this.registerForm.get('faculty').setValidators([Validators.required]);
-
-        else if (validate == 'teacher')
-          this.registerForm.get('faculty').setValue('');
-
-        this.registerForm.get('faculty').updateValueAndValidity();
-      });
-
     this.registerForm.get('password').valueChanges.subscribe(
       (validate) => {
         if (validate != this.registerForm.get('repassword').value)
-          this.registerForm.get('repassword').setErrors({ MatchPassword: true })
+          this.registerForm.get('repassword').setErrors({ MatchPassword: true });
         else
           this.registerForm.get('repassword').updateValueAndValidity();
 
       });
 
-    this.registerForm.valueChanges.subscribe(
-      () => {
-        this.formInvalid = { // Remove backend validate everytimes submit has clicked
-          domain: null,
-          studentid: null,
-          other: null
-        }
-      }
-    )
   }
 
   register(value: any) {
     this.submit = true; // Set to true for loading icon
 
+    console.log(value);
     this.http.post(API.api.register, value)
       .subscribe(
         res => {
@@ -97,7 +75,7 @@ export class RegisterComponent implements OnInit {
           }, 1500);
 
           setTimeout(() => { // Login after all is success
-            this.authService.login(value.studentid, value.password).subscribe(
+            this.authService.login(value.email, value.password).subscribe(
               (res) => {
                 this.router.navigateByUrl('dashboard');
               },
@@ -117,14 +95,12 @@ export class RegisterComponent implements OnInit {
           setTimeout(() => {
             this.submit = false;
 
+            console.log(error.data);
             if (error.success == false && error.data == 'INVALID_CREDENTIALS')
               this.formInvalid.other = 'อีเมลหรือรหัสผ่านไม่ถูกต้อง';
 
-            else if (error.data[0] == 'studentid_HAS_USED')
-              this.formInvalid.studentid = 'ชื่อผู้ใช้นี้ถูกใช้งานแล้ว';
-
-            else if (error.data[0] == 'domain_HAS_USED')
-              this.formInvalid.domain = 'โดเมนนี้ถูกใช้งานแล้ว';
+            else if (error.data[0] == 'email_HAS_USED')
+              this.formInvalid.email = 'อีเมลนี้ถูกใช้งานแล้ว';
 
             else
               this.formInvalid.other = 'การเข้าสู่ระบบผิดพลาด กรุณาลองใหม่อีกครั้ง';
