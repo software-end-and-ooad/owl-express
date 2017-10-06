@@ -48,6 +48,13 @@ export class NavbarMainComponent {
       return false;
   }
 
+  routerIsSendForget() {
+    if ( this.router.url == '/forget-password' )
+      return true;
+    else
+      return false;
+  }
+
   routerIsMain() {
     if ( this.router.url == '/' )
       return true;

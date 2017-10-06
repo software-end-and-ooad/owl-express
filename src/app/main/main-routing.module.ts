@@ -5,6 +5,7 @@ import { MainComponent } from './main.component';
 import { LoginComponent }  from './login/login.component';
 import { HeaderComponent } from './header/header.component';
 import { RegisterComponent } from './register/register.component';
+import { SendForgetComponent } from './forgetpwd/sendforget.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,10 @@ const routes: Routes = [
       {
         path: 'register',
         component: RegisterComponent
+      },
+      {
+        path: 'forget-password',
+        component: SendForgetComponent
       }
     ]
   },
