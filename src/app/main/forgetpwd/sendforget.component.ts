@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
+import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 
 import { API } from '../../../../constance/url';
@@ -19,6 +20,7 @@ export class SendForgetComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -29,24 +31,21 @@ export class SendForgetComponent implements OnInit {
 
   public sendForget(value: any) {
     this.submit = true;
-    console.log(value);
     this.http.post(API.api.forgetpwd, value)
       .subscribe(
         (res: any) => {
           setTimeout(() => {
+            this.submit = false;
             this.sent = true;
           }, 1500)
         },
         (err: any) => {
-          setTimeout(() => {
-            this.sent = false;
-          }, 1500)
-        },
-        () => {
+          this.router.navigateByUrl('forget-password')
           setTimeout(() => {
             this.submit = false;
+            this.sent = true
           }, 1500)
-        }
+        },
       )
   }
 

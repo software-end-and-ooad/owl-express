@@ -8,3 +8,6 @@
   color: #ffffff;
 }
 
+.pointer :hover {
+  cursor: pointer;
+}
