@@ -25,7 +25,7 @@ import { ForgetPasswordComponent } from './forgetpwd/forgetpwd.component';
     HeaderComponent,
     RegisterComponent,
     SendForgetComponent,
-    ForgetPasswordComponent
+    ForgetPasswordComponent,
   ]
 })
 export class MainModule { }

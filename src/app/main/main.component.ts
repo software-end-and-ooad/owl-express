@@ -51,6 +51,13 @@ export class MainComponent {
       return false;
   }
 
+  routerIsResetPwd() {
+    if ( this.router.url == '/reset-password' )
+      return true;
+    else
+      return false;
+  }
+
   routerIsMain() {
     if ( this.router.url == '/' )
       return true;
