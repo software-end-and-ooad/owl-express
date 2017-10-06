@@ -46,7 +46,9 @@
       </p>
       <br />
       <span style="opacity: 0.4"> ไม่สามารถเข้าสู่ระบบได้?</span>
-      <span data-toggle="modal" data-target="#loginModal"><a routerLink="/reset-password" class="text-info">ลืมรหัสผ่าน</a></span>
+      <span>
+        <a (click)="gotoForgetPwd()" data-toggle="modal" data-target="#loginModal" >ลืมรหัสผ่าน </a>
+      </span>
 
     </div>
 
