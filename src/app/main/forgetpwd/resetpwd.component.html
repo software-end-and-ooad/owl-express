@@ -1,0 +1,51 @@
+<div class="card card-signup" style="padding-bottom: 20px; border-radius: 10px">
+
+  <form class="form" [formGroup]="resetForm" (ngSubmit)="resetForm(resetForm.value)" method="GET">
+
+    <div class="header header-info text-center">
+      <h4 style="font-size: 18px">ใส่อีเมลเพื่อส่งที่อยู่ลิงค์ตั้งรหัสผ่านใหม่ไปยังอีเมล</h4>
+    </div>
+
+
+    <div class="content" style="padding: 30px 40px 40px">
+
+      <div class="form-group is-info label-floating is-empty text-left">
+        <label class="control-label">รหัสผ่านใหม่</label>
+        <input type="PASSWORD" class="form-control" required formControlName="password">
+      </div>
+
+      <div class="text-left">
+        <strong class="text-danger" *ngIf="resetForm.controls['password'].hasError('required')" [hidden]="resetForm.controls['password'].pristine">กรุณากรอกอีเมล</strong>
+        <strong class="text-danger" *ngIf="resetForm.controls['password'].hasError('minlength')" [hidden]="resetForm.controls['password'].untouched">รหัสผ่านต้องมากกว่า {{ inputLength.passwordMin }} ตัวอักษร</strong>
+      </div>
+
+
+      <div class="form-group is-info label-floating is-empty text-left">
+        <label class="control-label">รหัสผ่านใหม่อีกครั้ง</label>
+        <input type="PASSWORD" class="form-control" required formControlName="repassword">
+      </div>
+
+      <div class="text-left">
+      <strong class="text-danger" *ngIf="resetForm.controls.repassword.errors?.MatchPassword && !resetForm.controls['password'].hasError('required')" [hidden]="resetForm.controls['repassword'].pristine">รหัสผ่านไม่ตรงกัน</strong>
+      <strong class="text-danger" *ngIf="resetForm.controls['repassword'].hasError('required')" [hidden]="resetForm.controls['repassword'].pristine">กรุณากรอกรหัสผ่านอีกครั้ง</strong>
+      </div>
+
+    </div>
+
+
+    <div class="footer text-center" style="padding-left: 50px; padding-right: 50px">
+
+      <strong class="text-danger" *ngIf="formInvalid!=null">{{ formInvalid }}</strong>
+
+      <button type="submit" class="btn btn-info btn-block btn-round" style="font-size: 14px" [disabled]="resetForm.invalid || submit">
+        <i class="fa fa-spinner ld ld-spin" *ngIf="submit"></i>
+        <span *ngIf="!submit">รีเซ็ตรหัสผ่านใหม่</span>
+      </button>
+      <br />
+
+    </div>
+
+  </form>
+
+</div>
+

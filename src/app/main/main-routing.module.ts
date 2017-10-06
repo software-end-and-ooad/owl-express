@@ -6,7 +6,7 @@ import { LoginComponent }  from './login/login.component';
 import { HeaderComponent } from './header/header.component';
 import { RegisterComponent } from './register/register.component';
 import { SendForgetComponent } from './forgetpwd/sendforget.component';
-import { ForgetPasswordComponent } from './forgetpwd/forgetpwd.component';
+import { ResetPasswordComponent } from './forgetpwd/resetpwd.component';
 
 const routes: Routes = [
   {
@@ -31,7 +31,7 @@ const routes: Routes = [
       },
       {
         path: 'reset-password',
-        component: ForgetPasswordComponent
+        component: ResetPasswordComponent
       }
     ]
   },
