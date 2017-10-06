@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 
-import { AuthenticationService } from '../../shared';
 import { PasswordValidation } from '../register/validation.matchpassword';
+import { API } from '../../../../constance/url';
 
 @Component({
   selector: 'main-resetpwd',
@@ -16,11 +17,13 @@ export class ResetPasswordComponent implements OnInit {
   formInvalid: string;
   submit: boolean = false;
   inputLength: any;
+  private tokenId: number;
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private authService: AuthenticationService,
+    private activateRoute: ActivatedRoute,
+    private http: HttpClient,
   ) {}
 
   ngOnInit() {
@@ -49,42 +52,28 @@ export class ResetPasswordComponent implements OnInit {
       password: [null, [ Validators.required, Validators.minLength(6) ]],
       repassword: [null, [ Validators.required ]],
     }, {validator: PasswordValidation.MatchPassword })
+
+     this.tokenId = this.activateRoute.snapshot.params['tokenId']
   }
 
   public resetPassword(value: any) {
-    /*
-     *    this.submit = true;
-     *    this.authService.login(value.email, value.password)
-     *      .subscribe(
-     *        res => {
-     *          setTimeout(() => {
-     *            this.submit = false;
-     *            this.formInvalid = null;
-     *            this.mainComponent.loginModal.nativeElement.click();
-     *          }, 1500);
-     *
-     *          setTimeout(() => {
-     *            this.router.navigateByUrl('dashboard');
-     *          }, 2000);
-     *        },
-     *        err => {
-     *          if ( this.router.url == '/login')
-     *            this.router.navigateByUrl('login');
-     *          else
-     *            this.router.navigateByUrl('');
-     *
-     *          const error = err.error;
-     *
-     *          setTimeout(() => {
-     *            this.submit = false;
-     *            if (error.success == false && error.data == 'INVALID_CREDENTIALS')
-     *              this.formInvalid = 'อีเมลหรือรหัสผ่านไม่ถูกต้อง';
-     *            else
-     *              this.formInvalid = 'การเข้าสู่ระบบผิดพลาด กรุณาลองใหม่อีกครั้ง';
-     *          }, 1500);
-     *        }
-     *      );
-     */
+    this.submit = true;
+    this.http.post(API.api.resetpwd, {password: value.password, token: this.tokenId})
+      .subscribe(
+        (res: any) => {
+          setTimeout(() => {
+            this.submit = false;
+          }, 1500)
+          // Alert here
+        },
+        (err: any) => {
+          this.router.navigateByUrl('reset-password/'+this.tokenId)
+          setTimeout(() => {
+            this.submit = false;
+            this.formInvalid = 'ไม่สามารถเปลี่ยนรหัสผ่านได้'
+          }, 1500)
+        }
+      )
   }
 
 

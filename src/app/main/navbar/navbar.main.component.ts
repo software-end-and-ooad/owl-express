@@ -55,6 +55,13 @@ export class NavbarMainComponent {
       return false;
   }
 
+  routerIsResetPwd() {
+    if ( this.router.url.search('/reset-password') > -1 )
+      return true;
+    else
+      return false;
+  }
+
   routerIsMain() {
     if ( this.router.url == '/' )
       return true;

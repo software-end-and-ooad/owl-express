@@ -1,6 +1,6 @@
 <div class="card card-signup" style="padding-bottom: 20px; border-radius: 10px">
 
-  <form class="form" [formGroup]="resetForm" (ngSubmit)="resetForm(resetForm.value)" method="GET">
+  <form class="form" [formGroup]="resetForm" (ngSubmit)="resetPassword(resetForm.value)" method="POST">
 
     <div class="header header-info text-center">
       <h4 style="font-size: 18px">ตั้งรหัสผ่านใหม่ของคุณ</h4>
