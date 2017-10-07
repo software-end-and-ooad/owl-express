@@ -93,6 +93,11 @@ export class AuthenticationService {
     .do( (res: AccessData) =>  this.saveAccessData(res) );
   }
 
+  public adminLogin(email, password): Observable<any> {
+    return this.http.post(API.admin.auth, { email: email, password: password })
+    .do( (res: AccessData) =>  this.saveAdminData(res) );
+  }
+
   /**
    * Logout
    */
@@ -111,6 +116,17 @@ export class AuthenticationService {
   private saveAccessData({token}: AccessData) {
     this.tokenStorage
       .setAccessToken(token)
+  }
+
+  /**
+   * Save admin data in the storage
+   *
+   * @private
+   * @param {AccessData} data
+   */
+  private saveAdminData({token}: AccessData) {
+    this.tokenStorage
+      .setAdminToken(token)
   }
 
 }

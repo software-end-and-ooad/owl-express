@@ -17,4 +17,12 @@ const protect = {
 
 }
 
-export const API = {api, protect};
+// ============ ADMIN =============
+
+const adminDomain = domain + 'admin/'
+
+const admin = {
+  auth: adminDomain + 'auth'
+}
+
+export const API = {api, protect, admin};

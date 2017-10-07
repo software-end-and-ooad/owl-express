@@ -30,7 +30,45 @@ export class LoginComponent implements OnInit {
     })
   }
 
-  public login(value: any) {
+  login(value: any) {
+    if (this.router.url.search('admin') > -1)
+      this.adminLogin(value);
+    else
+      this.userLogin(value);
+  }
+
+  adminLogin(value: any) {
+    this.submit = true;
+    this.authService.adminLogin(value.email, value.password)
+      .subscribe(
+        res => {
+          setTimeout(() => {
+            this.submit = false;
+            this.formInvalid = null;
+            this.mainComponent.loginModal.nativeElement.click();
+          }, 1500);
+
+          setTimeout(() => {
+            this.router.navigateByUrl('dashboard/admin');
+          }, 2000);
+        },
+        err => {
+          //this.router.navigateByUrl('admin/login');
+
+          const error = err.error;
+
+          setTimeout(() => {
+            this.submit = false;
+            if (error.success == false && error.data == 'INVALID_CREDENTIALS')
+              this.formInvalid = 'อีเมลหรือรหัสผ่านไม่ถูกต้อง';
+            else
+              this.formInvalid = 'การเข้าสู่ระบบผิดพลาด กรุณาลองใหม่อีกครั้ง';
+          }, 1500);
+        }
+      );
+  }
+
+  userLogin(value: any) {
     this.submit = true;
     this.authService.login(value.email, value.password)
       .subscribe(

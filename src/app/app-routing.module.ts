@@ -11,6 +11,11 @@ const routes: Routes = [
     loadChildren: './main/main.module#MainModule'
   },
   {
+    path: 'admin',
+    canActivate: [ PublicGuard ],
+    loadChildren: './main/main.module#MainModule'
+  },
+  {
     path: 'dashboard',
     canActivate: [ ProtectedGuard, AuthUserGuard ],
     loadChildren: './dashboard/dashboard.module#DashboardModule'

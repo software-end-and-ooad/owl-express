@@ -19,6 +19,19 @@ const routes: Routes = [
         component: HeaderComponent,
       },
       {
+        path: 'admin',
+        children: [
+          {
+            path: '',
+            redirectTo: 'login'
+          },
+          {
+            path: 'login',
+            component: LoginComponent
+          }
+        ]
+      },
+      {
         path: 'login',
         component: LoginComponent,
       },
