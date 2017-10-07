@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PublicGuard, ProtectedGuard } from 'ngx-auth';
 
+import { AuthUserGuard } from './shared/authentication/guard/user-guard.service';
+
 const routes: Routes = [
   {
     path: '',
@@ -10,7 +12,7 @@ const routes: Routes = [
   },
   {
     path: 'dashboard',
-    canActivate: [ ProtectedGuard ],
+    canActivate: [ ProtectedGuard, AuthUserGuard ],
     loadChildren: './dashboard/dashboard.module#DashboardModule'
   },
   {

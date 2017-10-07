@@ -17,12 +17,7 @@ export class DashboardComponent {
     private router: Router,
     private dataService: DataService,
     private authService: AuthenticationService
-  ) {
-    /**
-     * Refresh token for first page
-     */
-    this.dataService.refreshToken()
-  }
+  ) { }
 
   public loadData() {
     this.dataService.getUsers()
