@@ -7,6 +7,7 @@ import { HeaderComponent } from './header/header.component';
 import { RegisterComponent } from './register/register.component';
 import { SendForgetComponent } from './forgetpwd/sendforget.component';
 import { ResetPasswordComponent } from './forgetpwd/resetpwd.component';
+import { ActivateComponent } from './activate/activate.component';
 
 const routes: Routes = [
   {
@@ -32,6 +33,10 @@ const routes: Routes = [
       {
         path: 'reset-password/:tokenId',
         component: ResetPasswordComponent
+      },
+      {
+        path: 'activate/:tokenId',
+        component: ActivateComponent
       }
     ]
   },

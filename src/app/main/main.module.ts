@@ -10,6 +10,7 @@ import { HeaderComponent } from './header/header.component';
 import { RegisterComponent } from './register/register.component';
 import { SendForgetComponent } from './forgetpwd/sendforget.component';
 import { ResetPasswordComponent } from './forgetpwd/resetpwd.component';
+import { ActivateComponent } from './activate/activate.component';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { ResetPasswordComponent } from './forgetpwd/resetpwd.component';
     RegisterComponent,
     SendForgetComponent,
     ResetPasswordComponent,
+    ActivateComponent,
   ]
 })
 export class MainModule { }

@@ -4,7 +4,8 @@ const api = {
   auth: domain + 'auth',
   register: domain + 'register',
   forgetpwd: domain + 'forget-password',
-  resetpwd: domain + 'reset-password'
+  resetpwd: domain + 'reset-password',
+  activate: domain + 'activate',
 }
 
 const domainProtect = domain + 'user/';
