@@ -85,7 +85,7 @@ export class LoginComponent implements OnInit {
   public gotoForgetPwd() {
     setTimeout(() => {
       this.router.navigateByUrl('forget-password')
-    }, 1000)
+    }, 300)
   }
 
 
