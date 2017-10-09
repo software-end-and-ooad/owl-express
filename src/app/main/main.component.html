@@ -103,49 +103,56 @@
       </div>
     </div>
 
-  </div>
-  <!-- ./Content -->
-
-
-  <!-- Footer -->
-  <footer class="footer" [ngStyle]="{'margin-top': routerIsRegister()? '130px': '0px'}">
-    <div class="container">
-      <nav class="pull-left">
-        <ul>
-          <li>
-            <h5>
-              อีเมล: owl-express@email.com
-            </h5>
-          </li>
-        </ul>
-      </nav>
-      <div class="copyright pull-right">
-        ©
-        2017
-        By Owl-Express
+    <!-- Footer -->
+    <footer class="footer" [ngStyle]="{'margin-top': routerIsRegister()? '130px': '0px'}">
+      <div class="container">
+        <nav class="pull-right">
+          <ul>
+            <li>
+              <a routerLink="/admin/login">Login as admin</a>
+            </li>
+          </ul>
+        </nav>
+        <nav class="pull-left">
+          <ul>
+            <li>
+              <h5>
+                อีเมล: owl-express@email.com
+              </h5>
+            </li>
+          </ul>
+        </nav>
+        <div class="copyright text-center">
+          ©
+          2017
+          By Owl-Express
+        </div>
       </div>
+    </footer>
+    <!-- ./Footer -->
+
+</div>
+<!-- ./Content -->
+
+
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true" *ngIf="routerIsMain()===true" >
+  <div class="modal-dialog modal-md" style="width: 30%">
+    <div class="modal-body">
+      <main-login></main-login>
     </div>
-  </footer>
-  <!-- ./Footer -->
-
-  <!-- Login Modal -->
-  <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true" *ngIf="routerIsMain()===true" >
-    <div class="modal-dialog modal-md" style="width: 30%">
-        <div class="modal-body">
-          <main-login></main-login>
-        </div>
-      </div>
-      <a data-dismiss="modal" style="display: none" #loginModal></a>
   </div>
-  <!-- Login Modal -->
+  <a data-dismiss="modal" style="display: none" #loginModal></a>
+</div>
+<!-- Login Modal -->
 
-  <!-- Register Modal -->
-  <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true" *ngIf="routerIsMain()===true" >
-    <div class="modal-dialog modal-md" style="width: 30%">
-        <div class="modal-body">
-          <main-register></main-register>
-        </div>
-      </div>
-      <a data-dismiss="modal" style="display: none" #registerModal></a>
+<!-- Register Modal -->
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true" *ngIf="routerIsMain()===true" >
+  <div class="modal-dialog modal-md" style="width: 30%">
+    <div class="modal-body">
+      <main-register></main-register>
+    </div>
   </div>
-  <!-- Register Modal -->
+  <a data-dismiss="modal" style="display: none" #registerModal></a>
+</div>
+<!-- Register Modal -->

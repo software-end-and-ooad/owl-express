@@ -116,6 +116,13 @@ export class LoginComponent implements OnInit {
     return this.mainComponent.routerIsLogin();
   }
 
+  public routerIsAdmin() {
+    if (this.router.url.search('admin') > -1)
+      return true;
+    else
+      return false;
+  }
+
   public closeModal() {
     this.mainComponent.loginModal.nativeElement.click();
   }
