@@ -1,7 +1,7 @@
 const domain =  'http://localhost:3000/api/';
 
 const api = {
-  auth: domain + 'auth',
+  auth: domain + 'login',
   register: domain + 'register',
   forgetpwd: domain + 'forget-password',
   resetpwd: domain + 'reset-password',
@@ -22,7 +22,7 @@ const protect = {
 const adminDomain = domain + 'admin/'
 
 const admin = {
-  auth: adminDomain + 'auth'
+  auth: adminDomain + 'login'
 }
 
 export const API = {api, protect, admin};

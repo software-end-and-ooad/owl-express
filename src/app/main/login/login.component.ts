@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
           }, 2000);
         },
         err => {
-          //this.router.navigateByUrl('admin/login');
+          this.router.navigateByUrl('admin/login');
 
           const error = err.error;
 
