@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PublicGuard, ProtectedGuard } from 'ngx-auth';
+//import { PublicGuard } from 'ngx-auth';
 
 import { AuthUserGuard } from './shared/authentication/guard/user-guard.service';
+import { PublicGuard } from './shared/authentication/guard/public-guard.service';
+import { TokenExpiredGuard } from './shared/authentication/guard/tokenExpired-guard.service';
 
 const routes: Routes = [
   {
@@ -11,13 +13,8 @@ const routes: Routes = [
     loadChildren: './main/main.module#MainModule'
   },
   {
-    path: 'admin',
-    canActivate: [ PublicGuard ],
-    loadChildren: './main/main.module#MainModule'
-  },
-  {
     path: 'dashboard',
-    canActivate: [ ProtectedGuard, AuthUserGuard ],
+    canActivate: [ TokenExpiredGuard, AuthUserGuard ],
     loadChildren: './dashboard/dashboard.module#DashboardModule'
   },
   {

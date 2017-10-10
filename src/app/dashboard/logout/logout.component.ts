@@ -10,6 +10,5 @@ import { AuthenticationService } from '../../shared/authentication';
 export class LogoutComponent {
   constructor(private router: Router, private authService: AuthenticationService) {
     this.authService.logout();
-    this.router.navigateByUrl('/login')
   }
 }

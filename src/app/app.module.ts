@@ -7,6 +7,8 @@ import { AuthenticationModule } from './shared';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthUserGuard} from './shared/authentication/guard/user-guard.service';
+import { PublicGuard } from './shared/authentication/guard/public-guard.service';
+import { TokenExpiredGuard } from './shared/authentication/guard/tokenExpired-guard.service';
 
 @NgModule({
   imports: [
@@ -18,6 +20,8 @@ import { AuthUserGuard} from './shared/authentication/guard/user-guard.service';
   ],
   providers: [
     AuthUserGuard,
+    PublicGuard,
+    TokenExpiredGuard
   ],
   declarations: [
     AppComponent

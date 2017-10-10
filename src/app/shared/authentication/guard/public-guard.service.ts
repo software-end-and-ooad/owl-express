@@ -5,11 +5,11 @@ import { Router, CanActivate } from '@angular/router';
 import { TokenStorage } from '../token-storage.service';
 
 @Injectable()
-export class AuthUserGuard implements CanActivate {
+export class PublicGuard implements CanActivate {
 
   constructor(
-    public router: Router,
     private tokenStorage: TokenStorage,
+    private router: Router,
   ) {}
 
   canActivate(): Observable<boolean> {
@@ -17,10 +17,10 @@ export class AuthUserGuard implements CanActivate {
     .map(
       res => {
         if (res) {
-          return true;
-        } else {
-          this.router.navigate(['login'])
+          this.router.navigate(['dashboard'])
           return false;
+        } else {
+          return true;
         }
       })
     .catch(
@@ -30,4 +30,3 @@ export class AuthUserGuard implements CanActivate {
   }
 
 }
-
