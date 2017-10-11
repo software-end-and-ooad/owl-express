@@ -64,6 +64,27 @@ export class AuthenticationService {
   }
 
   /**
+   * Function, that should perform refresh token verifyTokenRequest
+   * @description Should be successfully completed so interceptor
+   * can execute pending requests or retry original one
+   * @returns {Observable<any>}
+   */
+  public refreshAdminToken(): Observable < AccessData > {
+    return this.tokenStorage
+      .getAdminToken()
+      .switchMap((token: string) => {
+        const headers = new HttpHeaders({
+          'Authorization': 'bearer ' + token
+        });
+        return this.http.get(API.adminProtect.refreshToken, { headers: headers })
+          .do(
+            (res: any) => this.saveAdminData(res),
+            (err: any) => this.logout()
+          )
+      });
+  }
+
+  /**
    * Function, checks response of failed request to determine,
    * whether token be refreshed or not.
    * @description Essentialy checks status
@@ -101,10 +122,10 @@ export class AuthenticationService {
   /**
    * Logout
    */
-  public logout(): void {
+  public logout(redirectPath?: string): void {
     this.tokenStorage.clear();
     //location.reload(true);
-    this.router.navigateByUrl('/');
+    this.router.navigateByUrl(redirectPath? redirectPath: '/');
   }
 
   /**

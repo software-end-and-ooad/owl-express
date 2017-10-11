@@ -25,4 +25,10 @@ const admin = {
   auth: adminDomain + 'login'
 }
 
-export const API = {api, protect, admin};
+const adminProtectDomain = adminDomain + 'protect/'
+
+const adminProtect = {
+  refreshToken: adminProtectDomain + 'refresh',
+}
+
+export const API = {api, protect, admin, adminProtect};

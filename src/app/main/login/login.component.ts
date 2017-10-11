@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
           }, 1500);
 
           setTimeout(() => {
-            this.router.navigateByUrl('dashboard/admin');
+            this.router.navigateByUrl('admin/dashboard');
           }, 2000);
         },
         err => {

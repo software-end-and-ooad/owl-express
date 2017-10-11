@@ -5,12 +5,30 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthUserGuard } from './shared/authentication/guard/user-guard.service';
 import { PublicGuard } from './shared/authentication/guard/public-guard.service';
 import { TokenExpiredGuard } from './shared/authentication/guard/tokenExpired-guard.service';
+import { AdminGuard } from './shared/authentication/guard/adminGuard.service';
+import { PublicAdminGuard } from './shared/authentication/guard/public-adminGuard.service';
+import { TokenExpiredAdminGuard } from './shared/authentication/guard/tokenExpired-adminGuard.service';
 
 const routes: Routes = [
   {
     path: '',
-    canActivate: [ PublicGuard ],
+    canActivate: [ PublicGuard, PublicAdminGuard ],
     loadChildren: './main/main.module#MainModule'
+  },
+  {
+    path: 'admin',
+    children: [
+      {
+        path: '',
+        canActivate: [ PublicAdminGuard ],
+        loadChildren: './main/main.module#MainModule'
+      },
+      {
+        path: 'dashboard',
+        canActivate: [ TokenExpiredAdminGuard, AdminGuard ],
+        loadChildren: './dashboard/dashboard.module#DashboardModule'
+      }
+    ]
   },
   {
     path: 'dashboard',

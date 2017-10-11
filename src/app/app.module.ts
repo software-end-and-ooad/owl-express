@@ -9,6 +9,9 @@ import { AppComponent } from './app.component';
 import { AuthUserGuard} from './shared/authentication/guard/user-guard.service';
 import { PublicGuard } from './shared/authentication/guard/public-guard.service';
 import { TokenExpiredGuard } from './shared/authentication/guard/tokenExpired-guard.service';
+import { AdminGuard } from './shared/authentication/guard/adminGuard.service';
+import { PublicAdminGuard } from './shared/authentication/guard/public-adminGuard.service';
+import { TokenExpiredAdminGuard } from './shared/authentication/guard/tokenExpired-adminGuard.service';
 
 @NgModule({
   imports: [
@@ -21,7 +24,10 @@ import { TokenExpiredGuard } from './shared/authentication/guard/tokenExpired-gu
   providers: [
     AuthUserGuard,
     PublicGuard,
-    TokenExpiredGuard
+    TokenExpiredGuard,
+    AdminGuard,
+    PublicAdminGuard,
+    TokenExpiredAdminGuard
   ],
   declarations: [
     AppComponent
