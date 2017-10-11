@@ -22,7 +22,8 @@ const protect = {
 const adminDomain = domain + 'admin/'
 
 const admin = {
-  auth: adminDomain + 'login'
+  auth: adminDomain + 'login',
+  resetpwd: adminDomain + 'reset-password',
 }
 
 const adminProtectDomain = adminDomain + 'protect/'

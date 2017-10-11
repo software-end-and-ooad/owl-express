@@ -56,7 +56,36 @@ export class ResetPasswordComponent implements OnInit {
      this.tokenId = this.activateRoute.snapshot.params['tokenId']
   }
 
-  public resetPassword(value: any) {
+  resetPassword(value: any) {
+    if (this.router.url.search('admin') > -1)
+      return this.adminResetPassword(value);
+    else
+      return this.userResetPassword(value)
+  }
+
+  adminResetPassword(value: any) {
+    this.submit = true;
+    this.http.post(API.admin.resetpwd, {password: value.password, token: this.tokenId})
+      .subscribe(
+        (res: any) => {
+          setTimeout(() => {
+            this.submit = false;
+          }, 1500)
+          // Alert here
+          alert('เปลียนรหัสผ่านเรียบร้อยแล้ว');
+          this.router.navigateByUrl('admin/login') // Pls delay before redirect or click at alert to redirect
+        },
+        (err: any) => {
+          this.router.navigateByUrl('admin/reset-password/'+this.tokenId)
+          setTimeout(() => {
+            this.submit = false;
+            this.formInvalid = 'ไม่สามารถเปลี่ยนรหัสผ่านได้'
+          }, 1500)
+        }
+      )
+  }
+
+  userResetPassword(value: any) {
     this.submit = true;
     this.http.post(API.api.resetpwd, {password: value.password, token: this.tokenId})
       .subscribe(
@@ -65,6 +94,8 @@ export class ResetPasswordComponent implements OnInit {
             this.submit = false;
           }, 1500)
           // Alert here
+          alert('เปลียนรหัสผ่านเรียบร้อยแล้ว');
+          this.router.navigateByUrl('admin/login')
         },
         (err: any) => {
           this.router.navigateByUrl('reset-password/'+this.tokenId)
