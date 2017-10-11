@@ -24,6 +24,7 @@ const adminDomain = domain + 'admin/'
 const admin = {
   auth: adminDomain + 'login',
   resetpwd: adminDomain + 'reset-password',
+  forgetpwd: adminDomain + 'send-activate/', // send-activate equal send-resetpassword or forgetpwd
 }
 
 const adminProtectDomain = adminDomain + 'protect/'

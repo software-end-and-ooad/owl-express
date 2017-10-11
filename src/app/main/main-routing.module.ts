@@ -33,6 +33,10 @@ const routes: Routes = [
             path: 'reset-password/:tokenId',
             component: ResetPasswordComponent
           },
+          {
+            path: 'forget-password',
+            component: SendForgetComponent
+          },
         ]
       },
       {

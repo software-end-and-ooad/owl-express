@@ -29,7 +29,34 @@ export class SendForgetComponent implements OnInit {
     })
   }
 
-  public sendForget(value: any) {
+  sendForget(value: any) {
+    if (this.router.url.search('admin') > -1)
+      return this.sendAdminforget(value);
+    else
+      return this.sendUserforget(value);
+  }
+
+  sendAdminforget(value: any) {
+    this.submit = true;
+    this.http.get(API.admin.forgetpwd + value.email)
+      .subscribe(
+        (res: any) => {
+          setTimeout(() => {
+            this.submit = false;
+            this.sent = true;
+          }, 1500)
+        },
+        (err: any) => {
+          this.router.navigateByUrl('admin/forget-password')
+          setTimeout(() => {
+            this.submit = false;
+            this.sent = true
+          }, 1500)
+        },
+      )
+  }
+
+  sendUserforget(value: any) {
     this.submit = true;
     this.http.post(API.api.forgetpwd, value)
       .subscribe(
