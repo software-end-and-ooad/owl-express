@@ -2,6 +2,8 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import { ROUTES } from '../sidebar/sidebar.component';
 import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
 
+import { DataService } from '../../../shared/data.service';
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -12,8 +14,9 @@ export class NavbarComponent implements OnInit {
     location: Location;
     private toggleButton: any;
     private sidebarVisible: boolean;
+    private user: any;
 
-    constructor(location: Location,  private element: ElementRef) {
+    constructor(location: Location,  private element: ElementRef, private dataService: DataService) {
       this.location = location;
           this.sidebarVisible = false;
     }
@@ -22,6 +25,7 @@ export class NavbarComponent implements OnInit {
       this.listTitles = ROUTES.filter(listTitle => listTitle);
       const navbar: HTMLElement = this.element.nativeElement;
       this.toggleButton = navbar.getElementsByClassName('navbar-toggle')[0];
+      this.getUser();
     }
 
     sidebarOpen() {
@@ -64,4 +68,18 @@ export class NavbarComponent implements OnInit {
       }
       return 'Dashboard';
     }
+
+  getUser() {
+    this.dataService.getUsers()
+      .subscribe(
+        (res: any) => {
+          this.user = res.data;
+        },
+        (err: any) => {
+          console.log('Cannot access token');
+        }
+      )
+  }
+
+
 }
