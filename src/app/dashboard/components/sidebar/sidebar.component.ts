@@ -8,7 +8,7 @@ declare interface RouteInfo {
     id: number;
 }
 export const ROUTES: RouteInfo[] = [
-    { path: 'dashboard', title: 'จัดการผู้ใช้',  icon: 'dashboard', id: 0 },
+    { path: 'dashboard', title: 'ส่งของ',  icon: 'dashboard', id: 0 },
     { path: 'account', title: 'รายละเอียดบัญชี',  icon:'person', id: 1 },
     { path: 'mysql-manage', title: 'จัดการ MySQL',  icon:'content_paste', id: 2 },
     { path: 'ftp-manage', title: 'การเข้าถึงแบบ FTP',  icon:'library_books', id: 3 },

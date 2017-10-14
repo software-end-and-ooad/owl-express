@@ -6,7 +6,7 @@ import { DataService } from '../shared';
 import { ComponentsModule } from './components/components.module';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
-import { NotificationsComponent } from './notifications/notifications.component';
+import { OrderPackageComponent } from './orderpackage/order-package.component';
 import { LogoutComponent } from './logout/logout.component';
 
 
@@ -21,7 +21,7 @@ import { LogoutComponent } from './logout/logout.component';
   ],
   declarations: [
     DashboardComponent,
-    NotificationsComponent,
+    OrderPackageComponent,
     LogoutComponent,
   ]
 })
