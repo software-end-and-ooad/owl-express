@@ -1,49 +1,165 @@
 <div class="main-content">
   <div class="container-fluid">
 
-    <app-status></app-status>
+    <!--<app-status></app-status>-->
 
     <div class="row">
       <div class="col-md-12">
         <div class="card">
           <div class="card-header" data-background-color="blue">
-            <h4 class="title">จัดการบัญชีผู้ใช้</h4>
-            <p class="category">เปลียนแปลงชื่อ-สกุล</p>
+            <h4 class="title">สั่งของกับ Owl-Express</h4>
+            <p class="category">กรอกข้อมูลพัสดุของท่าน</p>
           </div>
           <div  class="card-content table-responsive">
-            <div class="form-group label-floating is-empty">
-              <label class="control-label" for="">Email Address:
-                <span class="star">*</span>
-              </label>
-              <input class="form-control ng-untouched ng-pristine ng-invalid" name="email" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$" required="" type="email">
-              <small class="text-danger" hidden="">
-                Email is required and format should be <i>john@doe.com</i>.
-              </small>
 
-              <span class="material-input"></span></div>
+            <!--column 1-->
+            <div class="col-md-6">
 
-            <div class="form-group label-floating is-empty">
-              <label class="control-label" for="">Confirm Password
-                <span class="star">*</span>
-              </label>
+              <!--Order size selection-->
+              <div class="form-group label-floating is-empty">
+                <label class="control-label" for="">ขนาด
+                </label>
 
-              <input class="form-control ng-untouched ng-pristine ng-invalid" name="confirmPassword" required="" reverse="false" type="password" validateequal="password">
-              <small class="text-danger" hidden="">
-                Password mismatch
-              </small>
-              <span class="material-input"></span></div>
-            <div class="category form-category">
-              <span class="star">*</span> Required fields</div>
+                <select formControlName="size" class="form-control">
+                  <option value="" selected></option>
+                  <option value="XL">XL</option>
+                  <option value="L">L</option>
+                  <option value="M">M</option>
+                  <option value="S">S</option>
+                </select>
+
+                <small class="text-danger" hidden="">
+                  Email is required and format should be <i>john@doe.com</i>.
+                </small>
+
+              </div>
+
+              <!--Payment type-->
+              <div class="form-group label-floating is-empty">
+                <label class="control-label" for="">ประเภทการชำระเงิน
+                  <span class="star">*</span>
+                </label>
+
+                <select formControlName="paymentType" class="form-control">
+                  <option value="" selected></option>
+                  <option value="dest">ชำระเงินปลายทาง</option>
+                  <option value="transfer">โอนเงิน</option>
+                </select>
+
+                <small class="text-danger" hidden="">
+                  Password mismatch
+                </small>
+              </div>
+
+              <!--Transport type-->
+              <div class="form-group label-floating is-empty">
+                <label class="control-label" for="">ประเภทการส่ง
+                  <span class="star">*</span>
+                </label>
+
+                <select formControlName="transportType" class="form-control">
+                  <option value="" selected></option>
+                  <option value="EMS">EMS</option>
+                  <option value="sameday">วันต่อวัน</option>
+                </select>
+
+                <small class="text-danger" hidden="">
+                  Password mismatch
+                </small>
+              </div>
+
+              <!-- Source Province -->
+              <div class="form-group label-floating is-empty">
+                <label class="control-label" for="">เลือกจังหวัด
+                  <span class="star">*</span>
+                </label>
+
+                <select formControlName="srcProvinec" class="form-control" (change)="getDistrict($event.target.value)" >
+                  <option value="" selected></option>
+                  <option  *ngFor="let province of provinces" [value]="province.PROVINCE_ID">{{ province.PROVINCE_NAME }}</option>
+                </select>
+
+                <small class="text-danger" hidden="">
+                  Password mismatch
+                </small>
+              </div>
+
+              <!-- Source District -->
+              <div class="form-group label-floating is-empty">
+                <label class="control-label" for="">เลือกอำเภอ
+                  <span class="star">*</span>
+                </label>
+
+                <select formControlName="srcDistrict" class="form-control" (change)="getSubdistrict($event.target.value)" [disabled]="districts==undefined">
+                  <option value="" selected></option>
+                  <option  *ngFor="let district of districts" [value]="district.DISTRICT_ID">{{ district.DISTRICT_NAME }}</option>
+                </select>
+
+                <small class="text-danger" hidden="">
+                  Password mismatch
+                </small>
+              </div>
+
+              <!-- Source Subdistrict -->
+              <div class="form-group label-floating is-empty">
+                <label class="control-label" for="">เลือกตำบล
+                  <span class="star">*</span>
+                </label>
+
+                <select formControlName="srcSubdistrict" class="form-control" [disabled]="subdistricts==undefined">
+                  <option value="" selected></option>
+                  <option  *ngFor="let subdistrict of subdistricts" [value]="subdistrict.SUBDISTRICT_ID">{{ subdistrict.SUBDISTRICT_NAME }}</option>
+                </select>
+
+                <small class="text-danger" hidden="">
+                  Password mismatch
+                </small>
+              </div>
+
+            </div>
+
+
+            <!--column 2-->
+            <div class="col-md-6">
+
+              <div class="form-group label-floating is-empty">
+                <label class="control-label" for="">Email Address:
+                  <span class="star">*</span>
+                </label>
+                <input class="form-control ng-untouched ng-pristine ng-invalid" name="email" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$" required="" type="email">
+                <small class="text-danger" hidden="">
+                  Email is required and format should be <i>john@doe.com</i>.
+                </small>
+
+                <span class="material-input"></span>
+              </div>
+
+              <div class="form-group label-floating is-empty">
+                <label class="control-label" for="">Confirm Password
+                  <span class="star">*</span>
+                </label>
+
+                <input class="form-control ng-untouched ng-pristine ng-invalid" name="confirmPassword" required="" reverse="false" type="password" validateequal="password">
+                <small class="text-danger" hidden="">
+                  Password mismatch
+                </small>
+
+              </div>
+              <div class="category form-category">
+                <span class="star">*</span> Required fields</div>
+            </div>
+
             <div class="form-footer text-right">
+              <div class="category form-category">
+              </div>
               <div class="checkbox pull-left">
                 <label>
-                  <input name="optionsCheckboxes" type="checkbox" class="ng-untouched ng-pristine ng-valid"><span class="checkbox-material"><span class="check"></span></span> Subscribe to newsletter
+                  <span class="star">*</span> Required fields
                 </label>
               </div>
-              <div class="form-group">
-
-                <button class="btn btn-rose btn-fill btn-wd btn-info" type="submit" >Register</button>
-              </div>
+            </div>
+            <div class="pull-right">
+              <button class="btn btn-rose btn-fill btn-wd btn-info" type="submit" >Register</button>
             </div>
           </div>
         </div>

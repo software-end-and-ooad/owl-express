@@ -14,7 +14,7 @@
                 <li class="dropdown pointer">
                     <a class="dropdown-toggle" data-toggle="dropdown">
                        <i class="material-icons">person</i>
-                       <span>{{ user.fullname }}</span>
+                       <span *ngIf="user != undefined">{{ user.fullname }}</span>
                        <ul class="dropdown-menu">
                          <li><a routerLink="logout">Logout</a></li>
                        </ul>

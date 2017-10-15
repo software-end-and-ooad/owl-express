@@ -6,6 +6,9 @@ const api = {
   forgetpwd: domain + 'forget-password',
   resetpwd: domain + 'reset-password',
   activate: domain + 'activate',
+  province: domain + 'province',
+  district: domain + 'district/',
+  subdistrict: domain + 'subdistrict/',
 }
 
 const domainProtect = domain + 'user/';
