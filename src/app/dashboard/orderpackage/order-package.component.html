@@ -11,160 +11,234 @@
             <p class="category">กรอกข้อมูลพัสดุของท่าน</p>
           </div>
           <div  class="card-content table-responsive">
+            <form class="form" [formGroup]="orderForm" (ngSubmit)="submit(orderForm.value)" method="POST">
 
-            <!--column 1-->
-            <div class="col-md-6">
+              <!--column 1-->
+              <div class="col-md-6">
 
-              <!--Order size selection-->
-              <div class="form-group label-floating is-empty">
-                <label class="control-label" for="">ขนาด
-                </label>
+                <!--Payment type-->
+                <div class="form-group label-floating is-empty">
+                  <label class="control-label" for="">ประเภทการชำระเงิน
+                    <span class="star">*</span>
+                  </label>
 
-                <select formControlName="size" class="form-control">
-                  <option value="" selected></option>
-                  <option value="XL">XL</option>
-                  <option value="L">L</option>
-                  <option value="M">M</option>
-                  <option value="S">S</option>
-                </select>
+                  <select formControlName="paymentType" class="form-control">
+                    <option value="" selected></option>
+                    <option value="dest">ชำระเงินปลายทาง</option>
+                    <option value="transfer">โอนเงิน</option>
+                  </select>
 
-                <small class="text-danger" hidden="">
-                  Email is required and format should be <i>john@doe.com</i>.
-                </small>
+                  <small class="text-danger" *ngIf="orderForm.controls['paymentType'].hasError('required')"  [hidden]="orderForm.controls['paymentType'].pristine">
+                    กรุณาระบุประเภทการชำระเงิน
+                  </small>
+                </div>
+
+                <!--Transport type-->
+                <div class="form-group label-floating is-empty">
+                  <label class="control-label" for="">ประเภทการส่ง
+                    <span class="star">*</span>
+                  </label>
+
+                  <select formControlName="transportType" class="form-control">
+                    <option value="" selected></option>
+                    <option value="EMS">EMS</option>
+                    <option value="sameday">วันต่อวัน</option>
+                  </select>
+
+                  <small class="text-danger" *ngIf="orderForm.controls['transportType'].hasError('required')"  [hidden]="orderForm.controls['transportType'].pristine">
+                    กรุณาระบุประเภทการส่ง
+                  </small>
+                </div>
+
+                <!-- Source Province -->
+                <div class="form-group label-floating is-empty">
+                  <label class="control-label" for="">เลือกจังหวัด
+                    <span class="star">*</span>
+                  </label>
+
+                  <select formControlName="srcProvince" class="form-control" (change)="getDistrict($event.target.value)" >
+                    <option value="" selected></option>
+                    <option  *ngFor="let province of provinces" [value]="province.PROVINCE_ID">{{ province.PROVINCE_NAME }}</option>
+                  </select>
+
+                  <small class="text-danger" *ngIf="orderForm.controls['srcProvince'].hasError('required')"  [hidden]="orderForm.controls['srcProvince'].pristine">
+                    กรุณาระบุจังหวัดต้นทาง
+                  </small>
+                </div>
+
+                <!-- Source District -->
+                <div class="form-group label-floating is-empty">
+                  <label class="control-label" for="">เลือกอำเภอ
+                    <span class="star">*</span>
+                  </label>
+
+                  <select formControlName="srcDistrict" class="form-control" (change)="getSubdistrict($event.target.value)" [disabled]="districts==undefined">
+                    <option value="" selected></option>
+                    <option  *ngFor="let district of districts" [value]="district.DISTRICT_ID">{{ district.DISTRICT_NAME }}</option>
+                  </select>
+
+                  <small class="text-danger" *ngIf="orderForm.controls['srcDistrict'].hasError('required')"  [hidden]="orderForm.controls['srcDistrict'].pristine">
+                    กรุณาระบุอำเภอต้นทาง
+                  </small>
+                </div>
+
+                <!-- Source Subdistrict -->
+                <div class="form-group label-floating is-empty">
+                  <label class="control-label" for="">เลือกตำบล
+                    <span class="star">*</span>
+                  </label>
+
+                  <select formControlName="srcSubdistrict" class="form-control" [disabled]="subdistricts==undefined">
+                    <option value="" selected></option>
+                    <option  *ngFor="let subdistrict of subdistricts" [value]="subdistrict.SUBDISTRICT_ID">{{ subdistrict.SUBDISTRICT_NAME }}</option>
+                  </select>
+
+                  <small class="text-danger" *ngIf="orderForm.controls['srcSubdistrict'].hasError('required')"  [hidden]="orderForm.controls['srcSubdistrict'].pristine">
+                    กรุณาระบุตำบลต้นทาง
+                  </small>
+                </div>
+
+                <!-- Source Other Address -->
+                <div class="form-group label-floating is-empty">
+                  <label class="control-label" for="">รายละเอียดที่อยู่ต้นทางเพิ่มเติม
+                    <span class="star">*</span>
+                  </label>
+
+                  <textarea class="form-control" rows="4" formControlName="srcAddressOther"></textarea>
+
+                  <small class="text-danger" *ngIf="orderForm.controls['srcAddressOther'].hasError('required')"  [hidden]="orderForm.controls['srcAddressOther'].pristine">
+                    กรุณาระบุรายละเอียดที่อยู่ต้นทางเพิ่มเติม
+                  </small>
+                  <small class="text-danger" *ngIf="orderForm.controls['srcAddressOther'].hasError('maxlength')"  [hidden]="orderForm.controls['srcAddressOther'].pristine">
+                    รายละเอียดที่อยู่ต้นทางระบุได้ไม่เกิน 255 ตัวอักษร
+                  </small>
+                </div>
+
+              </div>
+
+
+              <!--column 2-->
+              <div class="col-md-6">
+
+                <!--Order size selection-->
+                <div class="form-group label-floating is-empty">
+                  <label class="control-label" for="">ขนาด
+                  </label>
+
+                  <select formControlName="size" class="form-control">
+                    <option value="" selected>ไม่ทราบขนาด</option>
+                    <option value="XL">XL</option>
+                    <option value="L">L</option>
+                    <option value="M">M</option>
+                    <option value="S">S</option>
+                  </select>
+
+                  <small class="text-danger" *ngIf="orderForm.controls['size'].hasError('pattern')"  [hidden]="orderForm.controls['size'].pristine">
+                    กรุณาเลือกขนาดตามที่กำหนด
+                  </small>
+
+                </div>
+
+                <!--Pickup Date-->
+                <div class="form-group label-floating is-empty">
+                  <label class="control-label" for="">วันรับล่วงหน้า (เดือน/วัน//ปี, MM/DD/YYYY)
+                    <span class="star">*</span>
+                  </label>
+
+                  <input type="TEXT" class="form-control" formControlName="pickupDate" />
+
+                  <small class="text-danger" *ngIf="orderForm.controls['pickupDate'].hasError('required')"  [hidden]="orderForm.controls['pickupDate'].pristine">
+                    กรุณาระบุวันที่รับล่วงหน้า
+                  </small>
+                  <small class="text-danger" *ngIf="orderForm.controls['pickupDate'].hasError('pattern')"  [hidden]="orderForm.controls['pickupDate'].pristine">
+                    รูปแบบวันที่ไม่ถูกต้องตามกำหนด (MM/DD/YYYY)
+                  </small>
+
+                  <span class="material-input"></span>
+                </div>
+
+                <!-- Dest Province -->
+                <div class="form-group label-floating is-empty">
+                  <label class="control-label" for="">เลือกจังหวัด
+                    <span class="star">*</span>
+                  </label>
+
+                  <select formControlName="destProvince" class="form-control" (change)="getDestDistrict($event.target.value)" >
+                    <option value="" selected></option>
+                    <option  *ngFor="let destProvince of destProvinces" [value]="destProvince.PROVINCE_ID">{{ destProvince.PROVINCE_NAME }}</option>
+                  </select>
+
+                  <small class="text-danger" *ngIf="orderForm.controls['destProvince'].hasError('required')"  [hidden]="orderForm.controls['destProvince'].pristine">
+                    กรุณาระบุจังหวัดปลายทาง
+                  </small>
+                </div>
+
+                <!-- Dest District -->
+                <div class="form-group label-floating is-empty">
+                  <label class="control-label" for="">เลือกอำเภอ
+                    <span class="star">*</span>
+                  </label>
+
+                  <select formControlName="destDistrict" class="form-control" (change)="getDestSubdistrict($event.target.value)" [disabled]="districts==undefined">
+                    <option value="" selected></option>
+                    <option  *ngFor="let destDistrict of destDistricts" [value]="destDistrict.DISTRICT_ID">{{ destDistrict.DISTRICT_NAME }}</option>
+                  </select>
+
+                  <small class="text-danger" *ngIf="orderForm.controls['destDistrict'].hasError('required')"  [hidden]="orderForm.controls['destDistrict'].pristine">
+                    กรุณาระบุอำเภอปลายทาง
+                  </small>
+                </div>
+
+                <!-- Dest Subdistrict -->
+                <div class="form-group label-floating is-empty">
+                  <label class="control-label" for="">เลือกตำบล
+                    <span class="star">*</span>
+                  </label>
+
+                  <select formControlName="destSubdistrict" class="form-control" [disabled]="destSubdistricts==undefined">
+                    <option value="" selected></option>
+                    <option  *ngFor="let destSubdistrict of destSubdistricts" [value]="destSubdistrict.SUBDISTRICT_ID">{{ destSubdistrict.SUBDISTRICT_NAME }}</option>
+                  </select>
+
+                  <small class="text-danger" *ngIf="orderForm.controls['destSubdistrict'].hasError('required')"  [hidden]="orderForm.controls['destSubdistrict'].pristine">
+                    กรุณาระบุตำบลปลายทาง
+                  </small>
+                </div>
+
+                <!-- Dest Other Address -->
+                <div class="form-group label-floating is-empty">
+                  <label class="control-label" for="">รายละเอียดที่อยู่ปลายทางเพิ่มเติม
+                    <span class="star">*</span>
+                  </label>
+
+                  <textarea class="form-control" rows="4" formControlName="destAddressOther"></textarea>
+
+                  <small class="text-danger" *ngIf="orderForm.controls['destAddressOther'].hasError('required')"  [hidden]="orderForm.controls['destAddressOther'].pristine">
+                    กรุณาระบุที่อยู่ปลายทางเพิ่มเติม
+                  </small>
+                  <small class="text-danger" *ngIf="orderForm.controls['destAddressOther'].hasError('maxlength')"  [hidden]="orderForm.controls['destAddressOther'].pristine">
+                    รายละเอียดที่อยู่ปลายทางระบุได้ไม่เกิน 255 ตัวอักษร
+                  </small>
+                </div>
 
               </div>
 
-              <!--Payment type-->
-              <div class="form-group label-floating is-empty">
-                <label class="control-label" for="">ประเภทการชำระเงิน
-                  <span class="star">*</span>
-                </label>
-
-                <select formControlName="paymentType" class="form-control">
-                  <option value="" selected></option>
-                  <option value="dest">ชำระเงินปลายทาง</option>
-                  <option value="transfer">โอนเงิน</option>
-                </select>
-
-                <small class="text-danger" hidden="">
-                  Password mismatch
-                </small>
+              <div class="form-footer text-right">
+                <div class="category form-category">
+                </div>
+                <div class="checkbox pull-left">
+                  <label>
+                    <span class="star">*</span> Required fields
+                  </label>
+                </div>
               </div>
-
-              <!--Transport type-->
-              <div class="form-group label-floating is-empty">
-                <label class="control-label" for="">ประเภทการส่ง
-                  <span class="star">*</span>
-                </label>
-
-                <select formControlName="transportType" class="form-control">
-                  <option value="" selected></option>
-                  <option value="EMS">EMS</option>
-                  <option value="sameday">วันต่อวัน</option>
-                </select>
-
-                <small class="text-danger" hidden="">
-                  Password mismatch
-                </small>
+              <div class="pull-right">
+                <button class="btn btn-rose btn-fill btn-wd btn-info" type="submit" >Register</button>
               </div>
-
-              <!-- Source Province -->
-              <div class="form-group label-floating is-empty">
-                <label class="control-label" for="">เลือกจังหวัด
-                  <span class="star">*</span>
-                </label>
-
-                <select formControlName="srcProvinec" class="form-control" (change)="getDistrict($event.target.value)" >
-                  <option value="" selected></option>
-                  <option  *ngFor="let province of provinces" [value]="province.PROVINCE_ID">{{ province.PROVINCE_NAME }}</option>
-                </select>
-
-                <small class="text-danger" hidden="">
-                  Password mismatch
-                </small>
-              </div>
-
-              <!-- Source District -->
-              <div class="form-group label-floating is-empty">
-                <label class="control-label" for="">เลือกอำเภอ
-                  <span class="star">*</span>
-                </label>
-
-                <select formControlName="srcDistrict" class="form-control" (change)="getSubdistrict($event.target.value)" [disabled]="districts==undefined">
-                  <option value="" selected></option>
-                  <option  *ngFor="let district of districts" [value]="district.DISTRICT_ID">{{ district.DISTRICT_NAME }}</option>
-                </select>
-
-                <small class="text-danger" hidden="">
-                  Password mismatch
-                </small>
-              </div>
-
-              <!-- Source Subdistrict -->
-              <div class="form-group label-floating is-empty">
-                <label class="control-label" for="">เลือกตำบล
-                  <span class="star">*</span>
-                </label>
-
-                <select formControlName="srcSubdistrict" class="form-control" [disabled]="subdistricts==undefined">
-                  <option value="" selected></option>
-                  <option  *ngFor="let subdistrict of subdistricts" [value]="subdistrict.SUBDISTRICT_ID">{{ subdistrict.SUBDISTRICT_NAME }}</option>
-                </select>
-
-                <small class="text-danger" hidden="">
-                  Password mismatch
-                </small>
-              </div>
-
-            </div>
-
-
-            <!--column 2-->
-            <div class="col-md-6">
-
-              <div class="form-group label-floating is-empty">
-                <label class="control-label" for="">Email Address:
-                  <span class="star">*</span>
-                </label>
-                <input class="form-control ng-untouched ng-pristine ng-invalid" name="email" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$" required="" type="email">
-                <small class="text-danger" hidden="">
-                  Email is required and format should be <i>john@doe.com</i>.
-                </small>
-
-                <span class="material-input"></span>
-              </div>
-
-              <div class="form-group label-floating is-empty">
-                <label class="control-label" for="">Confirm Password
-                  <span class="star">*</span>
-                </label>
-
-                <input class="form-control ng-untouched ng-pristine ng-invalid" name="confirmPassword" required="" reverse="false" type="password" validateequal="password">
-                <small class="text-danger" hidden="">
-                  Password mismatch
-                </small>
-
-              </div>
-              <div class="category form-category">
-                <span class="star">*</span> Required fields</div>
-            </div>
-
-            <div class="form-footer text-right">
-              <div class="category form-category">
-              </div>
-              <div class="checkbox pull-left">
-                <label>
-                  <span class="star">*</span> Required fields
-                </label>
-              </div>
-            </div>
-            <div class="pull-right">
-              <button class="btn btn-rose btn-fill btn-wd btn-info" type="submit" >Register</button>
-            </div>
+            </form>
           </div>
         </div>
-      </div>
 
+      </div>
     </div>
   </div>
-</div>

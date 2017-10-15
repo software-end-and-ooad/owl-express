@@ -16,7 +16,8 @@ const domainProtect = domain + 'user/';
 const protect = {
 
   refreshToken: domainProtect + 'refresh',
-  auth: domainProtect + 'login'
+  auth: domainProtect + 'login',
+  order: domainProtect + 'order'
 
 }
 

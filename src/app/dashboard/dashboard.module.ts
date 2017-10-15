@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { DataService } from '../shared';
 
@@ -15,6 +16,8 @@ import { LogoutComponent } from './logout/logout.component';
     CommonModule,
     DashboardRoutingModule,
     ComponentsModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     DataService
