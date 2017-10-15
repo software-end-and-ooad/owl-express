@@ -179,7 +179,7 @@
                     <span class="star">*</span>
                   </label>
 
-                  <select formControlName="destDistrict" class="form-control" (change)="getDestSubdistrict($event.target.value)" [disabled]="districts==undefined">
+                  <select formControlName="destDistrict" class="form-control" (change)="getDestSubdistrict($event.target.value)" [disabled]="disabled">
                     <option value="" selected></option>
                     <option  *ngFor="let destDistrict of destDistricts" [value]="destDistrict.DISTRICT_ID">{{ destDistrict.DISTRICT_NAME }}</option>
                   </select>
@@ -233,7 +233,7 @@
                 </div>
               </div>
               <div class="pull-right">
-                <button class="btn btn-rose btn-fill btn-wd btn-info" type="submit" >Register</button>
+                <button class="btn btn-rose btn-fill btn-wd btn-info" type="submit" [disabled]="orderForm.invalid">เสร็จสิ้น</button>
               </div>
             </form>
           </div>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { API } from '../../../../constance/url';
+import { DataService } from '../../shared/data.service';
 
 declare var $: any;
 @Component({
@@ -22,6 +23,7 @@ export class OrderPackageComponent implements OnInit{
   constructor(
     private http: HttpClient,
     private formBuilder: FormBuilder,
+    private dataService: DataService,
   ) {
     this.getProvince();
     this.getDestProvince();
@@ -41,16 +43,9 @@ export class OrderPackageComponent implements OnInit{
       destProvince: [null, [ Validators.required ]],
       destAddressOther: [null, [ Validators.required, Validators.maxLength(255) ]],
       pickupDate: ['', [ Validators.required, Validators.pattern('[0-1]{0,1}[0-9]/[0-3]{0,1}[0-9]/[0-9][0-9][0-9][0-9]') ]],
-    })
+    });
   }
 
-  setDateFormat() {
-    const timeNow = new Date();
-    let date =  timeNow.getMonth() + '-' + timeNow.getDate() + '-' + timeNow.getFullYear();
-    console.log(date);
-
-    return date;
-  }
 
   getProvince() {
     this.http.get(API.api.province)
@@ -132,7 +127,17 @@ export class OrderPackageComponent implements OnInit{
 
 
   submit(value) {
-    this.http.post(API.protect.order, value);
+    value.userId = this.dataService.getUserData().id;
+    this.http.post(API.protect.order, value)
+      .subscribe(
+        (res: any) => {
+          // Redirect to order list || to order status
+          // Alert success
+        },
+        (err: any) => {
+          console.log(err);
+        }
+      )
   }
 
 }

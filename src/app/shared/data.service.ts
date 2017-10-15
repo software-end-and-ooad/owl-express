@@ -9,6 +9,7 @@ import { API } from '../../../constance/url';
 export class DataService {
 
   private token: string;
+  private user: any;
 
   constructor(private http: HttpClient, private tokenStorage: TokenStorage, private authService: AuthenticationService) {
      this.tokenStorage.getAccessToken()
@@ -31,11 +32,20 @@ export class DataService {
     return this.token
   }
 
+  getUserData() {
+    return this.user;
+  }
+
   getUsers() {
     const headers = new HttpHeaders({
       'Authorization': 'bearer ' + this.token
     })
     return this.http.get(API.protect.auth, {headers: headers})
+      .map(
+        (res: any) => {
+          this.user = res.data;
+        },
+      )
   }
 
 }
