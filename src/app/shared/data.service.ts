@@ -40,11 +40,14 @@ export class DataService {
     const headers = new HttpHeaders({
       'Authorization': 'bearer ' + this.token
     })
-    return this.http.get(API.protect.auth, {headers: headers})
-      .map(
+    this.http.get(API.protect.auth, {headers: headers})
+      .subscribe(
         (res: any) => {
           this.user = res.data;
         },
+        (err: any) => {
+          console.log('Cannot get user data');
+        }
       )
   }
 

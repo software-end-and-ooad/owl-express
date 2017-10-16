@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from './dashboard.component';
 import { OrderPackageComponent } from './orderpackage/order-package.component';
 import { LogoutComponent } from './logout/logout.component';
+import { OrderListComponent } from './orderlist/orderlist.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,15 @@ const routes: Routes = [
     children: [
       {
         path: '',
+        redirectTo: 'order-list',
+        pathMatch: 'full',
+      },
+      {
+        path: 'order-list',
+        component: OrderListComponent
+      },
+      {
+        path: 'order-package',
         component: OrderPackageComponent,
       },
     ]

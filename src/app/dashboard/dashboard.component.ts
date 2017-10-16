@@ -11,25 +11,17 @@ import { DataService, AuthenticationService } from '../shared';
 
 export class DashboardComponent {
 
-  public users: Object;
+  public user: Object;
 
   constructor(
     private router: Router,
     private dataService: DataService,
     private authService: AuthenticationService
-  ) { }
-
-  public loadData() {
-    this.dataService.getUsers()
-      .subscribe(
-        (res: any) => {
-          this.users = res.data;
-        },
-        (err: any) => {
-          alert("Cannot load data")
-        }
-      );
+  ) {
+    // Start Up call function
+    this.dataService.getUsers();
   }
+
 
   public check() {
     this.authService.isAuthorized().subscribe(

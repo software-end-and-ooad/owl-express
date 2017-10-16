@@ -8,11 +8,8 @@ declare interface RouteInfo {
     id: number;
 }
 export const ROUTES: RouteInfo[] = [
-    { path: 'dashboard', title: 'ส่งของ',  icon: 'dashboard', id: 0 },
-    { path: 'account', title: 'รายละเอียดบัญชี',  icon:'person', id: 1 },
-    { path: 'mysql-manage', title: 'จัดการ MySQL',  icon:'content_paste', id: 2 },
-    { path: 'ftp-manage', title: 'การเข้าถึงแบบ FTP',  icon:'library_books', id: 3 },
-    { path: 'notifications', title: 'การแจ้งเตือน',  icon:'notifications', id: 4 },
+    { path: 'order-list', title: 'รายการของ',  icon: 'dashboard', id: 0 },
+    { path: 'order-package', title: 'ส่งของ',  icon:'person', id: 1 },
 ];
 
 @Component({
