@@ -17,7 +17,8 @@ const protect = {
 
   refreshToken: domainProtect + 'refresh',
   auth: domainProtect + 'login',
-  order: domainProtect + 'order'
+  order: domainProtect + 'order',
+  orderList: domainProtect + 'order-list',
 
 }
 

@@ -1,11 +1,42 @@
 <div class="main-content">
   <div class="container-fluid">
 
+    <!--<app-status></app-status>-->
+
     <div class="row">
       <div class="col-md-12">
-        <h1>Hello Wold</h1>
+        <div class="card">
+          <div class="card-header" data-background-color="blue">
+            <h4 class="title">รายการของ</h4>
+            <p class="category">รายการของที่ยังไม่ได้ส่ง ส่งแล้ว และกำลังส่ง</p>
+          </div>
+          <div  class="card-content table-responsive">
+            <div class="content table-responsive table-full-width">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th *ngFor="let data of headerRows">{{ data }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of datas">
+                    <td>{{ data['track'] }}</td>
+                    <td>{{ data['size'] }}</td>
+                    <td>{{ data['price'] }}</td>
+                    <td>{{ data['payment_type'] }}</td>
+                    <td>{{ data['status'] }}</td>
+                    <td>{{ data['payment_status'] }}</td>
+                    <td>{{ data['transport_type'] }}</td>
+                    <td>{{ data['pickup_date'] }}</td>
+                  </tr>
+                </tbody>
+              </table>
+
+            </div>
+
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
-
