@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
+import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { API } from '../../../../constance/url';
 import { DataService } from '../../shared/data.service';
@@ -23,6 +24,7 @@ export class OrderPackageComponent implements OnInit{
   constructor(
     private http: HttpClient,
     private formBuilder: FormBuilder,
+    private router: Router,
     private dataService: DataService,
   ) {
     this.getProvince();
@@ -131,11 +133,11 @@ export class OrderPackageComponent implements OnInit{
     this.http.post(API.protect.order, value)
       .subscribe(
         (res: any) => {
-          // Redirect to order list || to order status
           // Alert success
+          this.router.navigateByUrl('/order-list')
         },
         (err: any) => {
-          console.log(err);
+          console.log( JSON.stringify(err.error.data));
         }
       )
   }
