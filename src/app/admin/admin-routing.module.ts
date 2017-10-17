@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AdminComponent } from './admin.component';
 import { ManageUserComponent } from './manageuser/manage-user.component'
+import { LogoutAdminComponent } from './logout/logout.admin.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,10 @@ const routes: Routes = [
       {
         path: 'manage-user',
         component: ManageUserComponent
+      },
+      {
+        path: 'logout',
+        component: LogoutAdminComponent
       },
     ]
   },
