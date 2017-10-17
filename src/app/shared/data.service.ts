@@ -36,19 +36,17 @@ export class DataService {
     return this.user;
   }
 
-  getUsers() {
+  getUsers(): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': 'bearer ' + this.token
     })
-    this.http.get(API.protect.auth, {headers: headers})
-      .subscribe(
+    return this.http.get(API.protect.auth, {headers: headers})
+    .map(
         (res: any) => {
           this.user = res.data;
+          return res.data;
         },
-        (err: any) => {
-          console.log('Cannot get user data');
-        }
-      )
+    )
   }
 
 }
