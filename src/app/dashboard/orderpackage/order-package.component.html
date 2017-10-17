@@ -153,6 +153,9 @@
                   <small class="text-danger" *ngIf="orderForm.controls['pickupDate'].hasError('pattern')"  [hidden]="orderForm.controls['pickupDate'].pristine">
                     รูปแบบวันที่ไม่ถูกต้องตามกำหนด (MM/DD/YYYY)
                   </small>
+                  <small class="text-danger" *ngIf="formInvalid.pickupDate == 'pickupDate_MUST_AFTER_PRESENT'">
+                    วันที่รับล่วงหน้าต้องมากกว่าปัจจุบัน
+                  </small>
 
                   <span class="material-input"></span>
                 </div>
@@ -234,6 +237,7 @@
               </div>
               <div class="pull-right">
                 <button class="btn btn-rose btn-fill btn-wd btn-info" type="submit" [disabled]="orderForm.invalid">เสร็จสิ้น</button>
+                <button class="btn btn-info"  (click)="test()">test</button>
               </div>
             </form>
           </div>

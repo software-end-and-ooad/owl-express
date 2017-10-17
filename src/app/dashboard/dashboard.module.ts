@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import { DataService } from '../shared';
+import { DataService, NotificationService } from '../shared';
 
 import { ComponentsModule } from './components/components.module';
 import { DashboardRoutingModule } from './dashboard-routing.module';
@@ -21,7 +21,8 @@ import { OrderListComponent } from './orderlist/orderlist.component';
     ReactiveFormsModule
   ],
   providers: [
-    DataService
+    DataService,
+    NotificationService
   ],
   declarations: [
     DashboardComponent,

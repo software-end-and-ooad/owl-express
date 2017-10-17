@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { API } from '../../../../constance/url';
 import { DataService } from '../../shared/data.service';
+import { NotificationService } from '../../shared/notification.service';
 
 declare var $: any;
 @Component({
@@ -20,12 +21,16 @@ export class OrderPackageComponent implements OnInit{
   private destSubdistricts: Array<Object>;
 
   orderForm: FormGroup;
+  formInvalid: any = {
+    pickupDate: null
+  }
 
   constructor(
     private http: HttpClient,
     private formBuilder: FormBuilder,
     private router: Router,
     private dataService: DataService,
+    private notifyService: NotificationService
   ) {
     this.getProvince();
     this.getDestProvince();
@@ -127,17 +132,24 @@ export class OrderPackageComponent implements OnInit{
 
 
 
-
   submit(value) {
     value.userId = this.dataService.getUserData().id;
     this.http.post(API.protect.order, value)
       .subscribe(
         (res: any) => {
-          // Alert success
-          this.router.navigateByUrl('/order-list')
+          this.formInvalid.pickupDate = null;
+          this.notifyService.showNotification(
+            'success',
+            `<b>สำเร็จ</b> <p>สั่งของผ่าน Owl-Express เรียบร้อยแล้ว<br/>กรุณารอการเจ้าหน้าที่เข้ารับพัสดุ</p>`
+          );
+          setTimeout(() => {
+            this.router.navigateByUrl('/order-list')
+          }, 1000);
         },
         (err: any) => {
-          console.log( JSON.stringify(err.error.data));
+          const error = err.error.data;
+          if (error.pickupDate[0] == 'pickupDate_MUST_AFTER_PRESENT')
+            this.formInvalid.pickupDate = 'pickupDate_MUST_AFTER_PRESENT';
         }
       )
   }
