@@ -7,7 +7,7 @@ export class NotificationService {
 
   constructor() { }
 
-  showNotification(color, message){
+  showNotification(color, title, message){
     var type = {
       white: '',
       primary: 'primary',
@@ -19,7 +19,7 @@ export class NotificationService {
 
 
     $.notify({
-      message: message
+      message: `<h4><strong>${title}</strong></h4><h5>${message}</h5>`
     },{
       type: type[color],
       timer: 4000,

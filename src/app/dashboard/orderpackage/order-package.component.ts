@@ -140,7 +140,8 @@ export class OrderPackageComponent implements OnInit{
           this.formInvalid.pickupDate = null;
           this.notifyService.showNotification(
             'success',
-            `<b>สำเร็จ</b> <p>สั่งของผ่าน Owl-Express เรียบร้อยแล้ว<br/>กรุณารอการเจ้าหน้าที่เข้ารับพัสดุ</p>`
+            'สำเร็จ',
+            'สั่งของผ่าน Owl-Express เรียบร้อยแล้ว!!     กรุณารอการเจ้าหน้าที่เข้ารับพัสดุ'
           );
           setTimeout(() => {
             this.router.navigateByUrl('/order-list')
