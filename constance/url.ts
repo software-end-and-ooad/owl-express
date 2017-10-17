@@ -35,6 +35,7 @@ const admin = {
 const adminProtectDomain = adminDomain + 'protect/'
 
 const adminProtect = {
+  auth: adminProtectDomain + 'login',
   refreshToken: adminProtectDomain + 'refresh',
 }
 

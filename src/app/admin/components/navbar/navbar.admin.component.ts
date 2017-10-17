@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import { ROUTES } from '../sidebar/sidebar.admin.component';
 import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
 
-import { DataService } from '../../../shared/data.service';
+import { DataAdminService } from '../../../shared/data.admin.service';
 
 @Component({
   selector: 'app-adminnavbar',
@@ -14,9 +14,9 @@ export class AdminNavbarComponent implements OnInit {
     location: Location;
     private toggleButton: any;
     private sidebarVisible: boolean;
-    private user: any;
+    private admin: any;
 
-    constructor(location: Location,  private element: ElementRef, private dataService: DataService) {
+    constructor(location: Location,  private element: ElementRef, private dataService: DataAdminService) {
       this.location = location;
           this.sidebarVisible = false;
     }
@@ -25,12 +25,12 @@ export class AdminNavbarComponent implements OnInit {
       this.listTitles = ROUTES.filter(listTitle => listTitle);
       const navbar: HTMLElement = this.element.nativeElement;
       this.toggleButton = navbar.getElementsByClassName('navbar-toggle')[0];
-      // this.dataService.getUsers()
-      //   .subscribe(
-      //     res => {
-      //       this.user = res
-      //     }
-      //   )
+       this.dataService.getAdmins()
+         .subscribe(
+           res => {
+             this.admin = res
+           }
+         )
     }
 
   sidebarOpen() {
