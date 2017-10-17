@@ -26,7 +26,7 @@ const routes: Routes = [
       {
         path: 'dashboard',
         canActivate: [ TokenExpiredAdminGuard, AdminGuard ],
-        loadChildren: './dashboard/dashboard.module#DashboardModule'
+        loadChildren: './admin/admin.module#AdminModule'
       }
     ]
   },
