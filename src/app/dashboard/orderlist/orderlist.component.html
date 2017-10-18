@@ -12,26 +12,7 @@
           </div>
           <div  class="card-content table-responsive">
             <div class="content table-responsive table-full-width">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th *ngFor="let data of headerRows">{{ data }}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let data of datas">
-                    <td>{{ data['track'] }}</td>
-                    <td>{{ data['size'] }}</td>
-                    <td>{{ data['price'] }}</td>
-                    <td>{{ data['payment_type'] }}</td>
-                    <td>{{ data['status'] }}</td>
-                    <td>{{ data['payment_status'] }}</td>
-                    <td>{{ data['transport_type'] }}</td>
-                    <td>{{ data['pickup_date'] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-
+                 <ng2-smart-table [settings]="settings" [source]="datas"></ng2-smart-table>
             </div>
 
           </div>

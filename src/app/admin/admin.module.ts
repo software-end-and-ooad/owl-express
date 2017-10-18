@@ -17,7 +17,7 @@ import { LogoutAdminComponent } from './logout/logout.admin.component';
     AdminRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    AdminComponentsModule
+    AdminComponentsModule,
   ],
   providers: [
     DataAdminService,

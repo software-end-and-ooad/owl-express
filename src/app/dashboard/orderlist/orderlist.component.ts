@@ -8,16 +8,50 @@ declare var $: any;
 @Component({
   selector: 'app-orderlist',
   templateUrl: './orderlist.component.html',
+  styleUrls: ['./orderlist.component.scss']
 })
 export class OrderListComponent {
   private datas: Object;
-  private headerRows: Array<any>;
+  public settings = {
+    columns: {
+      track: {
+        title: 'Track'
+      },
+      size: {
+        title: 'ขนาด'
+      },
+      price: {
+        title: 'ราคา'
+      },
+      payment_status: {
+        title: 'สถานะการชำระเงิน'
+      },
+      status: {
+        title: 'สถานะ'
+      },
+      payment_type: {
+        title: 'การชำระเงิน'
+      },
+      transport_type: {
+        title: 'รูปแบบการส่ง'
+      },
+      pickup_date: {
+        title: 'วันที่รับล่วงหน้า'
+      }
+    },
+    actions: {
+      add: false,
+      edit: false,
+      delete: false
+    },
+    hideSubHeader: true,
+  };
+
 
   constructor(
     private http: HttpClient,
     private dataService: DataService,
   ) {
-    this.headerRows = [ 'Track', 'ขนาด', 'ราคา', 'สถานะการชำระเงิน', 'สถานะ', 'การชำระเงิน', 'รูปแบบการส่ง', 'วันที่รับล่วงหน้า'];
     this.getOrderList();
   }
 
@@ -30,10 +64,11 @@ export class OrderListComponent {
       .subscribe(
         (res: any) => {
           this.datas = res.data;
+
           // Resolve data to Thai language for show in html
           for (let i in this.datas) {
             let data = this.datas[i];
-            data['size'] = data['size']==''? 'ไม่กำหนด': data['size'];
+            data['size'] = data['size']==''||data['size']==null? 'ไม่กำหนด': data['size'];
             data['price'] = data['price']==null||data['price']<=0? '-': data['price'];
             data['payment_type'] = data['payment_type']=='dest'? 'ชำระปลายทาง': 'ชำระด้วยการโอน';
             data['status'] = data['status']==null? Owlexperss.process.first: data['status']; // Not finish yet
@@ -45,6 +80,7 @@ export class OrderListComponent {
             let month = tmp.toString()
             data['pickup_date'] = new Date( data['pickup_date'] ).getDate() + '-' + month +  '-' + new Date(data['pickup_date']).getFullYear()
           }
+
         },
         (err: any) => {
           console.log('Cannot get order list');

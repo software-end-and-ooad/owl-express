@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 import { DataService, NotificationService } from '../shared';
 
@@ -18,7 +19,8 @@ import { OrderListComponent } from './orderlist/orderlist.component';
     DashboardRoutingModule,
     ComponentsModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    Ng2SmartTableModule,
   ],
   providers: [
     DataService,
