@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { DataAdminService } from '../../shared/data.admin.service';
 import { API } from '../../../../constance/url';
 import { EditUserComponent } from './edit-user.component';
+import { DataService } from '../../shared/data.service';
 
 
 @Component({
@@ -13,7 +14,12 @@ import { EditUserComponent } from './edit-user.component';
   styleUrls: ['./manageuser.component.scss']
 })
 export class ManageUserComponent {
+
+  private province: Array<any> = [{title: 'test', value: 3}]
+  private district: Array<Object>;
+  private sub_district: Array<Object>;
   private datas: Object;
+
   public settings = {
     columns: {
       email: {
@@ -26,7 +32,14 @@ export class ManageUserComponent {
         title: 'เบอร์ติดต่อ'
       },
       sub_district: {
-        title: 'ตำบล'
+        title: 'ตำบล',
+        type: 'html',
+        editor: {
+          type: 'list',
+          config: {
+            list: [{title: 'test', value: 'ok'}]
+          }
+        }
       },
       district: {
         title: 'อำเภอ'
@@ -46,28 +59,31 @@ export class ManageUserComponent {
       activated: {
         title: 'ยืนยันบัญชี',
       },
-      id: { // Manage
-        title: 'จัดการ',
-        type: 'custom',
-        renderComponent: EditUserComponent,
-        onComponentInitFunction(instance) {
-          instance.save.subscribe(row => {
-            this.editData(row)
-          });
-        }
-      }
+      /*
+       *id: { // Manage
+       *  title: 'จัดการ',
+       *  type: 'custom',
+       *  renderComponent: EditUserComponent,
+       *  onComponentInitFunction(instance) {
+       *    instance.save.subscribe(row => {
+       *      this.editData(row)
+       *    });
+       *  }
+       *}
+       */
     },
     actions: {
       add: false,
-      edit: false,
+      edit: true,
       delete: false,
       columnTitle: 'จัดการ',
       position: 'right',
     },
     edit: {
-      editButtonContent: 'แก้ไข',
-      saveButtonContent: 'บันทึก',
-      cancelButtonContent: 'ยกเลิก',
+      editButtonContent: `<div class='btn btn-warning btn-sm'><i class='ion-edit'></i></h1>`,
+      saveButtonContent: `<div class='btn btn-success btn-sm'><i class='ion-edit'></i></h1>`,
+      cancelButtonContent: `<div class='btn btn-danger btn-sm'><i class='ion-android-close'></i></h1>`,
+      confirmSave: true,
     },
     delete: {
       deleteButtonContent: 'ลบ',
@@ -80,13 +96,15 @@ export class ManageUserComponent {
 
   constructor(
     private http: HttpClient,
-    private dataAdminService: DataAdminService
+    private dataAdminService: DataAdminService,
+    private dataService: DataService
   ) {
-    this.getOrderList();
+    this.getAllUser();
+    this.getProvince();
   }
 
 
-  getOrderList() {
+  getAllUser() {
     const headers = new HttpHeaders({
       'Authorization': 'bearer ' + this.dataAdminService.getToken()
     })
@@ -106,19 +124,56 @@ export class ManageUserComponent {
             data['subscribe_line'] = data['subscribe_line']==null? 'ไม่ได้สมัคร': 'สมัครแล้ว'; // Not finish yet
             data['activated'] = data['activated']==false? 'ยังไม่ได้ยืนยันตัวตน': 'ยืนยันตัวตนแล้ว'; // Not finish yet
           }
-
+          this.settings = Object.assign(this.settings, {column: {sub_district: {editor: {config: {list: [{title: 'sdkfj', value: 'value'}]}}}}})
         },
         (err: any) => {
           console.log('Cannot get order list');
         })
   }
 
-  editData(row) {
+
+  editData(event) {
     const headers = new HttpHeaders({
       'Authorization': 'bearer ' + this.dataAdminService.getToken()
     })
 
-    this.http.put(API.adminProtect.edituser, {headers: headers});
+    //this.http.put(API.adminProtect.edituser, {headers: headers});
+  }
+
+
+  getProvince() {
+    this.dataService.getProvince()
+      .subscribe(
+        (res: any) => {
+          this.province = res;
+          this.dataService.renameKeysObject(this.province, 'PROVINCE_NAME', 'title')
+          this.dataService.renameKeysObject(this.province, 'PROVINCE_ID', 'value')
+          for(let i in this.province) {
+            let data = this.province[i]
+            this.dataService.removeKeysObject(this.province, 'GEO_ID')
+            this.dataService.removeKeysObject(this.province, 'PROVINCE_CODE')
+          }
+          console.log(this.province);
+        }
+      )
+  }
+
+  getDistrict(provinceId) {
+    this.dataService.getDistrict(provinceId)
+      .subscribe(
+        (res: any) => {
+          this.district = res;
+        }
+      )
+  }
+
+  getSubDistrict(districtId) {
+    this.dataService.getSubdistrict(districtId)
+      .subscribe(
+        (res: any) => {
+          this.sub_district = res;
+        }
+      )
   }
 
 }

@@ -5,7 +5,7 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponentsModule } from './components/components.admin.module'
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 
-import { DataAdminService, NotificationService } from '../shared';
+import { DataAdminService, NotificationService, DataService } from '../shared';
 
 import { AdminComponent } from './admin.component'
 import { ManageUserComponent } from './manageuser/manage-user.component'
@@ -25,6 +25,7 @@ import { EditUserComponent } from './manageuser/edit-user.component';
   providers: [
     DataAdminService,
     NotificationService,
+    DataService
   ],
   entryComponents: [
     EditUserComponent

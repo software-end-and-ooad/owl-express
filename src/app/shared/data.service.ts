@@ -76,4 +76,25 @@ export class DataService {
       )
   }
 
+  renameKeysObject(obj, oldName, newName) {
+    // Do nothing if the names are the same
+    if (oldName != newName) {
+      // Check for the old property name to avoid a ReferenceError in strict mode.
+      for(let i in obj) {
+        let data = obj[i]
+        data[newName] = data[oldName];
+        delete data[oldName];
+      }
+      return obj;
+    }
+  };
+
+  removeKeysObject(obj: Object, key: string) {
+    for(let i in obj) {
+      let data = obj[i]
+      delete data[key];
+    }
+    return obj;
+  };
+
 }
