@@ -49,4 +49,31 @@ export class DataService {
     )
   }
 
+  getProvince(): Observable<any> {
+    return this.http.get(API.api.province)
+    .map(
+      (res: any) => {
+        return res.data;
+      }
+    )
+  }
+
+  getDistrict(provinceId): Observable<any> {
+    return this.http.get(API.api.district + provinceId)
+      .map(
+        (res: any) => {
+          return res.data;
+        }
+      )
+  }
+
+  getSubdistrict(districtId): Observable<any> {
+    return this.http.get(API.api.subdistrict + districtId)
+      .map(
+        (res: any) => {
+          return res.data;
+        },
+      )
+  }
+
 }

@@ -55,77 +55,56 @@ export class OrderPackageComponent implements OnInit{
 
 
   getProvince() {
-    this.http.get(API.api.province)
+    this.dataService.getProvince()
       .subscribe(
         (res: any) => {
-          this.provinces = res.data;
-        },
-        (err: any) => {
-          console.log('Cannot get Province');
+          this.provinces = res;
         }
       )
   }
 
-  getDistrict(event) {
-    this.http.get(API.api.district + event)
+  getDistrict(provinceId) {
+    this.dataService.getDistrict(provinceId)
       .subscribe(
         (res: any) => {
-          this.districts = res.data;
-        },
-        (err: any) => {
-          this.districts = undefined;
-          console.log('Cannot get district');
+          this.districts = res;
         }
       )
   }
 
-  getSubdistrict(event) {
-    this.http.get(API.api.subdistrict + event)
+  getSubdistrict(districtId) {
+    this.dataService.getSubdistrict(districtId)
       .subscribe(
         (res: any) => {
-          this.subdistricts = res.data;
-        },
-        (err: any) => {
-          this.subdistricts = undefined;
-          console.log('Cannot get district');
+          this.subdistricts = res;
         }
       )
   }
 
   getDestProvince() {
-    this.http.get(API.api.province)
+    this.dataService.getProvince()
       .subscribe(
         (res: any) => {
-          this.destProvinces = res.data;
-        },
-        (err: any) => {
-          console.log('Cannot get Province');
+          this.destProvinces = res;
         }
       )
   }
 
-  getDestDistrict(event) {
-    this.http.get(API.api.district + event)
+  getDestDistrict(provinceId) {
+    this.dataService.getDistrict(provinceId)
       .subscribe(
         (res: any) => {
-          this.destDistricts = res.data;
-        },
-        (err: any) => {
-          this.destDistricts = undefined;
-          console.log('Cannot get district');
+          this.destDistricts = res;
         }
       )
   }
 
-  getDestSubdistrict(event) {
-    this.http.get(API.api.subdistrict + event)
+  getDestSubdistrict(districtId) {
+    this.dataService.getSubdistrict(districtId)
       .subscribe(
         (res: any) => {
-          this.destSubdistricts = res.data;
-        },
-        (err: any) => {
-          this.destSubdistricts = undefined;
-          console.log('Cannot get district');
+          this.destSubdistricts = res;
+
         }
       )
   }
