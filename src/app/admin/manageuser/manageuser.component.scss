@@ -1,0 +1,48 @@
+$table-font-color: #606c71;
+$table-border-color: #e9ebec;
+
+:host{
+  /deep/ {
+    *{
+      font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    a, div {
+      font-size: 14px;
+    }
+
+    table{
+      background-color: transparent;
+      border-spacing: 0;
+      width: 100%;
+      max-width: 100%;
+      border-collapse: collapse;
+      border-color: grey;
+      tr {
+        position: relative;
+        border-color: gray;
+        td,th{
+          border-top: none;
+          padding: 12px 8px;
+          vertical-align: middle;
+          line-height: 4em;
+          border-bottom: 1px solid #ddd;
+          color: rgba(0,0,0,.57);
+        }
+      }
+      thead {
+        color: #f44336;
+        display: table-header-group;
+        vertical-align: middle;
+        border-color: inherit;
+      }
+      tbody {
+        display: table-row-group;
+        vertical-align: middle;
+        border-color: inherit;
+      }
+    }
+
+  }
+}
+
