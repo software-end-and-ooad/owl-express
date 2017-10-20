@@ -89,16 +89,23 @@ export class DataService {
     }
   };
 
-  removeKeysObject(obj: Object, key: string) {
+  changeKeysObjectValue(obj: Object, key: string, keyVal: string) {
     for(let i in obj) {
       let data = obj[i]
-      delete data[key];
+      data[key] = data[keyVal]
     }
     return obj;
   };
 
-  mapInputValue(obj: Object, ifValue: any, newValue: any, elseValue: any) {
-
+  findObjectId(obj: Object, key: string, value: string, idKey) {
+    const val = value.split(' ')
+    for(let i in obj) {
+      let data = obj[i]
+      if (data[key] == value) {
+        return data[idKey]
+      }
+    }
+    return null
   }
 
 }

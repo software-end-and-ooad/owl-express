@@ -18,8 +18,8 @@ export class ManageUserComponent {
 
   private source: LocalDataSource;
   private province: Array<any> = [{title: 'test', value: 3}]
-  private district: Array<Object>;
-  private sub_district: Array<Object>;
+  private district: Array<any>;
+  private sub_district: Array<any>;
   private datas: Array<any>;
 
   public settings = {
@@ -33,7 +33,7 @@ export class ManageUserComponent {
       tell: {
         title: 'เบอร์ติดต่อ'
       },
-      sub_district: {
+      sub_district_content: {
         title: 'ตำบล',
         type: 'html',
         editor: {
@@ -43,7 +43,7 @@ export class ManageUserComponent {
           }
         }
       },
-      district: {
+      district_content: {
         title: 'อำเภอ',
         type: 'html',
         editor: {
@@ -53,9 +53,9 @@ export class ManageUserComponent {
           }
         }
       },
-      province: {
+      province_content: {
         title: 'จังหวัด',
-        type: 'html',
+        type: 'text',
         editor: {
           type: 'list',
           config: {
@@ -63,16 +63,16 @@ export class ManageUserComponent {
           }
         },
       },
-      address_other: {
+      address_other_content: {
         title: 'รายละเอียดที่อยู่'
       },
-      subscribe_sms: {
+      subscribe_sms_content: {
         title: 'การรับข่าวสารผ่าน SMS'
       },
-      subscribe_line: {
+      subscribe_line_content: {
         title: 'การรับข่าวสารผ่าน Line'
       },
-      activated: {
+      activated_content: {
         title: 'ยืนยันบัญชี',
       },
       /*
@@ -134,15 +134,16 @@ export class ManageUserComponent {
           // Resolve data to Thai language for show in html
           for (let i in this.datas) {
             let data = this.datas[i];
-            data['sub_district'] = data['sub_district']==null? 'ไม่ระบุ': data['sub_district']; // Not finish yet
-            data['district'] = data['district']==null? 'ไม่ระบุ': data['district']; // Not finish yet
-            data['province'] = data['province']==null? 'ไม่ระบุ': data['province']; // Not finish yet
-            data['address_other'] = data['address_other']==null? 'ไม่ระบุ': data['address_other']; // Not finish yet
-            data['subscribe_sms'] = data['subscribe_sms']==false? 'ไม่ได้สมัคร': 'สมัครแล้ว'; // Not finish yet
-            data['subscribe_line'] = data['subscribe_line']==null? 'ไม่ได้สมัคร': 'สมัครแล้ว'; // Not finish yet
-            data['activated'] = data['activated']==false? 'ยังไม่ได้ยืนยันตัวตน': 'ยืนยันตัวตนแล้ว'; // Not finish yet
+            data.sub_district_content   = data['sub_district']   == null? 'ไม่ระบุ': data['sub_district']; // Not finish yet
+            data.district_content       = data['district']       == null? 'ไม่ระบุ': data['district']; // Not finish yet
+            data.province_content       = data['province']       == null? 'ไม่ระบุ': data['province']; // Not finish yet
+            data.address_other_content  = data['address_other']  == null? 'ไม่ระบุ': data['address_other']; // Not finish yet
+            data.subscribe_sms_content  = data['subscribe_sms']  == false? 'ไม่ได้สมัคร': 'สมัครแล้ว'; // Not finish yet
+            data.subscribe_line_content = data['subscribe_line'] == null? 'ไม่ได้สมัคร': 'สมัครแล้ว'; // Not finish yet
+            data.activated_content      = data['activated']      == false? 'ยังไม่ได้ยืนยันตัวตน': 'ยืนยันตัวตนแล้ว'; // Not finish yet
           }
           this.source.load(this.datas)
+          console.log(this.datas[0]);
         },
         (err: any) => {
           console.log('Cannot get order list');
@@ -156,23 +157,23 @@ export class ManageUserComponent {
     })
 
     if (window.confirm('ยืนยันการเปลี่ยนแปลงข้อมูลของ ' + event.data.fullname)) {
-        const key = Object.keys(this.datas[0])
-      for (let i in key) {
-        event.me[key[i]] = this.dataServic.mapInputValue(event.me[key[i]]); // boolean show icon true or false
-        event.me['sub_district'] = event.me['sub_district']=='ไม่ระบุ'? 'ไม่ระบุ': event.me['sub_district']; // Not finish yet
-        event.me['district'] = event.me['district']==null? 'ไม่ระบุ': event.me['district']; // Not finish yet
-        event.me['province'] = event.me['province']==null? 'ไม่ระบุ': event.me['province']; // Not finish yet
-        event.me['address_other'] = event.me['address_other']==null? 'ไม่ระบุ': event.me['address_other']; // Not finish yet
-        event.me['subscribe_sms'] = event.me['subscribe_sms']==false? 'ไม่ได้สมัคร': 'สมัครแล้ว'; // Not finish yet
-        event.me['subscribe_line'] = event.me['subscribe_line']==null? 'ไม่ได้สมัคร': 'สมัครแล้ว'; // Not finish yet
-        event.me['activated'] = event.me['activated']==false? 'ยังไม่ได้ยืนยันตัวตน': 'ยืนยันตัวตนแล้ว'; // Not finish yet
-      }
+      event.newData.sub_district = event['newData']['sub_district_content']=='ไม่ระบุ' || event['newData']['sub_district_content']==''? null: this.dataService.findObjectId(this.sub_district, 'title', event.newData.sub_district_content, 'SUBDISTRICT_ID'); // Not finish yet
+      event.newData.district = event['newData']['district_content']=='ไม่ระบุ' || event['newData']['district_content']==''? null: this.dataService.findObjectId(this.district, 'title', event.newData.district_content, 'DISTRICT_ID'); // Not finish yet
+      event.newData.province = event['newData']['province_content']=='ไม่ระบุ' || event['newData']['province_content']==''? null: this.dataService.findObjectId(this.province, 'title', event.newData.province_content, 'PROVINCE_ID'); // Not finish yet
+      event.newData.address_other = event['newData']['address_other_content']; // Not finish yet
+      event.newData.subscribe_sms = event['newData']['subscribe_sms_content']=='สมัครแล้ว'? true: false; // Not finish yet
+      event.newData.subscribe_line = event['newData']['subscribe_line_content']=='สมัครแล้ว'? true: false; // Not finish yet
+      event.newData.activated = event['newData']['activated_content']=='ยืนยันตัวตนแล้ว'? true: false; // Not finish yet
       event.confirm.resolve(event.newData);
+      if (event.newData.province != null && event.newData.district == null)
+        this.getDistrict(event.newData.province)
+      else if (event.newData.province != null && event.newData.district != null)
+        this.getSubDistrict(event.newData.district)
+
+      //this.http.put(API.adminProtect.edituser, {headers: headers});
     } else {
       event.confirm.reject();
     }
-    //this.http.put(API.adminProtect.edituser, {headers: headers});
-    console.log(event);
   }
 
 
@@ -182,14 +183,10 @@ export class ManageUserComponent {
         (res: any) => {
           this.province = res;
           this.dataService.renameKeysObject(this.province, 'PROVINCE_NAME', 'title')
-          this.dataService.renameKeysObject(this.province, 'PROVINCE_ID', 'value')
-          for(let i in this.province) {
-            let data = this.province[i]
-            this.dataService.removeKeysObject(this.province, 'GEO_ID')
-            this.dataService.removeKeysObject(this.province, 'PROVINCE_CODE')
-          }
+          this.dataService.changeKeysObjectValue(this.province, 'GEO_ID', 'title') // Change PROVINCE_ID value to title value
+          this.dataService.renameKeysObject(this.province, 'GEO_ID', 'value')
           const st = this.settings
-          st.columns.province.editor.config.list = this.province
+          st.columns.province_content.editor.config.list = this.province
           this.settings = Object.assign({}, st);
         }
       )
@@ -200,6 +197,12 @@ export class ManageUserComponent {
       .subscribe(
         (res: any) => {
           this.district = res;
+          this.dataService.renameKeysObject(this.district, 'DISTRICT_NAME', 'title')
+          this.dataService.changeKeysObjectValue(this.district, 'GEO_ID', 'title') // Change PROVINCE_ID value to title value
+          this.dataService.renameKeysObject(this.district, 'GEO_ID', 'value')
+          const st = this.settings
+          st.columns.district_content.editor.config.list = this.district
+          this.settings = Object.assign({}, st);
         }
       )
   }
@@ -209,6 +212,12 @@ export class ManageUserComponent {
       .subscribe(
         (res: any) => {
           this.sub_district = res;
+          this.dataService.renameKeysObject(this.sub_district, 'SUBDISTRICT_NAME', 'title')
+          this.dataService.changeKeysObjectValue(this.sub_district, 'GEO_ID', 'title') // Change PROVINCE_ID value to title value
+          this.dataService.renameKeysObject(this.sub_district, 'GEO_ID', 'value')
+          const st = this.settings
+          st.columns.sub_district_content.editor.config.list = this.sub_district
+          this.settings = Object.assign({}, st);
         }
       )
   }
