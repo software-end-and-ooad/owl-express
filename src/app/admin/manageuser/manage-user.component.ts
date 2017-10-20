@@ -156,7 +156,17 @@ export class ManageUserComponent {
     })
 
     if (window.confirm('ยืนยันการเปลี่ยนแปลงข้อมูลของ ' + event.data.fullname)) {
-      event.newData['name'] += ' + added in code';
+        const key = Object.keys(this.datas[0])
+      for (let i in key) {
+        event.me[key[i]] = this.dataServic.mapInputValue(event.me[key[i]]); // boolean show icon true or false
+        event.me['sub_district'] = event.me['sub_district']=='ไม่ระบุ'? 'ไม่ระบุ': event.me['sub_district']; // Not finish yet
+        event.me['district'] = event.me['district']==null? 'ไม่ระบุ': event.me['district']; // Not finish yet
+        event.me['province'] = event.me['province']==null? 'ไม่ระบุ': event.me['province']; // Not finish yet
+        event.me['address_other'] = event.me['address_other']==null? 'ไม่ระบุ': event.me['address_other']; // Not finish yet
+        event.me['subscribe_sms'] = event.me['subscribe_sms']==false? 'ไม่ได้สมัคร': 'สมัครแล้ว'; // Not finish yet
+        event.me['subscribe_line'] = event.me['subscribe_line']==null? 'ไม่ได้สมัคร': 'สมัครแล้ว'; // Not finish yet
+        event.me['activated'] = event.me['activated']==false? 'ยังไม่ได้ยืนยันตัวตน': 'ยืนยันตัวตนแล้ว'; // Not finish yet
+      }
       event.confirm.resolve(event.newData);
     } else {
       event.confirm.reject();

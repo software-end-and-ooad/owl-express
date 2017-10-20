@@ -97,4 +97,8 @@ export class DataService {
     return obj;
   };
 
+  mapInputValue(obj: Object, ifValue: any, newValue: any, elseValue: any) {
+
+  }
+
 }
