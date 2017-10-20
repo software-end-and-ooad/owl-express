@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { LocalDataSource } from 'ng2-smart-table';
 
 import { DataAdminService } from '../../shared/data.admin.service';
 import { API } from '../../../../constance/url';
@@ -15,10 +16,11 @@ import { DataService } from '../../shared/data.service';
 })
 export class ManageUserComponent {
 
+  private source: LocalDataSource;
   private province: Array<any> = [{title: 'test', value: 3}]
   private district: Array<Object>;
   private sub_district: Array<Object>;
-  private datas: Object;
+  private datas: Array<any>;
 
   public settings = {
     columns: {
@@ -37,15 +39,29 @@ export class ManageUserComponent {
         editor: {
           type: 'list',
           config: {
-            list: [{title: 'test', value: 'ok'}]
+            list: [{title: 'กรุณาเลือกตำบล', value: ''}]
           }
         }
       },
       district: {
-        title: 'อำเภอ'
+        title: 'อำเภอ',
+        type: 'html',
+        editor: {
+          type: 'list',
+          config: {
+            list: [{title: 'กรุณาเลือกอำเภอ', value: ''}]
+          }
+        }
       },
       province: {
-        title: 'จังหวัด'
+        title: 'จังหวัด',
+        type: 'html',
+        editor: {
+          type: 'list',
+          config: {
+            list: [{title: 'กรุณาเลือกจังหวัด', value: ''}]
+          }
+        },
       },
       address_other: {
         title: 'รายละเอียดที่อยู่'
@@ -92,6 +108,7 @@ export class ManageUserComponent {
     },
     hideSubHeader: true,
     noDataMessage: 'ไม่พบข้อมูล',
+    mode: 'inline'
   };
 
   constructor(
@@ -100,6 +117,7 @@ export class ManageUserComponent {
     private dataService: DataService
   ) {
     this.getAllUser();
+    this.source = new LocalDataSource(this.datas);
     this.getProvince();
   }
 
@@ -124,7 +142,7 @@ export class ManageUserComponent {
             data['subscribe_line'] = data['subscribe_line']==null? 'ไม่ได้สมัคร': 'สมัครแล้ว'; // Not finish yet
             data['activated'] = data['activated']==false? 'ยังไม่ได้ยืนยันตัวตน': 'ยืนยันตัวตนแล้ว'; // Not finish yet
           }
-          this.settings = Object.assign(this.settings, {column: {sub_district: {editor: {config: {list: [{title: 'sdkfj', value: 'value'}]}}}}})
+          this.source.load(this.datas)
         },
         (err: any) => {
           console.log('Cannot get order list');
@@ -132,12 +150,19 @@ export class ManageUserComponent {
   }
 
 
-  editData(event) {
+  editData(event): void {
     const headers = new HttpHeaders({
       'Authorization': 'bearer ' + this.dataAdminService.getToken()
     })
 
+    if (window.confirm('ยืนยันการเปลี่ยนแปลงข้อมูลของ ' + event.data.fullname)) {
+      event.newData['name'] += ' + added in code';
+      event.confirm.resolve(event.newData);
+    } else {
+      event.confirm.reject();
+    }
     //this.http.put(API.adminProtect.edituser, {headers: headers});
+    console.log(event);
   }
 
 
@@ -153,7 +178,9 @@ export class ManageUserComponent {
             this.dataService.removeKeysObject(this.province, 'GEO_ID')
             this.dataService.removeKeysObject(this.province, 'PROVINCE_CODE')
           }
-          console.log(this.province);
+          const st = this.settings
+          st.columns.province.editor.config.list = this.province
+          this.settings = Object.assign({}, st);
         }
       )
   }
