@@ -91,8 +91,8 @@
                 <!-- Subdistrict -->
                 <div class="form-group is-empty is-info">
                   <select formControlName="subdistrict" required class="form-control">
-                    <option value="" [selected]="rowData==undefined? false: rowData.sub_districts[0].SUBDISTRICT_ID==undefined? true: false">เลือกตำบล</option>
-                    <option *ngFor="let subdistrict of sub_districts!=undefined? sub_districts: []" [value]="sub_districts==undefined? null: subdistrict.SUBDISTRICT_ID" [selected]="sub_districts==undefined? false: rowData==undefined? false: subdistrict.SUBDISTRICT_ID==rowData.sub_districts[0].SUBDISTRICT_ID? true: false"> {{ sub_districts==undefined? '': subdistrict.SUBDISTRICT_NAME }} </option>
+                    <option value="" [selected]="rowData==undefined? false: rowData.sub_districts.length==0? false: rowData.sub_districts[0].SUBDISTRICT_ID==undefined? true: false">เลือกตำบล</option>
+                    <option *ngFor="let subdistrict of sub_districts!=undefined? sub_districts: []" [value]="sub_districts==undefined? null: subdistrict.SUBDISTRICT_ID" [selected]="sub_districts==undefined? false: rowData==undefined? false: rowData.sub_districts.length==0? false: subdistrict.SUBDISTRICT_ID==rowData.sub_districts[0].SUBDISTRICT_ID? true: false"> {{ sub_districts==undefined? '': subdistrict.SUBDISTRICT_NAME }} </option>
                   </select>
                 </div>
 
@@ -103,8 +103,8 @@
                 <!-- District -->
                 <div class="form-group is-empty is-info">
                   <select formControlName="district" required class="form-control" (change)="getSubDistrict($event.target.value)">
-                    <option value="" [selected]="rowData==undefined? false: rowData.districts[0].DISTRICT_ID==undefined? true: false">เลือกอำเภอ</option>
-                    <option *ngFor="let district of districts!=undefined? districts: []" [value]="districts==undefined? null: district.DISTRICT_ID" [selected]="districts==undefined? false: rowData==undefined? false: district.DISTRICT_ID==rowData.districts[0].DISTRICT_ID? true: false"> {{ districts==undefined? '': district.DISTRICT_NAME }} </option>
+                    <option value="" [selected]="rowData==undefined? false: rowData.districts.length==0? false: rowData.districts[0].DISTRICT_ID==undefined? true: false">เลือกอำเภอ</option>
+                    <option *ngFor="let district of districts!=undefined? districts: []" [value]="districts==undefined? null: district.DISTRICT_ID" [selected]="districts==undefined? false: rowData==undefined? false: rowData.districts.length==0? false: district.DISTRICT_ID==rowData.districts[0].DISTRICT_ID? true: false"> {{ districts==undefined? '': district.DISTRICT_NAME }} </option>
                   </select>
                 </div>
 
@@ -115,7 +115,7 @@
                 <!-- Province -->
                 <div class="form-group is-empty is-info">
                   <select formControlName="province" required class="form-control" (change)="getDistrict($event.target.value)">
-                    <option value="">เลือก</option>
+                    <option value="">เลือกจังหวัด</option>
                     <option *ngFor="let province of provinces!=undefined? provinces: []" [value]="provinces==undefined? '': province.PROVINCE_ID" [selected]="rowData!=undefined? province.PROVINCE_ID==rowData.provinces[0].PROVINCE_ID: false"> {{ province.PROVINCE_NAME }}  </option>
                   </select>
                 </div>
@@ -137,7 +137,7 @@
                 </div>
               </div>
 
-              <button type="button" class="btn btn-default btn-round pull-right" style="font-size: 14px">
+              <button type="button" class="btn btn-default btn-round pull-right" style="font-size: 14px" (click)="toggleModal()">
                 <span>ยกเลิก</span>
               </button>
               <button type="submit" class="btn btn-success btn-round pull-right" style="font-size: 14px">

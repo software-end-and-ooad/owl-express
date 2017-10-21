@@ -162,7 +162,7 @@ export class ManageUserComponent implements OnInit{
         })
   }
 
-  showModal() {
+  toggleModal() {
     this.manageUserModal.nativeElement.click();
   }
 
@@ -173,15 +173,14 @@ export class ManageUserComponent implements OnInit{
       this.getDistrict(this.rowData.provinces[0].PROVINCE_ID);
     if (event.data.provinces.length > 0 && event.data.districts.length > 0)
       this.getSubDistrict(this.rowData.districts[0].DISTRICT_ID);
-    console.log(this.rowData.sub_districts[0].SUBDISTRICT_ID);
 
     // Map value each form because value in input not work
     console.log(this.rowData);
     this.edituserForm.controls['email'].patchValue(event.data.email);
     this.edituserForm.controls['fullname'].patchValue(event.data.fullname);
     this.edituserForm.controls['tell'].patchValue(event.data.tell);
-    this.edituserForm.controls['subdistrict'].patchValue(event.data.sub_districts[0].SUBDISTRICT_ID);
-    this.edituserForm.controls['district'].patchValue(event.data.districts[0].DISTRICT_ID);
+    this.edituserForm.controls['subdistrict'].patchValue(event.data.sub_districts[0]==undefined? '': event.data.sub_districts[0].SUBDISTRICT_ID);
+    this.edituserForm.controls['district'].patchValue(event.data.districts[0]==undefined? '': event.data.districts[0].DISTRICT_ID);
     this.edituserForm.controls['province'].patchValue(event.data.provinces[0].PROVINCE_ID);
     this.edituserForm.controls['address_other'].patchValue(event.data.address_other);
     this.edituserForm.controls['subscribe_sms'].patchValue(event.data.subscribe_sms);
@@ -189,7 +188,7 @@ export class ManageUserComponent implements OnInit{
     this.edituserForm.controls['activated'].patchValue(event.data.activated);
 
 
-    this.showModal();
+    this.toggleModal();
   }
 
   submitEdit(value: any) {
