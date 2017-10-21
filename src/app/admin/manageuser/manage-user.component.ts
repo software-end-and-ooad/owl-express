@@ -175,7 +175,6 @@ export class ManageUserComponent implements OnInit{
       this.getSubDistrict(this.rowData.districts[0].DISTRICT_ID);
 
     // Map value each form because value in input not work
-    console.log(this.rowData);
     this.edituserForm.controls['email'].patchValue(event.data.email);
     this.edituserForm.controls['fullname'].patchValue(event.data.fullname);
     this.edituserForm.controls['tell'].patchValue(event.data.tell);
