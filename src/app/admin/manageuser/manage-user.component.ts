@@ -33,9 +33,9 @@ export class ManageUserComponent implements OnInit{
 
   // Other variable
   @ViewChild('manageUserModal') public manageUserModal: ElementRef; // Give to navbar main for open
-  private province: Array<any> = [{title: 'test', value: 3}]
-  private district: Array<any>;
-  private sub_district: Array<any>;
+  private provinces: Array<any> = [{title: 'test', value: 3}]
+  private districts: Array<any>;
+  private sub_districts: Array<any>;
 
 
   public settings = {
@@ -168,23 +168,26 @@ export class ManageUserComponent implements OnInit{
 
   editData(event): void {
     this.rowData = event.data;
+    console.log(this.rowData);
+    this.getDistrict(this.rowData.provinces[0].PROVINCE_ID);
+    this.getSubDistrict(this.rowData.districts[0].DISTRICT_ID);
     this.showModal();
 
     //if (window.confirm('ยืนยันการเปลี่ยนแปลงข้อมูลของ ' + event.data.fullname)) {
-      /*
-       *event.newData.sub_district = event['newData']['sub_district_content']=='ไม่ระบุ' || event['newData']['sub_district_content']==''? null: this.dataService.findObjectId(this.sub_district, 'title', event.newData.sub_district_content, 'SUBDISTRICT_ID'); // Not finish yet
-       *event.newData.district = event['newData']['district_content']=='ไม่ระบุ' || event['newData']['district_content']==''? null: this.dataService.findObjectId(this.district, 'title', event.newData.district_content, 'DISTRICT_ID'); // Not finish yet
-       *event.newData.province = event['newData']['province_content']=='ไม่ระบุ' || event['newData']['province_content']==''? null: this.dataService.findObjectId(this.province, 'title', event.newData.province_content, 'PROVINCE_ID'); // Not finish yet
-       *event.newData.address_other = event['newData']['address_other_content']; // Not finish yet
-       *event.newData.subscribe_sms = event['newData']['subscribe_sms_content']=='สมัครแล้ว'? true: false; // Not finish yet
-       *event.newData.subscribe_line = event['newData']['subscribe_line_content']=='สมัครแล้ว'? true: false; // Not finish yet
-       *event.newData.activated = event['newData']['activated_content']=='ยืนยันตัวตนแล้ว'? true: false; // Not finish yet
-       */
+    /*
+     *event.newData.sub_district = event['newData']['sub_district_content']=='ไม่ระบุ' || event['newData']['sub_district_content']==''? null: this.dataService.findObjectId(this.sub_district, 'title', event.newData.sub_district_content, 'SUBDISTRICT_ID'); // Not finish yet
+     *event.newData.district = event['newData']['district_content']=='ไม่ระบุ' || event['newData']['district_content']==''? null: this.dataService.findObjectId(this.district, 'title', event.newData.district_content, 'DISTRICT_ID'); // Not finish yet
+     *event.newData.province = event['newData']['province_content']=='ไม่ระบุ' || event['newData']['province_content']==''? null: this.dataService.findObjectId(this.province, 'title', event.newData.province_content, 'PROVINCE_ID'); // Not finish yet
+     *event.newData.address_other = event['newData']['address_other_content']; // Not finish yet
+     *event.newData.subscribe_sms = event['newData']['subscribe_sms_content']=='สมัครแล้ว'? true: false; // Not finish yet
+     *event.newData.subscribe_line = event['newData']['subscribe_line_content']=='สมัครแล้ว'? true: false; // Not finish yet
+     *event.newData.activated = event['newData']['activated_content']=='ยืนยันตัวตนแล้ว'? true: false; // Not finish yet
+     */
     //event.confirm.resolve(event);
 
-      //this.http.put(API.adminProtect.edituser, {headers: headers});
+    //this.http.put(API.adminProtect.edituser, {headers: headers});
     //} else {
-      //event.confirm.reject();
+    //event.confirm.reject();
     //}
   }
 
@@ -193,7 +196,7 @@ export class ManageUserComponent implements OnInit{
     this.dataService.getProvince()
       .subscribe(
         (res: any) => {
-          this.province = res;
+          this.provinces = res;
         }
       )
   }
@@ -202,7 +205,7 @@ export class ManageUserComponent implements OnInit{
     this.dataService.getDistrict(provinceId)
       .subscribe(
         (res: any) => {
-          this.district = res;
+          this.districts = res;
         }
       )
   }
@@ -211,7 +214,8 @@ export class ManageUserComponent implements OnInit{
     this.dataService.getSubdistrict(districtId)
       .subscribe(
         (res: any) => {
-          this.sub_district = res;
+          this.sub_districts = res;
+          console.log(this.sub_districts);
         }
       )
   }
