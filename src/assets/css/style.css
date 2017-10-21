@@ -11,3 +11,7 @@
 .pointer :hover {
   cursor: pointer;
 }
+
+.modal-backdrop {
+  z-index: 1 !important;
+}

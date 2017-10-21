@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { LocalDataSource } from 'ng2-smart-table';
+import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 
 import { DataAdminService } from '../../shared/data.admin.service';
 import { API } from '../../../../constance/url';
-import { EditUserComponent } from './edit-user.component';
 import { DataService } from '../../shared/data.service';
 
 
@@ -14,13 +14,29 @@ import { DataService } from '../../shared/data.service';
   templateUrl: './manage-user.component.html',
   styleUrls: ['./manageuser.component.scss']
 })
-export class ManageUserComponent {
+export class ManageUserComponent implements OnInit{
 
+  // ng2-smart-table variable
+  private datas: Array<any>; // All user data
   private source: LocalDataSource;
+  private rowData: any; // Data per row for edit
+
+  // Form variable
+  private edituserForm: FormGroup;
+  private formInvalid: string;
+  private submit: boolean = false;
+  private inputLength = {
+    tellMin: 9,
+    tellMax: 10,
+    fullnameMax: 40,
+  }
+
+  // Other variable
+  @ViewChild('manageUserModal') public manageUserModal: ElementRef; // Give to navbar main for open
   private province: Array<any> = [{title: 'test', value: 3}]
   private district: Array<any>;
   private sub_district: Array<any>;
-  private datas: Array<any>;
+
 
   public settings = {
     columns: {
@@ -93,11 +109,29 @@ export class ManageUserComponent {
   constructor(
     private http: HttpClient,
     private dataAdminService: DataAdminService,
-    private dataService: DataService
+    private dataService: DataService,
+    private formBuilder: FormBuilder
   ) {
     this.getAllUser();
     this.source = new LocalDataSource(this.datas);
     this.getProvince();
+  }
+
+  ngOnInit() {
+    const inputLength = this.inputLength;
+
+    this.edituserForm = this.formBuilder.group({
+      email: [null, [ Validators.required, Validators.email ]],
+      fullname: [null, [ Validators.required, Validators.maxLength(inputLength.fullnameMax) ]],
+      tell: [null, [ Validators.required, Validators.minLength(inputLength.tellMin), Validators.maxLength(inputLength.tellMax) ]],
+      subdistrict: ['', [ Validators.required ]],
+      district: ['', [ Validators.required ]],
+      province: ['', [ Validators.required ]],
+      address_other: ['', [ Validators.required ]],
+      subscribe_sms: ['', [ Validators.required ]],
+      subscribe_line: ['', [ Validators.required ]],
+      activate: ['', [ Validators.required ]],
+    })
   }
 
 
@@ -128,14 +162,15 @@ export class ManageUserComponent {
         })
   }
 
+  showModal() {
+    this.manageUserModal.nativeElement.click();
+  }
 
   editData(event): void {
-    console.log(event)
-    const headers = new HttpHeaders({
-      'Authorization': 'bearer ' + this.dataAdminService.getToken()
-    })
+    this.rowData = event.data;
+    this.showModal();
 
-    if (window.confirm('ยืนยันการเปลี่ยนแปลงข้อมูลของ ' + event.data.fullname)) {
+    //if (window.confirm('ยืนยันการเปลี่ยนแปลงข้อมูลของ ' + event.data.fullname)) {
       /*
        *event.newData.sub_district = event['newData']['sub_district_content']=='ไม่ระบุ' || event['newData']['sub_district_content']==''? null: this.dataService.findObjectId(this.sub_district, 'title', event.newData.sub_district_content, 'SUBDISTRICT_ID'); // Not finish yet
        *event.newData.district = event['newData']['district_content']=='ไม่ระบุ' || event['newData']['district_content']==''? null: this.dataService.findObjectId(this.district, 'title', event.newData.district_content, 'DISTRICT_ID'); // Not finish yet
@@ -145,12 +180,12 @@ export class ManageUserComponent {
        *event.newData.subscribe_line = event['newData']['subscribe_line_content']=='สมัครแล้ว'? true: false; // Not finish yet
        *event.newData.activated = event['newData']['activated_content']=='ยืนยันตัวตนแล้ว'? true: false; // Not finish yet
        */
-      event.confirm.resolve(event.newData);
+    //event.confirm.resolve(event);
 
       //this.http.put(API.adminProtect.edituser, {headers: headers});
-    } else {
-      event.confirm.reject();
-    }
+    //} else {
+      //event.confirm.reject();
+    //}
   }
 
 
@@ -180,5 +215,6 @@ export class ManageUserComponent {
         }
       )
   }
+
 
 }
