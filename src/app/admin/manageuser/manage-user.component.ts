@@ -58,7 +58,7 @@ export class ManageUserComponent implements OnInit{
       province_content: {
         title: 'จังหวัด',
       },
-      address_other_content: {
+      address_other: {
         title: 'รายละเอียดที่อยู่'
       },
       subscribe_sms_content: {
@@ -130,7 +130,7 @@ export class ManageUserComponent implements OnInit{
       address_other: ['', [ Validators.required ]],
       subscribe_sms: ['', [ Validators.required ]],
       subscribe_line: ['', [ Validators.required ]],
-      activate: ['', [ Validators.required ]],
+      activated: ['', [ Validators.required ]],
     })
   }
 
@@ -150,12 +150,12 @@ export class ManageUserComponent implements OnInit{
             data.sub_district_content   = data.sub_districts.length   == 0? 'ไม่ระบุ': data.sub_districts[0].SUBDISTRICT_NAME; // Not finish yet
             data.district_content       = data.districts.length       == 0? 'ไม่ระบุ': data.districts[0].DISTRICT_NAME; // Not finish yet
             data.province_content       = data.provinces.length       == 0? 'ไม่ระบุ': data.provinces[0].PROVINCE_NAME; // Not finish yet
-            data.address_other_content  = data.address_other  == null? 'ไม่ระบุ': data['address_other']; // Not finish yet
             data.subscribe_sms_content  = data.subscribe_sms  == false? 'ไม่ได้สมัคร': 'สมัครแล้ว'; // Not finish yet
             data.subscribe_line_content = data.subscribe_line == null? 'ไม่ได้สมัคร': 'สมัครแล้ว'; // Not finish yet
             data.activated_content      = data.activated      == false? 'ยังไม่ได้ยืนยันตัวตน': 'ยืนยันตัวตนแล้ว'; // Not finish yet
           }
-          this.source.load(this.datas)
+          this.source.load(this.datas) // Set data into source
+
         },
         (err: any) => {
           console.log('Cannot get order list');
@@ -168,27 +168,32 @@ export class ManageUserComponent implements OnInit{
 
   editData(event): void {
     this.rowData = event.data;
+    // Call address for current value selection
+    if (event.data.provinces.length > 0 )
+      this.getDistrict(this.rowData.provinces[0].PROVINCE_ID);
+    if (event.data.provinces.length > 0 && event.data.districts.length > 0)
+      this.getSubDistrict(this.rowData.districts[0].DISTRICT_ID);
+    console.log(this.rowData.sub_districts[0].SUBDISTRICT_ID);
+
+    // Map value each form because value in input not work
     console.log(this.rowData);
-    this.getDistrict(this.rowData.provinces[0].PROVINCE_ID);
-    this.getSubDistrict(this.rowData.districts[0].DISTRICT_ID);
+    this.edituserForm.controls['email'].patchValue(event.data.email);
+    this.edituserForm.controls['fullname'].patchValue(event.data.fullname);
+    this.edituserForm.controls['tell'].patchValue(event.data.tell);
+    this.edituserForm.controls['subdistrict'].patchValue(event.data.sub_districts[0].SUBDISTRICT_ID);
+    this.edituserForm.controls['district'].patchValue(event.data.districts[0].DISTRICT_ID);
+    this.edituserForm.controls['province'].patchValue(event.data.provinces[0].PROVINCE_ID);
+    this.edituserForm.controls['address_other'].patchValue(event.data.address_other);
+    this.edituserForm.controls['subscribe_sms'].patchValue(event.data.subscribe_sms);
+    this.edituserForm.controls['subscribe_line'].patchValue(event.data.subscribe_line);
+    this.edituserForm.controls['activated'].patchValue(event.data.activated);
+
+
     this.showModal();
+  }
 
-    //if (window.confirm('ยืนยันการเปลี่ยนแปลงข้อมูลของ ' + event.data.fullname)) {
-    /*
-     *event.newData.sub_district = event['newData']['sub_district_content']=='ไม่ระบุ' || event['newData']['sub_district_content']==''? null: this.dataService.findObjectId(this.sub_district, 'title', event.newData.sub_district_content, 'SUBDISTRICT_ID'); // Not finish yet
-     *event.newData.district = event['newData']['district_content']=='ไม่ระบุ' || event['newData']['district_content']==''? null: this.dataService.findObjectId(this.district, 'title', event.newData.district_content, 'DISTRICT_ID'); // Not finish yet
-     *event.newData.province = event['newData']['province_content']=='ไม่ระบุ' || event['newData']['province_content']==''? null: this.dataService.findObjectId(this.province, 'title', event.newData.province_content, 'PROVINCE_ID'); // Not finish yet
-     *event.newData.address_other = event['newData']['address_other_content']; // Not finish yet
-     *event.newData.subscribe_sms = event['newData']['subscribe_sms_content']=='สมัครแล้ว'? true: false; // Not finish yet
-     *event.newData.subscribe_line = event['newData']['subscribe_line_content']=='สมัครแล้ว'? true: false; // Not finish yet
-     *event.newData.activated = event['newData']['activated_content']=='ยืนยันตัวตนแล้ว'? true: false; // Not finish yet
-     */
-    //event.confirm.resolve(event);
-
-    //this.http.put(API.adminProtect.edituser, {headers: headers});
-    //} else {
-    //event.confirm.reject();
-    //}
+  submitEdit(value: any) {
+    console.log(value);
   }
 
 
@@ -197,27 +202,41 @@ export class ManageUserComponent implements OnInit{
       .subscribe(
         (res: any) => {
           this.provinces = res;
+          this.districts = undefined;
+          this.sub_districts = undefined;
         }
       )
   }
 
   getDistrict(provinceId) {
-    this.dataService.getDistrict(provinceId)
-      .subscribe(
-        (res: any) => {
-          this.districts = res;
-        }
-      )
+    this.edituserForm.controls['subdistrict'].patchValue('');
+    this.edituserForm.controls['district'].patchValue('');
+    if (provinceId > 0) {
+      this.dataService.getDistrict(provinceId)
+        .subscribe(
+          (res: any) => {
+            this.districts = res;
+            this.sub_districts = undefined;
+          }
+        )
+    } else {
+      this.districts = undefined;
+      this.sub_districts = undefined;
+    }
   }
 
   getSubDistrict(districtId) {
-    this.dataService.getSubdistrict(districtId)
-      .subscribe(
-        (res: any) => {
-          this.sub_districts = res;
-          console.log(this.sub_districts);
-        }
-      )
+    this.edituserForm.controls['subdistrict'].patchValue('');
+    if (districtId > 0) {
+      this.dataService.getSubdistrict(districtId)
+        .subscribe(
+          (res: any) => {
+            this.sub_districts = res;
+          }
+        )
+    } else {
+      this.sub_districts = undefined;
+    }
   }
 
 
