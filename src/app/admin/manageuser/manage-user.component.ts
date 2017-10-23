@@ -70,18 +70,6 @@ export class ManageUserComponent implements OnInit{
       activated_content: {
         title: 'ยืนยันบัญชี',
       },
-      /*
-       *id: { // Manage
-       *  title: 'จัดการ',
-       *  type: 'custom',
-       *  renderComponent: EditUserComponent,['district']
-       *  onComponentInitFunction(instance) {
-       *    instance.save.subscribe(row => {
-       *      this.editData(row)
-       *    });
-       *  }
-       *}
-       */
     },
     actions: {
       add: false,
@@ -121,7 +109,6 @@ export class ManageUserComponent implements OnInit{
     const inputLength = this.inputLength;
 
     this.edituserForm = this.formBuilder.group({
-      email: [null, [ Validators.required, Validators.email ]],
       fullname: [null, [ Validators.required, Validators.maxLength(inputLength.fullnameMax) ]],
       tell: [null, [ Validators.required, Validators.minLength(inputLength.tellMin), Validators.maxLength(inputLength.tellMax) ]],
       subdistrict: ['', [ Validators.required ]],
@@ -175,7 +162,6 @@ export class ManageUserComponent implements OnInit{
       this.getSubDistrict(this.rowData.districts[0].DISTRICT_ID);
 
     // Map value each form because value in input not work
-    this.edituserForm.controls['email'].patchValue(event.data.email);
     this.edituserForm.controls['fullname'].patchValue(event.data.fullname);
     this.edituserForm.controls['tell'].patchValue(event.data.tell);
     this.edituserForm.controls['subdistrict'].patchValue(event.data.sub_districts[0]==undefined? '': event.data.sub_districts[0].SUBDISTRICT_ID);
@@ -188,10 +174,6 @@ export class ManageUserComponent implements OnInit{
 
 
     this.toggleModal();
-  }
-
-  submitEdit(value: any) {
-    console.log(value);
   }
 
 
@@ -237,5 +219,9 @@ export class ManageUserComponent implements OnInit{
     }
   }
 
+
+  submitEdit(value: any) {
+    console.log(value);
+  }
 
 }

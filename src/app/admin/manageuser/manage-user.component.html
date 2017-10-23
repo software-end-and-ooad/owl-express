@@ -38,7 +38,7 @@
               <div class="col-md-6">
                 <!--Email-->
                 <div class="form-group is-info label-floating is-empty text-left">
-                  <input type="EMAIL" class="form-control" required formControlName="email" placeholder="อีเมล" >
+                  <input type="EMAIL" class="form-control" placeholder="อีเมล" disabled [value]="rowData==undefined? '': rowData.email">
                 </div>
 
                 <div class="text-left">
@@ -118,6 +118,15 @@
                     <option value="">เลือกจังหวัด</option>
                     <option *ngFor="let province of provinces!=undefined? provinces: []" [value]="provinces==undefined? '': province.PROVINCE_ID" [selected]="rowData!=undefined? province.PROVINCE_ID==rowData.provinces[0].PROVINCE_ID: false"> {{ province.PROVINCE_NAME }}  </option>
                   </select>
+                </div>
+
+                <!-- Address Other -->
+                <div class="form-group is-info label-floating is-empty text-left">
+                  <input type="TEXT" class="form-control" required formControlName="address_other" placeholder="รายละเอียดที่เพิ่มเติม" >
+                </div>
+
+                <div class="text-left">
+                  <!--<strong class="text-danger text-left" *ngIf="loginForm.controls['password'].hasError('required')" [hidden]="loginForm.controls['password'].pristine">กรุณากรอกรหัสผ่าน</strong>-->
                 </div>
 
                 <!-- Subscribe Line -->
