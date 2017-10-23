@@ -37,11 +37,13 @@
 
               <div class="col-md-6">
                 <!--Email-->
-                <div class="form-group is-info label-floating is-empty text-left">
+                <label class="control-label">อีเมล</label>
+                <div class="is-info label-floating is-empty text-left">
                   <input type="EMAIL" class="form-control" placeholder="อีเมล" disabled [value]="rowData==undefined? '': rowData.email">
                 </div>
 
                 <!-- Type -->
+                <label class="control-label">ประเภทบุคลกร</label>
                 <select formControlName="type" required class="form-control">
                   <option value="personal" [selected]="rowData==undefined? false: rowData.type=='personal'? true: false"> บุคคล  </option>
                   <option value="enterprise" [selected]="rowData==undefined? false: rowData.type=='enterprise'? true: false"> องค์กร  </option>
@@ -52,16 +54,19 @@
                 </div>
 
                 <!-- Fullname -->
-                <div class="form-group is-info label-floating is-empty text-left">
+                <label class="control-label">ชื่อ-สกุล</label>
+                <div class="is-info label-floating is-empty text-left">
                   <input type="TEXT" class="form-control" required formControlName="fullname" placeholder='ชื่อ-สกุล'>
                 </div>
 
                 <div class="text-left">
                   <strong class="text-danger text-left" *ngIf="edituserForm.controls['fullname'].hasError('required')" [hidden]="edituserForm.controls['fullname'].pristine">กรุณากรอกชื่อ-สกุล</strong>
+                  <strong class="text-danger text-left" *ngIf="edituserForm.controls['fullname'].hasError('maxlength')" [hidden]="edituserForm.controls['fullname'].pristine"> ชื่อ-สกุล ต้องไม่ยาวกว่า {{ inputLength.fullnameMax }} ตัวอักษร </strong>
                 </div>
 
                 <!-- Tell -->
-                <div class="form-group is-info label-floating is-empty text-left">
+                <label class="control-label">เบอร์ติดต่อ</label>
+                <div class="is-info label-floating is-empty text-left">
                   <input type="TEXT" class="form-control" required formControlName="tell" placeholder="เบอร์ติดต่อ">
                 </div>
 
@@ -70,7 +75,8 @@
                 </div>
 
                 <!-- Subscribe SMS -->
-                <div class="form-group is-empty is-info">
+                <label class="control-label">การรับข่าวสารผ่าน SMS</label>
+                <div class="is-empty is-info">
                   <select formControlName="subscribe_sms" required class="form-control">
                     <option value="false" [selected]="rowData==undefined? false: rowData.subscribe_sms==false? true: false"> ไม่ได้สมัคร  </option>
                     <option value="true" [selected]="rowData==undefined? false: rowData.subscribe_sms==true? true: false"> สมัครแล้ว  </option>
@@ -83,7 +89,8 @@
                 </div>
 
                 <!-- Activate Account -->
-                <div class="form-group is-empty is-info">
+                <label class="control-label">การยืนยันตัวตน</label>
+                <div class="is-empty is-info">
                   <select formControlName="activated" required class="form-control">
                     <option value="false" [selected]="rowData==undefined? false: rowData.activated==false? true: false"> ยังไม่ได้ยืนยัน  </option>
                     <option value="true" [selected]="rowData==undefined? false: rowData.activated==true? true: false"> ยืนยันแล้ว  </option>
@@ -99,16 +106,29 @@
 
               <div class="col-md-6">
 
+                <!-- Rejected Order -->
+                <label class="control-label">จำนวนครั้งการปฏเสธการเข้ารับของ</label>
+                <div class="is-empty is-info">
+                  <input type="NUMBER" class="form-control" required formControlName="rejected_order" placeholder="จำนวนครั้งที่ถูกปฏิเสธหรือยกเลิกการเข้ารับของ" />
+                </div>
+
+                <div class="text-left">
+                  <strong class="text-danger text-left" *ngIf="edituserForm.controls['rejected_order'].hasError('required')" [hidden]="edituserForm.controls['rejected_order'].pristine">กรุณาระบุจำนวนครั้งการปฏิเสธการเข้ารับของ</strong>
+                  <strong class="text-danger text-left" *ngIf="edituserForm.controls['rejected_order'].hasError('pattern')" [hidden]="edituserForm.controls['rejected_order'].pristine">รูปแบบจำนวนครั้งการปฏิเสธการเข้ารับของไม่ถูกต้อง</strong>
+                </div>
+
                 <!-- Subdistrict -->
-                <div class="form-group is-empty is-info">
-                  <select formControlName="subdistrict" required class="form-control">
+                <label class="control-label">ตำบล</label>
+                <div class="is-empty is-info">
+                  <select formControlName="sub_district" required class="form-control">
                     <option value="" [selected]="rowData==undefined? false: rowData.sub_districts.length==0? false: rowData.sub_districts[0].SUBDISTRICT_ID==undefined? true: false">เลือกตำบล</option>
                     <option *ngFor="let subdistrict of sub_districts!=undefined? sub_districts: []" [value]="sub_districts==undefined? null: subdistrict.SUBDISTRICT_ID" [selected]="sub_districts==undefined? false: rowData==undefined? false: rowData.sub_districts.length==0? false: subdistrict.SUBDISTRICT_ID==rowData.sub_districts[0].SUBDISTRICT_ID? true: false"> {{ sub_districts==undefined? '': subdistrict.SUBDISTRICT_NAME }} </option>
                   </select>
                 </div>
 
                 <!-- District -->
-                <div class="form-group is-empty is-info">
+                <label class="control-label">อำเภอ</label>
+                <div class="is-empty is-info">
                   <select formControlName="district" required class="form-control" (change)="getSubDistrict($event.target.value)">
                     <option value="" [selected]="rowData==undefined? false: rowData.districts.length==0? false: rowData.districts[0].DISTRICT_ID==undefined? true: false">เลือกอำเภอ</option>
                     <option *ngFor="let district of districts!=undefined? districts: []" [value]="districts==undefined? null: district.DISTRICT_ID" [selected]="districts==undefined? false: rowData==undefined? false: rowData.districts.length==0? false: district.DISTRICT_ID==rowData.districts[0].DISTRICT_ID? true: false"> {{ districts==undefined? '': district.DISTRICT_NAME }} </option>
@@ -116,24 +136,27 @@
                 </div>
 
                 <!-- Province -->
-                <div class="form-group is-empty is-info">
+                <label class="control-label">จังหวัด</label>
+                <div class="is-empty is-info">
                   <select formControlName="province" required class="form-control" (change)="getDistrict($event.target.value)">
                     <option value="">เลือกจังหวัด</option>
-                    <option *ngFor="let province of provinces!=undefined? provinces: []" [value]="provinces==undefined? '': province.PROVINCE_ID" [selected]="rowData!=undefined? province.PROVINCE_ID==rowData.provinces[0].PROVINCE_ID: false"> {{ province.PROVINCE_NAME }}  </option>
+                    <option *ngFor="let province of provinces!=undefined? provinces: []" [value]="provinces==undefined? '': province.PROVINCE_ID" [selected]="provinces==undefined? false: rowData==undefined? false: rowData.provinces.length==0? false: province.PROVINCE_ID==rowData.provinces[0].PROVINCE_ID? true: false"> {{ provinces==undefined? '':  province.PROVINCE_NAME }}  </option>
                   </select>
                 </div>
 
                 <!-- Address Other -->
-                <div class="form-group is-info label-floating is-empty text-left">
+                <label class="control-label">รายละเอียดที่อยู่เพิ่มเติม</label>
+                <div class="is-info label-floating is-empty text-left">
                   <input type="TEXT" class="form-control" required formControlName="address_other" placeholder="รายละเอียดที่อยู่เพิ่มเติม" >
                 </div>
 
                   <div class="text-left">
-                    <strong class="text-danger text-left" *ngIf="edituserForm.controls['address_other'].hasError('maxlength')" [hidden]="edituserForm.controls['maxlength'].pristine">รายละเอียดที่อยู่ยาวกว่า {{ inputLength.address_otherMax }} ตัวอักษร</strong>
+                    <strong class="text-danger text-left" *ngIf="edituserForm.controls['address_other'].hasError('maxlength')" [hidden]="edituserForm.controls['address_other'].pristine">รายละเอียดที่อยู่ยาวกว่า {{ inputLength.address_otherMax }} ตัวอักษร</strong>
                   </div>
 
                   <!-- Subscribe Line -->
-                  <div class="form-group is-empty is-info">
+                  <label class="control-label">การติดตามข่าวสารผ่าน Line</label>
+                  <div class="is-empty is-info">
                     <select formControlName="subscribe_line" required class="form-control">
                       <option value="false" [selected]="rowData==undefined? false: rowData.subscribe_line==false? true: false"> ไม่ได้สมัคร  </option>
                       <option value="true" [selected]="rowData==undefined? false: rowData.subscribe_line==true? true: false"> สมัครแล้ว  </option>
@@ -142,13 +165,16 @@
 
                   <div class="text-left">
                     <strong class="text-danger text-left" *ngIf="edituserForm.controls['subscribe_line'].hasError('required')" [hidden]="edituserForm.controls['subscribe_line'].pristine">กรุณาเลือกการรับข่าวสารผ่าน Line</strong>
-                  </div>
-
-                  <div class="text-left">
                     <strong class="text-danger text-left" *ngIf="edituserForm.controls['subscribe_line'].hasError('pattern')" [hidden]="edituserForm.controls['subscribe_line'].pristine">รูปแบบการเลือกข่าวสารผ่าน Line ไม่ถุกต้อง</strong>
                   </div>
               </div>
 
+              <!-- 400 Bad Request Message -->
+              <div class="text-left">
+                <strong class="text-danger text-left" *ngIf="inputLength.other!=undefined">{{ inputLength.other }}</strong>
+              </div>
+
+              <!-- Button Action -->
               <button type="button" class="btn btn-default btn-round pull-right" style="font-size: 14px" (click)="toggleModal()">
                 <span>ยกเลิก</span>
               </button>

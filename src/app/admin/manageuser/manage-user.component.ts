@@ -29,7 +29,8 @@ export class ManageUserComponent implements OnInit{
     tellMin: 9,
     tellMax: 10,
     fullnameMax: 40,
-    address_otherMax: 255
+    address_otherMax: 255,
+    other: undefined
   }
 
   // Other variable
@@ -67,6 +68,9 @@ export class ManageUserComponent implements OnInit{
       },
       subscribe_line_content: {
         title: 'การรับข่าวสารผ่าน Line'
+      },
+      rejected_order: {
+        title: 'ปฏิเสธรับของ'
       },
       activated_content: {
         title: 'ยืนยันบัญชี',
@@ -113,12 +117,13 @@ export class ManageUserComponent implements OnInit{
       fullname: [null, [ Validators.required, Validators.maxLength(inputLength.fullnameMax) ]],
       tell: [null, [ Validators.required, Validators.minLength(inputLength.tellMin), Validators.maxLength(inputLength.tellMax) ]],
       type: [null, [ Validators.required, Validators.pattern('personal|enterprise') ]],
-      subdistrict: [''],
+      sub_district: [''],
       district: [''],
       province: [''],
       address_other: ['', [ Validators.maxLength(inputLength.address_otherMax)]],
       subscribe_sms: ['', [ Validators.required, Validators.pattern('1|0|true|false')  ]],
       subscribe_line: ['', [ Validators.required, Validators.pattern('1|0|true|false') ]],
+      rejected_order: [0, [ Validators.required, Validators.pattern('[0123]') ]],
       activated: ['', [ Validators.pattern('1|0|true|false') ]],
     })
   }
@@ -167,11 +172,12 @@ export class ManageUserComponent implements OnInit{
     // Map value each form because value in input not work
     this.edituserForm.controls['fullname'].patchValue(event.data.fullname);
     this.edituserForm.controls['type'].patchValue(event.data.type);
+    this.edituserForm.controls['rejected_order'].patchValue(event.data.rejected_order);
     this.edituserForm.controls['tell'].patchValue(event.data.tell);
-    this.edituserForm.controls['subdistrict'].patchValue(event.data.sub_districts[0]==undefined? '': event.data.sub_districts[0].SUBDISTRICT_ID);
+    this.edituserForm.controls['sub_district'].patchValue(event.data.sub_districts[0]==undefined? '': event.data.sub_districts[0].SUBDISTRICT_ID);
     this.edituserForm.controls['district'].patchValue(event.data.districts[0]==undefined? '': event.data.districts[0].DISTRICT_ID);
-    this.edituserForm.controls['province'].patchValue(event.data.provinces[0].PROVINCE_ID);
-    this.edituserForm.controls['address_other'].patchValue(event.data.address_other);
+    this.edituserForm.controls['province'].patchValue(event.data.provinces[0]==undefined? '': event.data.provinces[0].PROVINCE_ID);
+    this.edituserForm.controls['address_other'].patchValue(event.data.address_other==undefined? '': event.data.address_other);
     this.edituserForm.controls['subscribe_sms'].patchValue(event.data.subscribe_sms);
     this.edituserForm.controls['subscribe_line'].patchValue(event.data.subscribe_line);
     this.edituserForm.controls['activated'].patchValue(event.data.activated);
@@ -193,7 +199,7 @@ export class ManageUserComponent implements OnInit{
   }
 
   getDistrict(provinceId) {
-    this.edituserForm.controls['subdistrict'].patchValue('');
+    this.edituserForm.controls['sub_district'].patchValue('');
     this.edituserForm.controls['district'].patchValue('');
     if (provinceId > 0) {
       this.dataService.getDistrict(provinceId)
@@ -210,7 +216,7 @@ export class ManageUserComponent implements OnInit{
   }
 
   getSubDistrict(districtId) {
-    this.edituserForm.controls['subdistrict'].patchValue('');
+    this.edituserForm.controls['sub_district'].patchValue('');
     if (districtId > 0) {
       this.dataService.getSubdistrict(districtId)
         .subscribe(
@@ -236,10 +242,11 @@ export class ManageUserComponent implements OnInit{
           console.log(res);
         },
         (err: any) => {
-          console.log('Cannot edit user');
+          this.inputLength.other = 'กรุณาตรวจสอบการกรอกข้อมูลให้ถูกต้อง';
+          console.log(err.error.data);
+          console.log('error');
         }
       )
-
   }
 
 }
