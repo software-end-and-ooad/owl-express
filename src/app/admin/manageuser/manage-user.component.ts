@@ -29,6 +29,7 @@ export class ManageUserComponent implements OnInit{
     tellMin: 9,
     tellMax: 10,
     fullnameMax: 40,
+    address_otherMax: 255
   }
 
   // Other variable
@@ -111,13 +112,14 @@ export class ManageUserComponent implements OnInit{
     this.edituserForm = this.formBuilder.group({
       fullname: [null, [ Validators.required, Validators.maxLength(inputLength.fullnameMax) ]],
       tell: [null, [ Validators.required, Validators.minLength(inputLength.tellMin), Validators.maxLength(inputLength.tellMax) ]],
-      subdistrict: ['', [ Validators.required ]],
-      district: ['', [ Validators.required ]],
-      province: ['', [ Validators.required ]],
-      address_other: ['', [ Validators.required ]],
-      subscribe_sms: ['', [ Validators.required ]],
-      subscribe_line: ['', [ Validators.required ]],
-      activated: ['', [ Validators.required ]],
+      type: [null, [ Validators.required, Validators.pattern('personal|enterprise') ]],
+      subdistrict: [''],
+      district: [''],
+      province: [''],
+      address_other: ['', [ Validators.maxLength(inputLength.address_otherMax)]],
+      subscribe_sms: ['', [ Validators.required, Validators.pattern('1|0|true|false')  ]],
+      subscribe_line: ['', [ Validators.required, Validators.pattern('1|0|true|false') ]],
+      activated: ['', [ Validators.pattern('1|0|true|false') ]],
     })
   }
 
@@ -155,6 +157,7 @@ export class ManageUserComponent implements OnInit{
 
   editData(event): void {
     this.rowData = event.data;
+    console.log(this.rowData);
     // Call address for current value selection
     if (event.data.provinces.length > 0 )
       this.getDistrict(this.rowData.provinces[0].PROVINCE_ID);
@@ -163,6 +166,7 @@ export class ManageUserComponent implements OnInit{
 
     // Map value each form because value in input not work
     this.edituserForm.controls['fullname'].patchValue(event.data.fullname);
+    this.edituserForm.controls['type'].patchValue(event.data.type);
     this.edituserForm.controls['tell'].patchValue(event.data.tell);
     this.edituserForm.controls['subdistrict'].patchValue(event.data.sub_districts[0]==undefined? '': event.data.sub_districts[0].SUBDISTRICT_ID);
     this.edituserForm.controls['district'].patchValue(event.data.districts[0]==undefined? '': event.data.districts[0].DISTRICT_ID);
@@ -221,7 +225,21 @@ export class ManageUserComponent implements OnInit{
 
 
   submitEdit(value: any) {
+    const headers = new HttpHeaders({
+      'Authorization': 'bearer ' + this.dataAdminService.getToken()
+    })
+
     console.log(value);
+    this.http.post(API.adminProtect.edituser, value, {headers: headers})
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+        },
+        (err: any) => {
+          console.log('Cannot edit user');
+        }
+      )
+
   }
 
 }

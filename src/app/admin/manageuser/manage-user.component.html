@@ -41,8 +41,14 @@
                   <input type="EMAIL" class="form-control" placeholder="อีเมล" disabled [value]="rowData==undefined? '': rowData.email">
                 </div>
 
+                <!-- Type -->
+                <select formControlName="type" required class="form-control">
+                  <option value="personal" [selected]="rowData==undefined? false: rowData.type=='personal'? true: false"> บุคคล  </option>
+                  <option value="enterprise" [selected]="rowData==undefined? false: rowData.type=='enterprise'? true: false"> องค์กร  </option>
+                </select>
+
                 <div class="text-left">
-                  <!--<strong class="text-danger text-left" *ngIf="loginForm.controls['password'].hasError('required')" [hidden]="loginForm.controls['password'].pristine">กรุณากรอกรหัสผ่าน</strong>-->
+                  <strong class="text-danger text-left" *ngIf="edituserForm.controls['type'].hasError('required')" [hidden]="edituserForm.controls['type'].pristine">กรุณาเลือกประเภทผู้ใช้งาน</strong>
                 </div>
 
                 <!-- Fullname -->
@@ -51,7 +57,7 @@
                 </div>
 
                 <div class="text-left">
-                  <!--<strong class="text-danger text-left" *ngIf="loginForm.controls['password'].hasError('required')" [hidden]="loginForm.controls['password'].pristine">กรุณากรอกรหัสผ่าน</strong>-->
+                  <strong class="text-danger text-left" *ngIf="edituserForm.controls['fullname'].hasError('required')" [hidden]="edituserForm.controls['fullname'].pristine">กรุณากรอกชื่อ-สกุล</strong>
                 </div>
 
                 <!-- Tell -->
@@ -60,7 +66,7 @@
                 </div>
 
                 <div class="text-left">
-                  <!--<strong class="text-danger text-left" *ngIf="loginForm.controls['password'].hasError('required')" [hidden]="loginForm.controls['password'].pristine">กรุณากรอกรหัสผ่าน</strong>-->
+                  <strong class="text-danger text-left" *ngIf="edituserForm.controls['tell'].hasError('required')" [hidden]="edituserForm.controls['tell'].pristine">กรุณากรอกเบอร์ติดต่อ</strong>
                 </div>
 
                 <!-- Subscribe SMS -->
@@ -72,7 +78,8 @@
                 </div>
 
                 <div class="text-left">
-                  <!--<strong class="text-danger text-left" *ngIf="loginForm.controls['password'].hasError('required')" [hidden]="loginForm.controls['password'].pristine">กรุณากรอกรหัสผ่าน</strong>-->
+                  <strong class="text-danger text-left" *ngIf="edituserForm.controls['subscribe_sms'].hasError('required')" [hidden]="edituserForm.controls['subscribe_sms'].pristine">กรุณาเลือกการรับข่าวสารผ่าน SMS</strong>
+                  <strong class="text-danger text-left" *ngIf="edituserForm.controls['subscribe_sms'].hasError('pattern')" [hidden]="edituserForm.controls['subscribe_sms'].pristine">รูปแบบการเลือกรับข่าวสารผ่าน SMS ไม่ถูกต้อง</strong>
                 </div>
 
                 <!-- Activate Account -->
@@ -81,6 +88,10 @@
                     <option value="false" [selected]="rowData==undefined? false: rowData.activated==false? true: false"> ยังไม่ได้ยืนยัน  </option>
                     <option value="true" [selected]="rowData==undefined? false: rowData.activated==true? true: false"> ยืนยันแล้ว  </option>
                   </select>
+                </div>
+
+                <div class="text-left">
+                  <strong class="text-danger text-left" *ngIf="edituserForm.controls['activated'].hasError('pattern')" [hidden]="edituserForm.controls['activated'].pristine">รูปแบบการยืนยันตัวตนไม่ถูกต้อง</strong>
                 </div>
 
 
@@ -96,20 +107,12 @@
                   </select>
                 </div>
 
-                <div class="text-left">
-                  <!--<strong class="text-danger text-left" *ngIf="loginForm.controls['password'].hasError('required')" [hidden]="loginForm.controls['password'].pristine">กรุณากรอกรหัสผ่าน</strong>-->
-                </div>
-
                 <!-- District -->
                 <div class="form-group is-empty is-info">
                   <select formControlName="district" required class="form-control" (change)="getSubDistrict($event.target.value)">
                     <option value="" [selected]="rowData==undefined? false: rowData.districts.length==0? false: rowData.districts[0].DISTRICT_ID==undefined? true: false">เลือกอำเภอ</option>
                     <option *ngFor="let district of districts!=undefined? districts: []" [value]="districts==undefined? null: district.DISTRICT_ID" [selected]="districts==undefined? false: rowData==undefined? false: rowData.districts.length==0? false: district.DISTRICT_ID==rowData.districts[0].DISTRICT_ID? true: false"> {{ districts==undefined? '': district.DISTRICT_NAME }} </option>
                   </select>
-                </div>
-
-                <div class="text-left">
-                  <!--<strong class="text-danger text-left" *ngIf="loginForm.controls['password'].hasError('required')" [hidden]="loginForm.controls['password'].pristine">กรุณากรอกรหัสผ่าน</strong>-->
                 </div>
 
                 <!-- Province -->
@@ -122,28 +125,28 @@
 
                 <!-- Address Other -->
                 <div class="form-group is-info label-floating is-empty text-left">
-                  <input type="TEXT" class="form-control" required formControlName="address_other" placeholder="รายละเอียดที่เพิ่มเติม" >
+                  <input type="TEXT" class="form-control" required formControlName="address_other" placeholder="รายละเอียดที่อยู่เพิ่มเติม" >
                 </div>
 
-                <div class="text-left">
-                  <!--<strong class="text-danger text-left" *ngIf="loginForm.controls['password'].hasError('required')" [hidden]="loginForm.controls['password'].pristine">กรุณากรอกรหัสผ่าน</strong>-->
-                </div>
+                  <div class="text-left">
+                    <strong class="text-danger text-left" *ngIf="edituserForm.controls['address_other'].hasError('maxlength')" [hidden]="edituserForm.controls['maxlength'].pristine">รายละเอียดที่อยู่ยาวกว่า {{ inputLength.address_otherMax }} ตัวอักษร</strong>
+                  </div>
 
-                <!-- Subscribe Line -->
-                <div class="form-group is-empty is-info">
-                  <select formControlName="subscribe_line" required class="form-control">
-                    <option value="false" [selected]="rowData==undefined? false: rowData.subscribe_line==false? true: false"> ไม่ได้สมัคร  </option>
-                    <option value="true" [selected]="rowData==undefined? false: rowData.subscribe_line==true? true: false"> สมัครแล้ว  </option>
-                  </select>
-                </div>
+                  <!-- Subscribe Line -->
+                  <div class="form-group is-empty is-info">
+                    <select formControlName="subscribe_line" required class="form-control">
+                      <option value="false" [selected]="rowData==undefined? false: rowData.subscribe_line==false? true: false"> ไม่ได้สมัคร  </option>
+                      <option value="true" [selected]="rowData==undefined? false: rowData.subscribe_line==true? true: false"> สมัครแล้ว  </option>
+                    </select>
+                  </div>
 
-                <div class="text-left">
-                  <!--<strong class="text-danger text-left" *ngIf="loginForm.controls['password'].hasError('required')" [hidden]="loginForm.controls['password'].pristine">กรุณากรอกรหัสผ่าน</strong>-->
-                </div>
+                  <div class="text-left">
+                    <strong class="text-danger text-left" *ngIf="edituserForm.controls['subscribe_line'].hasError('required')" [hidden]="edituserForm.controls['subscribe_line'].pristine">กรุณาเลือกการรับข่าวสารผ่าน Line</strong>
+                  </div>
 
-                <div class="text-left">
-                  <!--<strong class="text-danger text-left" *ngIf="loginForm.controls['password'].hasError('required')" [hidden]="loginForm.controls['password'].pristine">กรุณากรอกรหัสผ่าน</strong>-->
-                </div>
+                  <div class="text-left">
+                    <strong class="text-danger text-left" *ngIf="edituserForm.controls['subscribe_line'].hasError('pattern')" [hidden]="edituserForm.controls['subscribe_line'].pristine">รูปแบบการเลือกข่าวสารผ่าน Line ไม่ถุกต้อง</strong>
+                  </div>
               </div>
 
               <button type="button" class="btn btn-default btn-round pull-right" style="font-size: 14px" (click)="toggleModal()">
