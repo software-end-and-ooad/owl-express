@@ -39,6 +39,7 @@ const adminProtect = {
   refreshToken: adminProtectDomain + 'refresh',
   getAllUser: adminProtectDomain  + 'getalluser',
   edituser: adminProtectDomain + 'edituser/',
+  getAllOrder: adminProtectDomain + 'allorder',
 }
 
 export const API = {api, protect, admin, adminProtect};

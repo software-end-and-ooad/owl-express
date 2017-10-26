@@ -10,6 +10,7 @@ import { DataAdminService, NotificationService, DataService } from '../shared';
 import { AdminComponent } from './admin.component'
 import { ManageUserComponent } from './manageuser/manage-user.component'
 import { LogoutAdminComponent } from './logout/logout.admin.component';
+import { ManageOrderComponent } from './manageorder/manage-order.component';
 
 
 @NgModule({
@@ -25,12 +26,12 @@ import { LogoutAdminComponent } from './logout/logout.admin.component';
     DataAdminService,
     NotificationService,
     DataService,
-    ManageUserComponent,
   ],
   declarations: [
     AdminComponent,
     ManageUserComponent,
     LogoutAdminComponent,
+    ManageOrderComponent,
   ]
 })
 export class AdminModule { }

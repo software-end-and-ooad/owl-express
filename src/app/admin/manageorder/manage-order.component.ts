@@ -11,11 +11,11 @@ import { NotificationService } from '../../shared/notification.service';
 
 
 @Component({
-  selector: 'app-admin-manageuser',
-  templateUrl: './manage-user.component.html',
-  styleUrls: ['./manageuser.component.scss']
+  selector: 'app-admin-manageorder',
+  templateUrl: './manage-order.component.html',
+  styleUrls: ['./manage-order.component.scss']
 })
-export class ManageUserComponent implements OnInit{
+export class ManageOrderComponent implements OnInit{
 
   // ng2-smart-table variable
   private datas: Array<any>; // All user data
@@ -52,29 +52,47 @@ export class ManageUserComponent implements OnInit{
       tell: {
         title: 'เบอร์ติดต่อ'
       },
-      sub_district_content: {
-        title: 'ตำบล',
+      size: {
+        title: 'ขนาด'
       },
-      district_content: {
-        title: 'อำเภอ',
+      postman_id: {
+        title: 'ผู้รับผิดชอบ'
       },
-      province_content: {
-        title: 'จังหวัด',
+      transport_type: {
+        title: 'รูปแบบการส่ง'
       },
-      address_other: {
-        title: 'รายละเอียดที่อยู่'
+      status: {
+        title: 'สถานะพัสดุ'
       },
-      subscribe_sms_content: {
-        title: 'การรับข่าวสารผ่าน SMS'
+      price: {
+        title: 'ราคาพัสดุ'
       },
-      subscribe_line_content: {
-        title: 'การรับข่าวสารผ่าน Line'
+      pickup_date: {
+        title: 'วันที่รับล่วงหน้า'
       },
-      rejected_order: {
-        title: 'ปฏิเสธรับของ'
+      src_sub_district_content: {
+        title: 'ตำบลต้นทาง',
       },
-      activated_content: {
-        title: 'ยืนยันบัญชี',
+      src_district_content: {
+        title: 'อำเภอต้นทาง',
+      },
+      src_province_content: {
+        title: 'จังหวัดต้นทาง',
+      },
+      src_address_other: {
+        title: 'รายละเอียดที่อยู่ต้นทาง'
+      },
+      dest_sub_district_content: {
+        title: 'ตำบลปลายทาง',
+      },
+      dest_district_content: {
+        title: 'อำเภอปลายทาง',
+      },
+      dest_province_content: {
+        title: 'จังหวัดปลายทาง',
+      },
+      dest_address_other: {
+        title: 'รายละเอียดที่อยู่ปลายทาง'
       },
     },
     actions: {
@@ -135,21 +153,37 @@ export class ManageUserComponent implements OnInit{
     const headers = new HttpHeaders({
       'Authorization': 'bearer ' + this.dataAdminService.getToken()
     })
-    this.http.get(API.adminProtect.getAllUser, {headers: headers})
+    this.http.get(API.adminProtect.getAllOrder, {headers: headers})
       .subscribe(
         (res: any) => {
-          this.datas = res.data;
-          console.log(this.datas);
+          this.datas = []
 
           // Resolve data to Thai language for show in html
-          for (let i in this.datas) {
-            let data = this.datas[i];
-            data.sub_district_content   = data.sub_districts.length   == 0? 'ไม่ระบุ': data.sub_districts[0].SUBDISTRICT_NAME; // Not finish yet
-            data.district_content       = data.districts.length       == 0? 'ไม่ระบุ': data.districts[0].DISTRICT_NAME; // Not finish yet
-            data.province_content       = data.provinces.length       == 0? 'ไม่ระบุ': data.provinces[0].PROVINCE_NAME; // Not finish yet
-            data.subscribe_sms_content  = data.subscribe_sms  == false? 'ไม่ได้สมัคร': 'สมัครแล้ว'; // Not finish yet
-            data.subscribe_line_content = data.subscribe_line == false? 'ไม่ได้สมัคร': 'สมัครแล้ว'; // Not finish yet
-            data.activated_content      = data.activated      == false? 'ยังไม่ได้ยืนยันตัวตน': 'ยืนยันตัวตนแล้ว'; // Not finish yet
+          for (let i in res.data) {
+            let user = res.data[i]
+            for (let j in user.orders) {
+              let data = user.orders[j];
+              data.src_sub_district_content  = data.src_subdistricts.length  == 0? 'ไม่ระบุ': data.src_subdistricts[0].SUBDISTRICT_NAME; // Not finish yet
+              data.src_district_content      = data.src_districts.length     == 0? 'ไม่ระบุ': data.src_districts[0].DISTRICT_NAME; // Not finish yet
+              data.src_province_content      = data.src_provinces.length     == 0? 'ไม่ระบุ': data.src_provinces[0].PROVINCE_NAME; // Not finish yet
+              data.src_address_other         = data.src_address_other        == null? 'ไม่ระบุ': data.src_address_other;
+              data.dest_sub_district_content = data.dest_subdistricts.length == 0? 'ไม่ระบุ': data.dest_subdistricts[0].SUBDISTRICT_NAME; // Not finish yet
+              data.dest_district_content     = data.dest_districts.length    == 0? 'ไม่ระบุ': data.dest_districts[0].DISTRICT_NAME; // Not finish yet
+              data.dest_province_content     = data.dest_provinces.length    == 0? 'ไม่ระบุ': data.dest_provinces[0].PROVINCE_NAME; // Not finish yet
+              data.dest_address_other        = data.dest_address_other       == null? 'ไม่ระบุ': data.dest_address_other;
+              data.size                      = data.size                     == 0? 'ไม่ระบุ': data.size;
+              data.postman_id                = data.postman_id               == null? 'ยังไม่เข้ารับ': data.postman_id;
+              data.transport_type            = data.transport_type;
+              data.status                    = data.status                   == null? 'ยังไม่เข้ารับ': data.status;
+              data.price                     = data.price                    == null? 'ยังไม่เข้ารับ': data.price;
+              data.pickup_date               = this.dataService.dateFormat(data.pickup_date);
+
+              data.fullname = user.fullname
+              data.email = user.email
+              data.tell = user.tell
+
+              this.datas.push(data)
+            }
           }
           this.source.load(this.datas) // Set data into source
 
@@ -168,9 +202,9 @@ export class ManageUserComponent implements OnInit{
     console.log(this.rowData);
     // Call address for current value selection
     if (event.data.provinces.length > 0 )
-      this.getDistrict(this.rowData.provinces[0].PROVINCE_ID);
+    this.getDistrict(this.rowData.provinces[0].PROVINCE_ID);
     if (event.data.provinces.length > 0 && event.data.districts.length > 0)
-      this.getSubDistrict(this.rowData.districts[0].DISTRICT_ID);
+    this.getSubDistrict(this.rowData.districts[0].DISTRICT_ID);
 
     // Map value each form because value in input not work
     this.edituserForm.controls['fullname'].patchValue(event.data.fullname);
