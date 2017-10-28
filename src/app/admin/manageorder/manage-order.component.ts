@@ -23,7 +23,7 @@ export class ManageOrderComponent implements OnInit{
   private rowData: any; // Data per row for edit
 
   // Form variable
-  private edituserForm: FormGroup;
+  private editorderForm: FormGroup;
   private formInvalid: string;
   private submit: boolean = false;
   private inputLength = {
@@ -35,10 +35,16 @@ export class ManageOrderComponent implements OnInit{
   }
 
   // Other variable
-  @ViewChild('manageUserModal') public manageUserModal: ElementRef; // Give to navbar main for open
-  private provinces: Array<any> = [{title: 'test', value: 3}]
-  private districts: Array<any>;
-  private sub_districts: Array<any>;
+  @ViewChild('manageOrderModal') public manageOrderModal: ElementRef; // Give to navbar main for open
+  private src_provinces: Array<any> = [{title: 'test', value: 3}]
+  private src_districts: Array<any>;
+  private src_sub_districts: Array<any>;
+
+  private dest_provinces: Array<any> = [{title: 'test', value: 3}]
+  private dest_districts: Array<any>;
+  private dest_sub_districts: Array<any>;
+
+  private postman: any; // Get postman information for selection of postman_id
 
 
   public settings = {
@@ -134,24 +140,32 @@ export class ManageOrderComponent implements OnInit{
   ) {
     this.getAllUser();
     this.source = new LocalDataSource(this.datas);
-    this.getProvince();
+    this.getSrcProvince();
+    this.getDestProvince();
   }
 
   ngOnInit() {
     const inputLength = this.inputLength;
 
-    this.edituserForm = this.formBuilder.group({
-      fullname: [null, [ Validators.required, Validators.maxLength(inputLength.fullnameMax) ]],
+    this.editorderForm = this.formBuilder.group({
       tell: [null, [ Validators.required, Validators.minLength(inputLength.tellMin), Validators.maxLength(inputLength.tellMax) ]],
-      type: [null, [ Validators.required, Validators.pattern('personal|enterprise') ]],
-      sub_district: [''],
-      district: [''],
-      province: [''],
-      address_other: ['', [ Validators.maxLength(inputLength.address_otherMax)]],
-      subscribe_sms: ['', [ Validators.required, Validators.pattern('1|0|true|false')  ]],
-      subscribe_line: ['', [ Validators.required, Validators.pattern('1|0|true|false') ]],
-      rejected_order: [0, [ Validators.required, Validators.pattern('[0123]') ]],
-      activated: ['', [ Validators.pattern('1|0|true|false') ]],
+      size: [null, [ Validators.pattern('L|M|S|XL') ]],
+      postmanId: [null],
+      transportType: [null, [ Validators.required, Validators.pattern('EMS|sameday') ]],
+      status: [null, [ Validators.pattern('value1|value2') ]], // insert status after you sure about value
+      price: [null, [ Validators.pattern('[0-9]') ]],
+      pickupDate: ['', [ Validators.required, Validators.pattern('[0-1]{0,1}[0-9]/[0-3]{0,1}[0-9]/[0-9][0-9][0-9][0-9]') ]],
+
+      srcSubdistrict: [null, [ Validators.required ]],
+      srcDistrict: [null, [ Validators.required ]],
+      srcProvince: [null, [ Validators.required ]],
+      srcAddressOther: [null, [ Validators.required, Validators.maxLength(255) ]],
+
+      destSubdistrict: [null, [ Validators.required ]],
+      destDistrict: [null, [ Validators.required ]],
+      destProvince: [null, [ Validators.required ]],
+      destAddressOther: [null, [ Validators.required, Validators.maxLength(255) ]],
+
     })
   }
 
@@ -201,75 +215,131 @@ export class ManageOrderComponent implements OnInit{
   }
 
   toggleModal() {
-    this.manageUserModal.nativeElement.click();
+    this.manageOrderModal.nativeElement.click();
   }
 
   editData(event): void {
     this.rowData = event.data;
     console.log(this.rowData);
-    // Call address for current value selection
-    if (event.data.provinces.length > 0 )
-    this.getDistrict(this.rowData.provinces[0].PROVINCE_ID);
-    if (event.data.provinces.length > 0 && event.data.districts.length > 0)
-    this.getSubDistrict(this.rowData.districts[0].DISTRICT_ID);
+    // Call source address for current value selection
+    if (event.data.src_provinces.length > 0 )
+      this.getSrcDistrict(this.rowData.src_provinces[0].PROVINCE_ID);
+    if (event.data.src_provinces.length > 0 && event.data.src_districts.length > 0)
+      this.getSrcSubDistrict(this.rowData.src_districts[0].DISTRICT_ID);
+
+    // Call dest address for current value selection
+    if (event.data.dest_provinces.length > 0 )
+      this.getDestDistrict(this.rowData.dest_provinces[0].PROVINCE_ID);
+    if (event.data.dest_provinces.length > 0 && event.data.dest_districts.length > 0)
+      this.getDestSubDistrict(this.rowData.dest_districts[0].DISTRICT_ID);
 
     // Map value each form because value in input not work
-    this.edituserForm.controls['fullname'].patchValue(event.data.fullname);
-    this.edituserForm.controls['type'].patchValue(event.data.type);
-    this.edituserForm.controls['rejected_order'].patchValue(event.data.rejected_order);
-    this.edituserForm.controls['tell'].patchValue(event.data.tell);
-    this.edituserForm.controls['sub_district'].patchValue(event.data.sub_districts[0]==undefined? '': event.data.sub_districts[0].SUBDISTRICT_ID);
-    this.edituserForm.controls['district'].patchValue(event.data.districts[0]==undefined? '': event.data.districts[0].DISTRICT_ID);
-    this.edituserForm.controls['province'].patchValue(event.data.provinces[0]==undefined? '': event.data.provinces[0].PROVINCE_ID);
-    this.edituserForm.controls['address_other'].patchValue(event.data.address_other==undefined? '': event.data.address_other);
-    this.edituserForm.controls['subscribe_sms'].patchValue(event.data.subscribe_sms);
-    this.edituserForm.controls['subscribe_line'].patchValue(event.data.subscribe_line);
-    this.edituserForm.controls['activated'].patchValue(event.data.activated);
+    this.editorderForm.controls['tell'].patchValue(event.data.tell);
+    this.editorderForm.controls['size'].patchValue(event.data.size==null? '': event.data.size);
+    this.editorderForm.controls['price'].patchValue(event.data.price);
+    this.editorderForm.controls['postmanId'].patchValue(event.data.postmanId==null? '': event.data.postmanId);
+    this.editorderForm.controls['transportType'].patchValue(event.data.transport_type==null? '': event.data.transport_type);
+    this.editorderForm.controls['status'].patchValue(event.data.status==null? '': event.data.status);
+    this.editorderForm.controls['pickupDate'].patchValue(event.data.pickup_date==null? '': event.data.pickup_date);
 
+    this.editorderForm.controls['srcProvince'].patchValue(event.data.src_provinces[0]==undefined? '': event.data.src_provinces[0].PROVINCE_ID);
+    this.editorderForm.controls['srcDistrict'].patchValue(event.data.src_districts[0]==undefined? '': event.data.src_districts[0].DISTRICT_ID);
+    this.editorderForm.controls['srcSubdistrict'].patchValue(event.data.src_subdistricts[0]==undefined? '': event.data.src_subdistricts[0].SUBDISTRICT_ID);
+    this.editorderForm.controls['srcAddressOther'].patchValue(event.data.src_address_other==undefined? '': event.data.src_address_other);
+
+    this.editorderForm.controls['destProvince'].patchValue(event.data.dest_provinces[0]==undefined? '': event.data.dest_provinces[0].PROVINCE_ID);
+    this.editorderForm.controls['destDistrict'].patchValue(event.data.dest_districts[0]==undefined? '': event.data.dest_districts[0].DISTRICT_ID);
+    this.editorderForm.controls['destSubdistrict'].patchValue(event.data.dest_subdistricts[0]==undefined? '': event.data.dest_subdistricts[0].SUBDISTRICT_ID);
+    this.editorderForm.controls['destAddressOther'].patchValue(event.data.dest_address_other==undefined? '': event.data.dest_address_other);
+
+    console.log(event.data.transport_type);
 
     this.toggleModal();
   }
 
 
-  getProvince() {
+  getSrcProvince() {
     this.dataService.getProvince()
       .subscribe(
         (res: any) => {
-          this.provinces = res;
-          this.districts = undefined;
-          this.sub_districts = undefined;
+          this.src_provinces = res;
+          this.src_districts = undefined;
+          this.src_sub_districts = undefined;
+        },
+      )
+  }
+
+  getSrcDistrict(srcProvinceId) {
+    this.editorderForm.controls['srcSubdistrict'].patchValue('');
+    this.editorderForm.controls['srcDistrict'].patchValue('');
+    if (srcProvinceId > 0) {
+      this.dataService.getDistrict(srcProvinceId)
+        .subscribe(
+          (res: any) => {
+            this.src_districts = res;
+            this.src_sub_districts = undefined;
+          }
+        )
+    } else {
+      this.src_districts = undefined;
+      this.src_sub_districts = undefined;
+    }
+  }
+
+  getSrcSubDistrict(srcDistrictId) {
+    this.editorderForm.controls['srcSubdistrict'].patchValue('');
+    if (srcDistrictId > 0) {
+      this.dataService.getSubdistrict(srcDistrictId)
+        .subscribe(
+          (res: any) => {
+            this.src_sub_districts = res;
+          }
+        )
+    } else {
+      this.src_sub_districts = undefined;
+    }
+  }
+
+
+  getDestProvince() {
+    this.dataService.getProvince()
+      .subscribe(
+        (res: any) => {
+          this.dest_provinces = res;
+          this.dest_districts = undefined;
+          this.dest_sub_districts = undefined;
         }
       )
   }
 
-  getDistrict(provinceId) {
-    this.edituserForm.controls['sub_district'].patchValue('');
-    this.edituserForm.controls['district'].patchValue('');
-    if (provinceId > 0) {
-      this.dataService.getDistrict(provinceId)
+  getDestDistrict(destProvinceId) {
+    this.editorderForm.controls['destSubdistrict'].patchValue('');
+    this.editorderForm.controls['destDistrict'].patchValue('');
+    if (destProvinceId > 0) {
+      this.dataService.getDistrict(destProvinceId)
         .subscribe(
           (res: any) => {
-            this.districts = res;
-            this.sub_districts = undefined;
+            this.dest_districts = res;
+            this.dest_sub_districts = undefined;
           }
         )
     } else {
-      this.districts = undefined;
-      this.sub_districts = undefined;
+      this.dest_districts = undefined;
+      this.dest_sub_districts = undefined;
     }
   }
 
-  getSubDistrict(districtId) {
-    this.edituserForm.controls['sub_district'].patchValue('');
-    if (districtId > 0) {
-      this.dataService.getSubdistrict(districtId)
+  getDestSubDistrict(destDistrictId) {
+    this.editorderForm.controls['destSubdistrict'].patchValue('');
+    if (destDistrictId > 0) {
+      this.dataService.getSubdistrict(destDistrictId)
         .subscribe(
           (res: any) => {
-            this.sub_districts = res;
+            this.dest_sub_districts = res;
           }
         )
     } else {
-      this.sub_districts = undefined;
+      this.dest_sub_districts = undefined;
     }
   }
 

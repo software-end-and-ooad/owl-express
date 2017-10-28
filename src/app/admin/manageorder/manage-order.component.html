@@ -22,8 +22,8 @@
   </div>
 </div>
 
-<!-- ManageUser Modal -->
-<div class="modal fade" id="manageUserModal" tabindex="-1" role="dialog" aria-labelledby="manageUserModalLabel" aria-hidden="true">
+<!-- ManageOrder Modal -->
+<div class="modal fade" id="manageOrderModal" tabindex="-1" role="dialog" aria-labelledby="manageOrderModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-body">
 
@@ -31,37 +31,16 @@
 
         <!--  Modal manage user content  -->
         <div class="card card-signup">
-          <form class="form" [formGroup]="edituserForm" (ngSubmit)="submitEdit(edituserForm.value)" method="POST">
+          <form class="form" [formGroup]="editorderForm" (ngSubmit)="submitEdit(editorderForm.value)" method="POST">
             <div class="content">
 
 
               <div class="col-md-6">
-                <!--Email-->
-                <label class="control-label">อีเมล</label>
-                <div class="is-info label-floating is-empty text-left">
-                  <input type="EMAIL" class="form-control" placeholder="อีเมล" disabled [value]="rowData==undefined? '': rowData.email">
-                </div>
-
-                <!-- Type -->
-                <label class="control-label">ประเภทบุคลกร</label>
-                <select formControlName="type" required class="form-control">
-                  <option value="personal" [selected]="rowData==undefined? false: rowData.type=='personal'? true: false"> บุคคล  </option>
-                  <option value="enterprise" [selected]="rowData==undefined? false: rowData.type=='enterprise'? true: false"> องค์กร  </option>
-                </select>
-
-                <div class="text-left">
-                  <strong class="text-danger text-left" *ngIf="edituserForm.controls['type'].hasError('required')" [hidden]="edituserForm.controls['type'].pristine">กรุณาเลือกประเภทผู้ใช้งาน</strong>
-                </div>
 
                 <!-- Fullname -->
                 <label class="control-label">ชื่อ-สกุล</label>
                 <div class="is-info label-floating is-empty text-left">
-                  <input type="TEXT" class="form-control" required formControlName="fullname" placeholder='ชื่อ-สกุล'>
-                </div>
-
-                <div class="text-left">
-                  <strong class="text-danger text-left" *ngIf="edituserForm.controls['fullname'].hasError('required')" [hidden]="edituserForm.controls['fullname'].pristine">กรุณากรอกชื่อ-สกุล</strong>
-                  <strong class="text-danger text-left" *ngIf="edituserForm.controls['fullname'].hasError('maxlength')" [hidden]="edituserForm.controls['fullname'].pristine"> ชื่อ-สกุล ต้องไม่ยาวกว่า {{ inputLength.fullnameMax }} ตัวอักษร </strong>
+                  <input type="TEXT" class="form-control" required placeholder='ชื่อ-สกุล' disabled>
                 </div>
 
                 <!-- Tell -->
@@ -71,34 +50,77 @@
                 </div>
 
                 <div class="text-left">
-                  <strong class="text-danger text-left" *ngIf="edituserForm.controls['tell'].hasError('required')" [hidden]="edituserForm.controls['tell'].pristine">กรุณากรอกเบอร์ติดต่อ</strong>
+                  <strong class="text-danger text-left" *ngIf="editorderForm.controls['tell'].hasError('required')" [hidden]="editorderForm.controls['tell'].pristine">กรุณากรอกเบอร์ติดต่อ</strong>
                 </div>
 
-                <!-- Subscribe SMS -->
-                <label class="control-label">การรับข่าวสารผ่าน SMS</label>
+                <!-- Size -->
+                <label class="control-label">ขนาด</label>
+                <select formControlName="size" required class="form-control">
+                  <option value="">-- เลือกขนาด --</option>
+
+                  <option value="XL">XL</option>
+                  <option value="L" >L</option>
+                  <option value="M" >M</option>
+                  <option value="S" >S</option>
+                </select>
+
+                <div class="text-left">
+                  <strong class="text-danger text-left" *ngIf="editorderForm.controls['size'].hasError('pattern')" [hidden]="editorderForm.controls['size'].pristine">รูปแบบขนาดไม่ถูกต้อง</strong>
+                </div>
+
+                <!-- Postman ID -->
+                <label class="control-label">ผู้รับผิดชอบ</label>
+                <select formControlName="postmanId" required class="form-control">
+                  <option value="" selected>-- เลือก Postman --</option>
+                </select>
+
+
+                <!-- Transport Type -->
+                <label class="control-label">ประเภทการส่ง</label>
                 <div class="is-empty is-info">
-                  <select formControlName="subscribe_sms" required class="form-control">
-                    <option value="false" [selected]="rowData==undefined? false: rowData.subscribe_sms==false? true: false"> ไม่ได้สมัคร  </option>
-                    <option value="true" [selected]="rowData==undefined? false: rowData.subscribe_sms==true? true: false"> สมัครแล้ว  </option>
+                  <select formControlName="transportType" required class="form-control">
+                    <option value="EMS"> EMS  </option>
+                    <option value="sameday"> วันต่อวัน  </option>
                   </select>
                 </div>
 
                 <div class="text-left">
-                  <strong class="text-danger text-left" *ngIf="edituserForm.controls['subscribe_sms'].hasError('required')" [hidden]="edituserForm.controls['subscribe_sms'].pristine">กรุณาเลือกการรับข่าวสารผ่าน SMS</strong>
-                  <strong class="text-danger text-left" *ngIf="edituserForm.controls['subscribe_sms'].hasError('pattern')" [hidden]="edituserForm.controls['subscribe_sms'].pristine">รูปแบบการเลือกรับข่าวสารผ่าน SMS ไม่ถูกต้อง</strong>
+                  <strong class="text-danger text-left" *ngIf="editorderForm.controls['transportType'].hasError('required')" [hidden]="editorderForm.controls['transportType'].pristine">กรุณาเลือกประเภทการส่ง</strong>
+                  <strong class="text-danger text-left" *ngIf="editorderForm.controls['transportType'].hasError('pattern')" [hidden]="editorderForm.controls['transportType'].pristine">รูปแบบการเลือกประเภทการส่งไม่ถูกต้อง</strong>
                 </div>
 
-                <!-- Activate Account -->
-                <label class="control-label">การยืนยันตัวตน</label>
+                <!-- Status -->
+                <label class="control-label">สถานะพัสดุ</label>
                 <div class="is-empty is-info">
-                  <select formControlName="activated" required class="form-control">
-                    <option value="false" [selected]="rowData==undefined? false: rowData.activated==false? true: false"> ยังไม่ได้ยืนยัน  </option>
-                    <option value="true" [selected]="rowData==undefined? false: rowData.activated==true? true: false"> ยืนยันแล้ว  </option>
+                  <select formControlName="status" required class="form-control">
+                    <option value="value1">value1</option>
+                    <option value="value2">value2</option>
                   </select>
                 </div>
 
                 <div class="text-left">
-                  <strong class="text-danger text-left" *ngIf="edituserForm.controls['activated'].hasError('pattern')" [hidden]="edituserForm.controls['activated'].pristine">รูปแบบการยืนยันตัวตนไม่ถูกต้อง</strong>
+                  <strong class="text-danger text-left" *ngIf="editorderForm.controls['status'].hasError('pattern')" [hidden]="editorderForm.controls['status'].pristine">รูปแบบสถานะพัสดุไม่ถูกต้อง</strong>
+                </div>
+
+                <!-- Price -->
+                <label class="control-label">ราคา</label>
+                <div class="is-empty is-info">
+                  <input type="NUMBER" class="form-control" required formControlName="price" placeholder="ราคาพัสดุ" />
+                </div>
+
+                <div class="text-left">
+                  <strong class="text-danger text-left" *ngIf="editorderForm.controls['price'].hasError('pattern')" [hidden]="editorderForm.controls['price'].pristine || editorderForm.controls['price'].value==null">รูปแบบราคาไม่ถูกต้อง</strong>
+                </div>
+
+                <!-- Pickup Date -->
+                <label class="control-label">วันที่รับล่วงหน้า MM/DD/YYYY</label>
+                <div class="is-empty is-info">
+                  <input type="TEXT" class="form-control" required formControlName="pickupDate" placeholder="วันที่รับล่วงหน้า MM/DD/YYYY" />
+                </div>
+
+                <div class="text-left">
+                  <strong class="text-danger text-left" *ngIf="editorderForm.controls['pickupDate'].hasError('required')" [hidden]="editorderForm.controls['pickupDate'].pristine">กรุณากรอกวันที่รับล่วงหน้า</strong>
+                  <strong class="text-danger text-left" *ngIf="editorderForm.controls['pickupDate'].hasError('pattern')" [hidden]="editorderForm.controls['pickupDate'].pristine">รูปแบบวันที่รับล่วงหน้าไม่ถูกต้อง</strong>
                 </div>
 
 
@@ -106,67 +128,80 @@
 
               <div class="col-md-6">
 
-                <!-- Rejected Order -->
-                <label class="control-label">จำนวนครั้งการปฏเสธการเข้ารับของ</label>
+                <!-- Source Province -->
+                <label class="control-label">จังหวัดต้นทาง</label>
                 <div class="is-empty is-info">
-                  <input type="NUMBER" class="form-control" required formControlName="rejected_order" placeholder="จำนวนครั้งที่ถูกปฏิเสธหรือยกเลิกการเข้ารับของ" />
-                </div>
-
-                <div class="text-left">
-                  <strong class="text-danger text-left" *ngIf="edituserForm.controls['rejected_order'].hasError('required')" [hidden]="edituserForm.controls['rejected_order'].pristine">กรุณาระบุจำนวนครั้งการปฏิเสธการเข้ารับของ</strong>
-                  <strong class="text-danger text-left" *ngIf="edituserForm.controls['rejected_order'].hasError('pattern')" [hidden]="edituserForm.controls['rejected_order'].pristine">รูปแบบจำนวนครั้งการปฏิเสธการเข้ารับของไม่ถูกต้อง</strong>
-                </div>
-
-                <!-- Subdistrict -->
-                <label class="control-label">ตำบล</label>
-                <div class="is-empty is-info">
-                  <select formControlName="sub_district" required class="form-control">
-                    <option value="" [selected]="rowData==undefined? false: rowData.sub_districts.length==0? false: rowData.sub_districts[0].SUBDISTRICT_ID==undefined? true: false">เลือกตำบล</option>
-                    <option *ngFor="let subdistrict of sub_districts!=undefined? sub_districts: []" [value]="sub_districts==undefined? null: subdistrict.SUBDISTRICT_ID" [selected]="sub_districts==undefined? false: rowData==undefined? false: rowData.sub_districts.length==0? false: subdistrict.SUBDISTRICT_ID==rowData.sub_districts[0].SUBDISTRICT_ID? true: false"> {{ sub_districts==undefined? '': subdistrict.SUBDISTRICT_NAME }} </option>
-                  </select>
-                </div>
-
-                <!-- District -->
-                <label class="control-label">อำเภอ</label>
-                <div class="is-empty is-info">
-                  <select formControlName="district" required class="form-control" (change)="getSubDistrict($event.target.value)">
-                    <option value="" [selected]="rowData==undefined? false: rowData.districts.length==0? false: rowData.districts[0].DISTRICT_ID==undefined? true: false">เลือกอำเภอ</option>
-                    <option *ngFor="let district of districts!=undefined? districts: []" [value]="districts==undefined? null: district.DISTRICT_ID" [selected]="districts==undefined? false: rowData==undefined? false: rowData.districts.length==0? false: district.DISTRICT_ID==rowData.districts[0].DISTRICT_ID? true: false"> {{ districts==undefined? '': district.DISTRICT_NAME }} </option>
-                  </select>
-                </div>
-
-                <!-- Province -->
-                <label class="control-label">จังหวัด</label>
-                <div class="is-empty is-info">
-                  <select formControlName="province" required class="form-control" (change)="getDistrict($event.target.value)">
+                  <select formControlName="srcProvince" required class="form-control" (change)="getDistrict($event.target.value)">
                     <option value="">เลือกจังหวัด</option>
-                    <option *ngFor="let province of provinces!=undefined? provinces: []" [value]="provinces==undefined? '': province.PROVINCE_ID" [selected]="provinces==undefined? false: rowData==undefined? false: rowData.provinces.length==0? false: province.PROVINCE_ID==rowData.provinces[0].PROVINCE_ID? true: false"> {{ provinces==undefined? '':  province.PROVINCE_NAME }}  </option>
+                    <option *ngFor="let province of src_provinces!=undefined? src_provinces: []" [value]="src_provinces==undefined? '': province.PROVINCE_ID" [selected]="src_provinces==undefined? false: rowData==undefined? false: rowData.src_provinces==undefined? false: rowData.src_provinces.length==0? false: province.PROVINCE_ID==rowData.src_provinces[0].PROVINCE_ID? true: false"> {{ src_provinces==undefined? '':  province.PROVINCE_NAME }}  </option>
                   </select>
                 </div>
 
-                <!-- Address Other -->
-                <label class="control-label">รายละเอียดที่อยู่เพิ่มเติม</label>
+                <!-- Source District -->
+                <label class="control-label">อำเภอต้นทาง</label>
+                <div class="is-empty is-info">
+                  <select formControlName="srcDistrict" required class="form-control" (change)="getSubDistrict($event.target.value)">
+                    <option value="" [selected]="rowData==undefined? false: rowData.src_districts.length==0? false: rowData.src_districts[0].DISTRICT_ID==undefined? true: false">เลือกอำเภอ</option>
+                    <option *ngFor="let district of src_districts!=undefined? src_districts: []" [value]="src_districts==undefined? null: district.DISTRICT_ID" [selected]="src_districts==undefined? false: rowData==undefined? false: rowData.src_sub_districts==undefined? false: rowData.src_districts.length==0? false: district.DISTRICT_ID==rowData.src_districts[0].DISTRICT_ID? true: false"> {{ src_districts==undefined? '': district.DISTRICT_NAME }} </option>
+                  </select>
+                </div>
+
+                <!-- Source Subdistrict -->
+                <label class="control-label">ตำบลต้นทาง</label>
+                <div class="is-empty is-info">
+                  <select formControlName="srcSubdistrict" required class="form-control">
+                    <option value="" [selected]="rowData==undefined? false: rowData.src_provinces.length==0? false: rowData.src_provinces[0].SUBDISTRICT_ID==undefined? true: false">เลือกตำบล</option>
+                    <option *ngFor="let subdistrict of src_sub_districts!=undefined? src_sub_districts: []" [value]="src_sub_districts==undefined? null: subdistrict.SUBDISTRICT_ID" [selected]="src_sub_districts==undefined? false: rowData==undefined? false: rowData.src_sub_districts==undefined? false: rowData.src_sub_districts.length==0? false: subdistrict.SUBDISTRICT_ID==rowData.src_sub_districts[0].SUBDISTRICT_ID? true: false"> {{ src_sub_districts==undefined? '': subdistrict.SUBDISTRICT_NAME }} </option>
+                  </select>
+                </div>
+
+                <!-- Source Address Other -->
+                <label class="control-label">รายละเอียดที่อยู่ต้นทางเพิ่มเติม</label>
                 <div class="is-info label-floating is-empty text-left">
-                  <input type="TEXT" class="form-control" required formControlName="address_other" placeholder="รายละเอียดที่อยู่เพิ่มเติม" >
+                  <input type="TEXT" class="form-control" required formControlName="srcAddressOther" placeholder="รายละเอียดที่อยู่ต้นทางเพิ่มเติม" >
                 </div>
 
                   <div class="text-left">
-                    <strong class="text-danger text-left" *ngIf="edituserForm.controls['address_other'].hasError('maxlength')" [hidden]="edituserForm.controls['address_other'].pristine">รายละเอียดที่อยู่ยาวกว่า {{ inputLength.address_otherMax }} ตัวอักษร</strong>
+                    <strong class="text-danger text-left" *ngIf="editorderForm.controls['srcAddressOther'].hasError('maxlength')" [hidden]="editorderForm.controls['srcAddressOther'].pristine">รายละเอียดที่อยู่ยาวกว่า {{ inputLength.srcAddressOtherMax }} ตัวอักษร</strong>
                   </div>
 
-                  <!-- Subscribe Line -->
-                  <label class="control-label">การติดตามข่าวสารผ่าน Line</label>
+                  <!-- Dest Province -->
+                  <label class="control-label">จังหวัดปลายทาง</label>
                   <div class="is-empty is-info">
-                    <select formControlName="subscribe_line" required class="form-control">
-                      <option value="false" [selected]="rowData==undefined? false: rowData.subscribe_line==false? true: false"> ไม่ได้สมัคร  </option>
-                      <option value="true" [selected]="rowData==undefined? false: rowData.subscribe_line==true? true: false"> สมัครแล้ว  </option>
+                    <select formControlName="destProvince" required class="form-control" (change)="getDistrict($event.target.value)">
+                      <option value="">เลือกจังหวัด</option>
+                    <option *ngFor="let province of dest_provinces!=undefined? dest_provinces: []" [value]="dest_provinces==undefined? '': province.PROVINCE_ID" [selected]="dest_provinces==undefined? false: rowData==undefined? false: rowData.dest_provinces==undefined? false: rowData.dest_provinces.length==0? false: province.PROVINCE_ID==rowData.dest_provinces[0].PROVINCE_ID? true: false"> {{ dest_provinces==undefined? '':  province.PROVINCE_NAME }}  </option>
                     </select>
                   </div>
 
-                  <div class="text-left">
-                    <strong class="text-danger text-left" *ngIf="edituserForm.controls['subscribe_line'].hasError('required')" [hidden]="edituserForm.controls['subscribe_line'].pristine">กรุณาเลือกการรับข่าวสารผ่าน Line</strong>
-                    <strong class="text-danger text-left" *ngIf="edituserForm.controls['subscribe_line'].hasError('pattern')" [hidden]="edituserForm.controls['subscribe_line'].pristine">รูปแบบการเลือกข่าวสารผ่าน Line ไม่ถุกต้อง</strong>
+                  <!-- Dest District -->
+                  <label class="control-label">อำเภอปลายทาง</label>
+                  <div class="is-empty is-info">
+                    <select formControlName="destDistrict" required class="form-control" (change)="getSubDistrict($event.target.value)">
+                    <option value="" [selected]="rowData==undefined? false: rowData.dest_districts.length==0? false: rowData.dest_districts[0].DISTRICT_ID==undefined? true: false">เลือกอำเภอ</option>
+                    <option *ngFor="let district of dest_districts!=undefined? dest_districts: []" [value]="dest_districts==undefined? null: district.DISTRICT_ID" [selected]="dest_districts==undefined? false: rowData==undefined? false: rowData.dest_districts.length==undefined? false: rowData.dest_districts.length==undefined? false: rowData.dest_districts.length==0? false: district.DISTRICT_ID==rowData.dest_districts[0].DISTRICT_ID? true: false"> {{ dest_districts==undefined? '': district.DISTRICT_NAME }} </option>
+                    </select>
                   </div>
+
+                  <!-- Dest Subdistrict -->
+                  <label class="control-label">ตำบลปลายทาง</label>
+                  <div class="is-empty is-info">
+                    <select formControlName="destSubdistrict" required class="form-control">
+                    <option value="" [selected]="rowData==undefined? false: rowData.dest_provinces.length==0? false: rowData.dest_provinces[0].SUBDISTRICT_ID==undefined? true: false">เลือกตำบล</option>
+                    <option *ngFor="let subdistrict of dest_sub_districts!=undefined? dest_sub_districts: []" [value]="dest_sub_districts==undefined? null: subdistrict.SUBDISTRICT_ID" [selected]="dest_sub_districts==undefined? false: rowData==undefined? false: rowData.dest_sub_districts==undefined? false: rowData.dest_sub_districts.length==0? false: subdistrict.SUBDISTRICT_ID==rowData.dest_sub_districts[0].SUBDISTRICT_ID? true: false"> {{ dest_sub_districts==undefined? '': subdistrict.SUBDISTRICT_NAME }} </option>
+                    </select>
+                  </div>
+
+                  <!-- Dest Address Other -->
+                  <label class="control-label">รายละเอียดที่อยู่ปลายทางเพิ่มเติม</label>
+                  <div class="is-info label-floating is-empty text-left">
+                    <input type="TEXT" class="form-control" required formControlName="destAddressOther" placeholder="รายละเอียดที่อยู่ปลายทางเพิ่มเติม" >
+                  </div>
+
+                    <div class="text-left">
+                      <strong class="text-danger text-left" *ngIf="editorderForm.controls['destAddressOther'].hasError('maxlength')" [hidden]="editorderForm.controls['destAddressOther'].pristine">รายละเอียดที่อยู่ยาวกว่า {{ inputLength.destAddressOtherMax }} ตัวอักษร</strong>
+                    </div>
+
               </div>
 
               <!-- 400 Bad Request Message -->
@@ -190,9 +225,9 @@
 
       </div>
 
-      <div data-toggle="modal" data-target="#manageUserModal" #manageUserModal style="display: none"></div>
+      <div data-toggle="modal" data-target="#manageOrderModal" #manageOrderModal style="display: none"></div>
     </div>
   </div>
 </div>
-<!-- ManageUser Modal -->
+<!-- ManageOrder Modal -->
 
