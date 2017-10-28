@@ -43,7 +43,6 @@ export class LoginComponent implements OnInit {
       .subscribe(
         res => {
           setTimeout(() => {
-            this.submit = false;
             this.formInvalid = null;
             this.mainComponent.loginModal.nativeElement.click();
           }, 1500);
@@ -74,7 +73,6 @@ export class LoginComponent implements OnInit {
       .subscribe(
         res => {
           setTimeout(() => {
-            this.submit = false;
             this.formInvalid = null;
             this.mainComponent.loginModal.nativeElement.click();
           }, 1500);

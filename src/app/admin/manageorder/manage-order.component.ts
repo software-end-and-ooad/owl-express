@@ -43,11 +43,13 @@ export class ManageOrderComponent implements OnInit{
 
   public settings = {
     columns: {
-      email: {
-        title: 'อีเมล'
-      },
+      //email: {
+        //title: 'อีเมล',
+        //width: '1%'
+      //},
       fullname: {
-        title: 'ชื่อ-สกุล'
+        title: 'ชื่อ-สกุล',
+        width: '9%'
       },
       tell: {
         title: 'เบอร์ติดต่อ'
@@ -56,7 +58,8 @@ export class ManageOrderComponent implements OnInit{
         title: 'ขนาด'
       },
       postman_id: {
-        title: 'ผู้รับผิดชอบ'
+        title: 'ผู้รับผิดชอบ',
+        width: '6%'
       },
       transport_type: {
         title: 'รูปแบบการส่ง'
@@ -72,9 +75,11 @@ export class ManageOrderComponent implements OnInit{
       },
       src_sub_district_content: {
         title: 'ตำบลต้นทาง',
+        width: '7%'
       },
       src_district_content: {
         title: 'อำเภอต้นทาง',
+        width: '6%'
       },
       src_province_content: {
         title: 'จังหวัดต้นทาง',
@@ -84,9 +89,11 @@ export class ManageOrderComponent implements OnInit{
       },
       dest_sub_district_content: {
         title: 'ตำบลปลายทาง',
+        width: '7%'
       },
       dest_district_content: {
         title: 'อำเภอปลายทาง',
+        width: '6%'
       },
       dest_province_content: {
         title: 'จังหวัดปลายทาง',
@@ -179,7 +186,7 @@ export class ManageOrderComponent implements OnInit{
               data.pickup_date               = this.dataService.dateFormat(data.pickup_date);
 
               data.fullname = user.fullname
-              data.email = user.email
+              //data.email = user.email
               data.tell = user.tell
 
               this.datas.push(data)
