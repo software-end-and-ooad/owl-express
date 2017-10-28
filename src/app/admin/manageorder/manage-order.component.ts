@@ -153,7 +153,7 @@ export class ManageOrderComponent implements OnInit{
       postmanId: [null],
       transportType: [null, [ Validators.required, Validators.pattern('EMS|sameday') ]],
       status: [null, [ Validators.pattern('value1|value2') ]], // insert status after you sure about value
-      price: [null, [ Validators.pattern('[0-9]') ]],
+      price: [null, [ Validators.pattern('[0-9]*') ]],
       pickupDate: ['', [ Validators.required, Validators.pattern('[0-1]{0,1}[0-9]/[0-3]{0,1}[0-9]/[0-9][0-9][0-9][0-9]') ]],
 
       srcSubdistrict: [null, [ Validators.required ]],
