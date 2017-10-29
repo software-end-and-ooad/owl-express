@@ -131,7 +131,7 @@
                 <!-- Source Province -->
                 <label class="control-label">จังหวัดต้นทาง</label>
                 <div class="is-empty is-info">
-                  <select formControlName="srcProvince" required class="form-control" (change)="getDistrict($event.target.value)">
+                  <select formControlName="srcProvince" required class="form-control" (change)="getSrcDistrict($event.target.value)">
                     <option value="">เลือกจังหวัด</option>
                     <option *ngFor="let province of src_provinces!=undefined? src_provinces: []" [value]="src_provinces==undefined? '': province.PROVINCE_ID" [selected]="src_provinces==undefined? false: rowData==undefined? false: rowData.src_provinces==undefined? false: rowData.src_provinces.length==0? false: province.PROVINCE_ID==rowData.src_provinces[0].PROVINCE_ID? true: false"> {{ src_provinces==undefined? '':  province.PROVINCE_NAME }}  </option>
                   </select>
@@ -140,7 +140,7 @@
                 <!-- Source District -->
                 <label class="control-label">อำเภอต้นทาง</label>
                 <div class="is-empty is-info">
-                  <select formControlName="srcDistrict" required class="form-control" (change)="getSubDistrict($event.target.value)">
+                  <select formControlName="srcDistrict" required class="form-control" (change)="getSrcSubDistrict($event.target.value)">
                     <option value="" [selected]="rowData==undefined? false: rowData.src_districts.length==0? false: rowData.src_districts[0].DISTRICT_ID==undefined? true: false">เลือกอำเภอ</option>
                     <option *ngFor="let district of src_districts!=undefined? src_districts: []" [value]="src_districts==undefined? null: district.DISTRICT_ID" [selected]="src_districts==undefined? false: rowData==undefined? false: rowData.src_sub_districts==undefined? false: rowData.src_districts.length==0? false: district.DISTRICT_ID==rowData.src_districts[0].DISTRICT_ID? true: false"> {{ src_districts==undefined? '': district.DISTRICT_NAME }} </option>
                   </select>
@@ -168,16 +168,16 @@
                   <!-- Dest Province -->
                   <label class="control-label">จังหวัดปลายทาง</label>
                   <div class="is-empty is-info">
-                    <select formControlName="destProvince" required class="form-control" (change)="getDistrict($event.target.value)">
+                    <select formControlName="destProvince" required class="form-control" (change)="getDestDistrict($event.target.value)">
                       <option value="">เลือกจังหวัด</option>
-                    <option *ngFor="let province of dest_provinces!=undefined? dest_provinces: []" [value]="dest_provinces==undefined? '': province.PROVINCE_ID" [selected]="dest_provinces==undefined? false: rowData==undefined? false: rowData.dest_provinces==undefined? false: rowData.dest_provinces.length==0? false: province.PROVINCE_ID==rowData.dest_provinces[0].PROVINCE_ID? true: false"> {{ dest_provinces==undefined? '':  province.PROVINCE_NAME }}  </option>
+                      <option *ngFor="let province of dest_provinces!=undefined? dest_provinces: []" [value]="dest_provinces==undefined? '': province.PROVINCE_ID" [selected]="dest_provinces==undefined? false: rowData==undefined? false: rowData.dest_provinces==undefined? false: rowData.dest_provinces.length==0? false: province.PROVINCE_ID==rowData.dest_provinces[0].PROVINCE_ID? true: false"> {{ dest_provinces==undefined? '':  province.PROVINCE_NAME }}  </option>
                     </select>
                   </div>
 
                   <!-- Dest District -->
                   <label class="control-label">อำเภอปลายทาง</label>
                   <div class="is-empty is-info">
-                    <select formControlName="destDistrict" required class="form-control" (change)="getSubDistrict($event.target.value)">
+                    <select formControlName="destDistrict" required class="form-control" (change)="getDestSubDistrict($event.target.value)">
                     <option value="" [selected]="rowData==undefined? false: rowData.dest_districts.length==0? false: rowData.dest_districts[0].DISTRICT_ID==undefined? true: false">เลือกอำเภอ</option>
                     <option *ngFor="let district of dest_districts!=undefined? dest_districts: []" [value]="dest_districts==undefined? null: district.DISTRICT_ID" [selected]="dest_districts==undefined? false: rowData==undefined? false: rowData.dest_districts.length==undefined? false: rowData.dest_districts.length==undefined? false: rowData.dest_districts.length==0? false: district.DISTRICT_ID==rowData.dest_districts[0].DISTRICT_ID? true: false"> {{ dest_districts==undefined? '': district.DISTRICT_NAME }} </option>
                     </select>
