@@ -150,11 +150,11 @@ export class ManageOrderComponent implements OnInit{
     this.editorderForm = this.formBuilder.group({
       fullname: [null], // Init for input value
       tell: [null, [ Validators.required, Validators.minLength(inputLength.tellMin), Validators.maxLength(inputLength.tellMax) ]],
-      size: [null, [ Validators.pattern('L|M|S|XL') ]],
+      size: [null, [ Validators.required, Validators.pattern('L|M|S|XL') ]],
       postmanId: [null],
       transportType: [null, [ Validators.required, Validators.pattern('EMS|sameday') ]],
-      status: [null, [ Validators.pattern('1|2|3|4') ]], // insert status after you sure about value
-      price: [null, [ Validators.pattern('[0-9]*') ]],
+      status: [null, [ Validators.required, Validators.pattern('1|2|3|4') ]], // insert status after you sure about value
+      price: [null, [ Validators.required, Validators.pattern('[0-9]*') ]],
       pickupDate: ['', [ Validators.required, Validators.pattern('[0-1]{0,1}[0-9]/[0-3]{0,1}[0-9]/[0-9][0-9][0-9][0-9]') ]],
       track: [null], // Defined for send unique id of item to update
 
@@ -359,7 +359,7 @@ export class ManageOrderComponent implements OnInit{
           this.notififyService.showNotification('success', 'แก้ไขพัสดุเรียบร้อยแล้ว', '');
         },
         (err: any) => {
-          this.inputLength.other = 'กรุณาตรวจสอบการกรอกข้อมูลให้ถูกต้อง';
+          this.inputLength.other = 'กรุณาตรวจสอบการกรอกข้อมูลให้ถูกต้องและครบถ้วน';
           console.log(err.error.data);
           console.log('error');
         }

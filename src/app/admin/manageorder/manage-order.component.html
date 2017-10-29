@@ -67,6 +67,7 @@
                 </select>
 
                 <div class="text-left">
+                  <strong class="text-danger text-left" *ngIf="editorderForm.controls['size'].hasError('required')" [hidden]="editorderForm.controls['size'].pristine">กรุณาระบุขนาด</strong>
                   <strong class="text-danger text-left" *ngIf="editorderForm.controls['size'].hasError('pattern')" [hidden]="editorderForm.controls['size'].pristine">รูปแบบขนาดไม่ถูกต้อง</strong>
                 </div>
 
@@ -104,6 +105,7 @@
                 </div>
 
                 <div class="text-left">
+                  <strong class="text-danger text-left" *ngIf="editorderForm.controls['status'].hasError('required')" [hidden]="editorderForm.controls['status'].pristine">กรุณาระบุสถานะพัสดุ</strong>
                   <strong class="text-danger text-left" *ngIf="editorderForm.controls['status'].hasError('pattern')" [hidden]="editorderForm.controls['status'].pristine">รูปแบบสถานะพัสดุไม่ถูกต้อง</strong>
                 </div>
 
@@ -114,6 +116,7 @@
                 </div>
 
                 <div class="text-left">
+                  <strong class="text-danger text-left" *ngIf="editorderForm.controls['price'].hasError('required')" [hidden]="editorderForm.controls['price'].untouched || editorderForm.controls['price'].value==null">กรุณาระบุราคา</strong>
                   <strong class="text-danger text-left" *ngIf="editorderForm.controls['price'].hasError('pattern')" [hidden]="editorderForm.controls['price'].pristine || editorderForm.controls['price'].value==null">รูปแบบราคาไม่ถูกต้อง</strong>
                 </div>
 
