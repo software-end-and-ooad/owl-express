@@ -97,10 +97,10 @@
                 <div class="is-empty is-info">
                   <select formControlName="status" required class="form-control">
                     <option value="" selected>-- เลือกสถานะ --</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
+                    <option value="1" [selected]="editorderForm.controls['status'].value==1">เข้ารับพัสดุแล้ว</option>
+                    <option value="2" [selected]="editorderForm.controls['status'].value==2">พัสดุถึงศูนย์คัดแยกสินค้า</option>
+                    <option value="3" [selected]="editorderForm.controls['status'].value==3">พัสดุถึงสาขาปลายทาง</option>
+                    <option value="4" [selected]="editorderForm.controls['status'].value==4">ปลายทางได้รับเรียบร้อยแล้ว</option>
                   </select>
                 </div>
 

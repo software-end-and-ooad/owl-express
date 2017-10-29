@@ -70,7 +70,7 @@ export class ManageOrderComponent implements OnInit{
       transport_type: {
         title: 'รูปแบบการส่ง'
       },
-      status: {
+      status_content: {
         title: 'สถานะพัสดุ'
       },
       price: {
@@ -197,7 +197,7 @@ export class ManageOrderComponent implements OnInit{
               data.size                      = data.size                     == 0? 'ไม่ระบุ': data.size;
               data.postman_id                = data.postman_id               == null? 'ยังไม่เข้ารับ': data.postman_id;
               data.transport_type            = data.transport_type;
-              data.status                    = data.status                   == null? 'ยังไม่เข้ารับ': data.status;
+              data.status_content            = data.status                   == 1? 'เข้ารับพัสดุแล้ว': data.status==2? 'พัสดุถึงศูนย์คัดแยกสินค้า': data.status==3? 'พัสดุถึงสาขาปลายทาง': data.status==4? 'ปลายทางได้รับเรียบร้อยแล้ว': 'ยังไม่เข้ารับ';
               data.price                     = data.price                    == null? 'ยังไม่เข้ารับ': data.price;
               data.pickup_date               = this.dataService.dateFormat(data.pickup_date);
 
