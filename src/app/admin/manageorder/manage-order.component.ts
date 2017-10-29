@@ -138,7 +138,7 @@ export class ManageOrderComponent implements OnInit{
     private formBuilder: FormBuilder,
     private notififyService: NotificationService
   ) {
-    this.getAllUser();
+    this.getAllOrder();
     this.source = new LocalDataSource(this.datas);
     this.getSrcProvince();
     this.getDestProvince();
@@ -153,7 +153,7 @@ export class ManageOrderComponent implements OnInit{
       size: [null, [ Validators.pattern('L|M|S|XL') ]],
       postmanId: [null],
       transportType: [null, [ Validators.required, Validators.pattern('EMS|sameday') ]],
-      status: [null, [ Validators.pattern('value1|value2') ]], // insert status after you sure about value
+      status: [null, [ Validators.pattern('1|2|3|4') ]], // insert status after you sure about value
       price: [null, [ Validators.pattern('[0-9]*') ]],
       pickupDate: ['', [ Validators.required, Validators.pattern('[0-1]{0,1}[0-9]/[0-3]{0,1}[0-9]/[0-9][0-9][0-9][0-9]') ]],
       track: [null], // Defined for send unique id of item to update
@@ -172,7 +172,7 @@ export class ManageOrderComponent implements OnInit{
   }
 
 
-  getAllUser() {
+  getAllOrder() {
     const headers = new HttpHeaders({
       'Authorization': 'bearer ' + this.dataAdminService.getToken()
     })
@@ -351,12 +351,12 @@ export class ManageOrderComponent implements OnInit{
       'Authorization': 'bearer ' + this.dataAdminService.getToken()
     })
 
-    this.http.post(API.adminProtect.edituser, value, {headers: headers})
+    this.http.post(API.adminProtect.editOrder, value, {headers: headers})
       .subscribe(
         (res: any) => {
-          this.getAllUser();
+          this.getAllOrder();
           this.toggleModal();
-          this.notififyService.showNotification('success', 'แก้ไขข้อมูลผู้ใช้เรียบร้อยแล้ว', '');
+          this.notififyService.showNotification('success', 'แก้ไขพัสดุเรียบร้อยแล้ว', '');
         },
         (err: any) => {
           this.inputLength.other = 'กรุณาตรวจสอบการกรอกข้อมูลให้ถูกต้อง';

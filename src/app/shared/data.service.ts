@@ -109,7 +109,7 @@ export class DataService {
   }
 
   dateFormat(date: Date) { // Set date format to MM/DD/YYYY
-    return  new Date(date).getMonth() + '/' + new Date(date).getDate() + '/' + new Date(date).getFullYear();
+    return  new Date(date).getMonth() + 1 + '/' + new Date(date).getDate() + '/' + new Date(date).getFullYear();
   }
 
 }

@@ -95,9 +95,11 @@
                 <label class="control-label">สถานะพัสดุ</label>
                 <div class="is-empty is-info">
                   <select formControlName="status" required class="form-control">
-                    <option value="">-- เลือกสถานะ --</option>
-                    <option value="value1">value1</option>
-                    <option value="value2">value2</option>
+                    <option value="" selected>-- เลือกสถานะ --</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
                   </select>
                 </div>
 
@@ -161,7 +163,7 @@
                 <!-- Source Address Other -->
                 <label class="control-label">รายละเอียดที่อยู่ต้นทางเพิ่มเติม</label>
                 <div class="is-info label-floating is-empty text-left">
-                  <input type="TEXT" class="form-control" required formControlName="srcAddressOther" placeholder="รายละเอียดที่อยู่ต้นทางเพิ่มเติม" >
+                  <textarea type="TEXT" class="form-control" required formControlName="srcAddressOther" placeholder="รายละเอียดที่อยู่ต้นทางเพิ่มเติม" ></textarea>
                 </div>
 
                   <div class="text-left">
@@ -198,7 +200,7 @@
                   <!-- Dest Address Other -->
                   <label class="control-label">รายละเอียดที่อยู่ปลายทางเพิ่มเติม</label>
                   <div class="is-info label-floating is-empty text-left">
-                    <input type="TEXT" class="form-control" required formControlName="destAddressOther" placeholder="รายละเอียดที่อยู่ปลายทางเพิ่มเติม" >
+                    <textarea type="TEXT" class="form-control" required formControlName="destAddressOther" placeholder="รายละเอียดที่อยู่ปลายทางเพิ่มเติม" ></textarea>
                   </div>
 
                     <div class="text-left">
