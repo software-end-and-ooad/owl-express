@@ -40,17 +40,19 @@
                 <!-- Fullname -->
                 <label class="control-label">ชื่อ-สกุล</label>
                 <div class="is-info label-floating is-empty text-left">
-                  <input type="TEXT" class="form-control" required placeholder='ชื่อ-สกุล' disabled>
+                  <input type="TEXT" class="form-control" formControlName="fullname" required placeholder='ชื่อ-สกุล' disabled>
                 </div>
 
                 <!-- Tell -->
                 <label class="control-label">เบอร์ติดต่อ</label>
                 <div class="is-info label-floating is-empty text-left">
-                  <input type="TEXT" class="form-control" required formControlName="tell" placeholder="เบอร์ติดต่อ">
+                  <input type="TEXT" class="form-control" required formControlName="tell" placeholder="เบอร์ติดต่อ" disabled>
                 </div>
 
                 <div class="text-left">
                   <strong class="text-danger text-left" *ngIf="editorderForm.controls['tell'].hasError('required')" [hidden]="editorderForm.controls['tell'].pristine">กรุณากรอกเบอร์ติดต่อ</strong>
+                  <strong class="text-danger text-left" *ngIf="editorderForm.controls['tell'].hasError('minlength')" [hidden]="editorderForm.controls['tell'].pristine">เบอร์โทรศัพท์ต้องไม่น้อยกว่า {{ inputLength.tellMin }} ตัวอักษร</strong>
+                  <strong class="text-danger text-left" *ngIf="editorderForm.controls['tell'].hasError('maxlength')" [hidden]="editorderForm.controls['tell'].pristine">เบอร์โทรศัพท์ต้องไม่เกิน {{ inputLength.tellMax }} ตัวอักษร</strong>
                 </div>
 
                 <!-- Size -->
@@ -93,6 +95,7 @@
                 <label class="control-label">สถานะพัสดุ</label>
                 <div class="is-empty is-info">
                   <select formControlName="status" required class="form-control">
+                    <option value="">-- เลือกสถานะ --</option>
                     <option value="value1">value1</option>
                     <option value="value2">value2</option>
                   </select>
@@ -162,7 +165,7 @@
                 </div>
 
                   <div class="text-left">
-                    <strong class="text-danger text-left" *ngIf="editorderForm.controls['srcAddressOther'].hasError('maxlength')" [hidden]="editorderForm.controls['srcAddressOther'].pristine">รายละเอียดที่อยู่ยาวกว่า {{ inputLength.srcAddressOtherMax }} ตัวอักษร</strong>
+                    <strong class="text-danger text-left" *ngIf="editorderForm.controls['srcAddressOther'].hasError('maxlength')" [hidden]="editorderForm.controls['srcAddressOther'].pristine">รายละเอียดที่อยู่ยาวกว่า {{ inputLength.address_otherMax }} ตัวอักษร</strong>
                   </div>
 
                   <!-- Dest Province -->
