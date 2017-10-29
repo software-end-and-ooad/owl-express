@@ -155,6 +155,7 @@ export class ManageOrderComponent implements OnInit{
       status: [null, [ Validators.pattern('value1|value2') ]], // insert status after you sure about value
       price: [null, [ Validators.pattern('[0-9]*') ]],
       pickupDate: ['', [ Validators.required, Validators.pattern('[0-1]{0,1}[0-9]/[0-3]{0,1}[0-9]/[0-9][0-9][0-9][0-9]') ]],
+      track: [null], // Defined for send unique id of item to update
 
       srcSubdistrict: [null, [ Validators.required ]],
       srcDistrict: [null, [ Validators.required ]],
@@ -241,6 +242,7 @@ export class ManageOrderComponent implements OnInit{
     this.editorderForm.controls['transportType'].patchValue(event.data.transport_type==null? '': event.data.transport_type);
     this.editorderForm.controls['status'].patchValue(event.data.status==null? '': event.data.status);
     this.editorderForm.controls['pickupDate'].patchValue(event.data.pickup_date==null? '': event.data.pickup_date);
+    this.editorderForm.controls['track'].patchValue(event.data.track);
 
     this.editorderForm.controls['srcProvince'].patchValue(event.data.src_provinces[0]==undefined? '': event.data.src_provinces[0].PROVINCE_ID);
     this.editorderForm.controls['srcDistrict'].patchValue(event.data.src_districts[0]==undefined? '': event.data.src_districts[0].DISTRICT_ID);
@@ -349,7 +351,6 @@ export class ManageOrderComponent implements OnInit{
       'Authorization': 'bearer ' + this.dataAdminService.getToken()
     })
 
-    console.log(value);
     this.http.post(API.adminProtect.edituser, value, {headers: headers})
       .subscribe(
         (res: any) => {
