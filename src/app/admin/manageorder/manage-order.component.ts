@@ -356,6 +356,7 @@ export class ManageOrderComponent implements OnInit{
         (res: any) => {
           this.getAllOrder();
           this.toggleModal();
+          this.inputLength.other = undefined;
           this.notififyService.showNotification('success', 'แก้ไขพัสดุเรียบร้อยแล้ว', '');
         },
         (err: any) => {
