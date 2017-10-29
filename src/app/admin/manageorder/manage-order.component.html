@@ -166,46 +166,48 @@
                   <textarea type="TEXT" class="form-control" required formControlName="srcAddressOther" placeholder="รายละเอียดที่อยู่ต้นทางเพิ่มเติม" ></textarea>
                 </div>
 
-                  <div class="text-left">
-                    <strong class="text-danger text-left" *ngIf="editorderForm.controls['srcAddressOther'].hasError('maxlength')" [hidden]="editorderForm.controls['srcAddressOther'].pristine">รายละเอียดที่อยู่ยาวกว่า {{ inputLength.address_otherMax }} ตัวอักษร</strong>
-                  </div>
+                <div class="text-left">
+                  <strong class="text-danger text-left" *ngIf="editorderForm.controls['srcAddressOther'].hasError('required')" [hidden]="editorderForm.controls['srcAddressOther'].pristine">กรุณาระบุที่อยู่ต้นทางเพิ่มเติม</strong>
+                  <strong class="text-danger text-left" *ngIf="editorderForm.controls['srcAddressOther'].hasError('maxlength')" [hidden]="editorderForm.controls['srcAddressOther'].pristine">รายละเอียดที่อยู่ยาวกว่า {{ inputLength.address_otherMax }} ตัวอักษร</strong>
+                </div>
 
-                  <!-- Dest Province -->
-                  <label class="control-label">จังหวัดปลายทาง</label>
-                  <div class="is-empty is-info">
-                    <select formControlName="destProvince" required class="form-control" (change)="getDestDistrict($event.target.value)">
-                      <option value="">เลือกจังหวัด</option>
-                      <option *ngFor="let province of dest_provinces!=undefined? dest_provinces: []" [value]="dest_provinces==undefined? '': province.PROVINCE_ID" [selected]="dest_provinces==undefined? false: rowData==undefined? false: rowData.dest_provinces==undefined? false: rowData.dest_provinces.length==0? false: province.PROVINCE_ID==rowData.dest_provinces[0].PROVINCE_ID? true: false"> {{ dest_provinces==undefined? '':  province.PROVINCE_NAME }}  </option>
-                    </select>
-                  </div>
+                <!-- Dest Province -->
+                <label class="control-label">จังหวัดปลายทาง</label>
+                <div class="is-empty is-info">
+                  <select formControlName="destProvince" required class="form-control" (change)="getDestDistrict($event.target.value)">
+                    <option value="">เลือกจังหวัด</option>
+                    <option *ngFor="let province of dest_provinces!=undefined? dest_provinces: []" [value]="dest_provinces==undefined? '': province.PROVINCE_ID" [selected]="dest_provinces==undefined? false: rowData==undefined? false: rowData.dest_provinces==undefined? false: rowData.dest_provinces.length==0? false: province.PROVINCE_ID==rowData.dest_provinces[0].PROVINCE_ID? true: false"> {{ dest_provinces==undefined? '':  province.PROVINCE_NAME }}  </option>
+                  </select>
+                </div>
 
-                  <!-- Dest District -->
-                  <label class="control-label">อำเภอปลายทาง</label>
-                  <div class="is-empty is-info">
-                    <select formControlName="destDistrict" required class="form-control" (change)="getDestSubDistrict($event.target.value)">
+                <!-- Dest District -->
+                <label class="control-label">อำเภอปลายทาง</label>
+                <div class="is-empty is-info">
+                  <select formControlName="destDistrict" required class="form-control" (change)="getDestSubDistrict($event.target.value)">
                     <option value="" [selected]="rowData==undefined? false: rowData.dest_districts.length==0? false: rowData.dest_districts[0].DISTRICT_ID==undefined? true: false">เลือกอำเภอ</option>
                     <option *ngFor="let district of dest_districts!=undefined? dest_districts: []" [value]="dest_districts==undefined? null: district.DISTRICT_ID" [selected]="dest_districts==undefined? false: rowData==undefined? false: rowData.dest_districts.length==undefined? false: rowData.dest_districts.length==undefined? false: rowData.dest_districts.length==0? false: district.DISTRICT_ID==rowData.dest_districts[0].DISTRICT_ID? true: false"> {{ dest_districts==undefined? '': district.DISTRICT_NAME }} </option>
-                    </select>
-                  </div>
+                  </select>
+                </div>
 
-                  <!-- Dest Subdistrict -->
-                  <label class="control-label">ตำบลปลายทาง</label>
-                  <div class="is-empty is-info">
-                    <select formControlName="destSubdistrict" required class="form-control">
+                <!-- Dest Subdistrict -->
+                <label class="control-label">ตำบลปลายทาง</label>
+                <div class="is-empty is-info">
+                  <select formControlName="destSubdistrict" required class="form-control">
                     <option value="" [selected]="rowData==undefined? false: rowData.dest_provinces.length==0? false: rowData.dest_provinces[0].SUBDISTRICT_ID==undefined? true: false">เลือกตำบล</option>
                     <option *ngFor="let subdistrict of dest_sub_districts!=undefined? dest_sub_districts: []" [value]="dest_sub_districts==undefined? null: subdistrict.SUBDISTRICT_ID" [selected]="dest_sub_districts==undefined? false: rowData==undefined? false: rowData.dest_sub_districts==undefined? false: rowData.dest_sub_districts.length==0? false: subdistrict.SUBDISTRICT_ID==rowData.dest_sub_districts[0].SUBDISTRICT_ID? true: false"> {{ dest_sub_districts==undefined? '': subdistrict.SUBDISTRICT_NAME }} </option>
-                    </select>
-                  </div>
+                  </select>
+                </div>
 
-                  <!-- Dest Address Other -->
-                  <label class="control-label">รายละเอียดที่อยู่ปลายทางเพิ่มเติม</label>
-                  <div class="is-info label-floating is-empty text-left">
-                    <textarea type="TEXT" class="form-control" required formControlName="destAddressOther" placeholder="รายละเอียดที่อยู่ปลายทางเพิ่มเติม" ></textarea>
-                  </div>
+                <!-- Dest Address Other -->
+                <label class="control-label">รายละเอียดที่อยู่ปลายทางเพิ่มเติม</label>
+                <div class="is-info label-floating is-empty text-left">
+                  <textarea type="TEXT" class="form-control" required formControlName="destAddressOther" placeholder="รายละเอียดที่อยู่ปลายทางเพิ่มเติม" ></textarea>
+                </div>
 
-                    <div class="text-left">
-                      <strong class="text-danger text-left" *ngIf="editorderForm.controls['destAddressOther'].hasError('maxlength')" [hidden]="editorderForm.controls['destAddressOther'].pristine">รายละเอียดที่อยู่ยาวกว่า {{ inputLength.destAddressOtherMax }} ตัวอักษร</strong>
-                    </div>
+                <div class="text-left">
+                  <strong class="text-danger text-left" *ngIf="editorderForm.controls['destAddressOther'].hasError('required')" [hidden]="editorderForm.controls['destAddressOther'].pristine">กรุณาระบุที่อยู่ปลายทางเพิ่มเติม</strong>
+                  <strong class="text-danger text-left" *ngIf="editorderForm.controls['destAddressOther'].hasError('maxlength')" [hidden]="editorderForm.controls['destAddressOther'].pristine">รายละเอียดที่อยู่ยาวกว่า {{ inputLength.destAddressOtherMax }} ตัวอักษร</strong>
+                </div>
 
               </div>
 
