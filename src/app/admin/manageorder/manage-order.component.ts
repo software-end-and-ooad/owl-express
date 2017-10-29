@@ -148,6 +148,7 @@ export class ManageOrderComponent implements OnInit{
     const inputLength = this.inputLength;
 
     this.editorderForm = this.formBuilder.group({
+      fullname: [null], // Init for input value
       tell: [null, [ Validators.required, Validators.minLength(inputLength.tellMin), Validators.maxLength(inputLength.tellMax) ]],
       size: [null, [ Validators.pattern('L|M|S|XL') ]],
       postmanId: [null],
@@ -235,9 +236,10 @@ export class ManageOrderComponent implements OnInit{
       this.getDestSubDistrict(this.rowData.dest_districts[0].DISTRICT_ID);
 
     // Map value each form because value in input not work
+    this.editorderForm.controls['fullname'].patchValue(event.data.fullname);
     this.editorderForm.controls['tell'].patchValue(event.data.tell);
     this.editorderForm.controls['size'].patchValue(event.data.size==null? '': event.data.size);
-    this.editorderForm.controls['price'].patchValue(event.data.price);
+    this.editorderForm.controls['price'].patchValue(event.data.price.constructor==String? null: event.data.price);
     this.editorderForm.controls['postmanId'].patchValue(event.data.postmanId==null? '': event.data.postmanId);
     this.editorderForm.controls['transportType'].patchValue(event.data.transport_type==null? '': event.data.transport_type);
     this.editorderForm.controls['status'].patchValue(event.data.status==null? '': event.data.status);
@@ -253,8 +255,6 @@ export class ManageOrderComponent implements OnInit{
     this.editorderForm.controls['destDistrict'].patchValue(event.data.dest_districts[0]==undefined? '': event.data.dest_districts[0].DISTRICT_ID);
     this.editorderForm.controls['destSubdistrict'].patchValue(event.data.dest_subdistricts[0]==undefined? '': event.data.dest_subdistricts[0].SUBDISTRICT_ID);
     this.editorderForm.controls['destAddressOther'].patchValue(event.data.dest_address_other==undefined? '': event.data.dest_address_other);
-
-    console.log(event.data.transport_type);
 
     this.toggleModal();
   }
