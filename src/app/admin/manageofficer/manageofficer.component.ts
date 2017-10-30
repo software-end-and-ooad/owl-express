@@ -18,7 +18,7 @@ import { NotificationService } from '../../shared/notification.service';
 export class ManageOfficerComponent implements OnInit{
 
   // ng2-smart-table variable
-  private datas: Array<any>; // All user data
+  private datas: Array<any>; // All officer data
   private source: LocalDataSource;
   private rowData: any; // Data per row for edit
 
@@ -117,10 +117,10 @@ export class ManageOfficerComponent implements OnInit{
       fullname: [null, [ Validators.required, Validators.maxLength(inputLength.fullnameMax) ]],
       tell: [null, [ Validators.required, Validators.minLength(inputLength.tellMin), Validators.maxLength(inputLength.tellMax) ]],
       role: [null, [ Validators.required, Validators.pattern('officer|admin') ]],
-      sub_district: [''],
-      district: [''],
-      province: [''],
-      address_other: ['', [ Validators.maxLength(inputLength.address_otherMax)]],
+      sub_district: ['', [ Validators.required ]],
+      district: ['', [ Validators.required ]],
+      province: ['', [ Validators.required ]],
+      address_other: ['', [ Validators.required, Validators.maxLength(inputLength.address_otherMax)]],
     })
   }
 
@@ -142,6 +142,8 @@ export class ManageOfficerComponent implements OnInit{
             data.district_content       = data.districts.length       == 0? 'ไม่ระบุ': data.districts[0].DISTRICT_NAME; // Not finish yet
             data.province_content       = data.provinces.length       == 0? 'ไม่ระบุ': data.provinces[0].PROVINCE_NAME; // Not finish yet
             data.address_other          = data.address_other          == null? 'ไม่ระบุ': data.address_other;
+
+            console.log(data.provinces[0].PROVINCE_ID);
           }
           this.source.load(this.datas) // Set data into source
 
@@ -227,15 +229,15 @@ export class ManageOfficerComponent implements OnInit{
     })
 
     console.log(value);
-    this.http.post(API.adminProtect.edituser, value, {headers: headers})
+    this.http.post(API.adminProtect.editOfficer, value, {headers: headers})
       .subscribe(
         (res: any) => {
           this.getAllOfficer();
           this.toggleModal();
-          this.notififyService.showNotification('success', 'แก้ไขข้อมูลผู้ใช้เรียบร้อยแล้ว', '');
+          this.notififyService.showNotification('success', 'แก้ไขข้อมูลพนักงานเรียบร้อยแล้ว', '');
         },
         (err: any) => {
-          this.inputLength.other = 'กรุณาตรวจสอบการกรอกข้อมูลให้ถูกต้อง';
+          this.inputLength.other = 'กรุณาตรวจสอบการกรอกข้อมูลให้ถูกต้องและครบถ้วน';
           console.log(err.error.data);
           console.log('error');
         }
