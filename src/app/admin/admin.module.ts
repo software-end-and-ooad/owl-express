@@ -11,6 +11,7 @@ import { AdminComponent } from './admin.component'
 import { ManageUserComponent } from './manageuser/manage-user.component'
 import { LogoutAdminComponent } from './logout/logout.admin.component';
 import { ManageOrderComponent } from './manageorder/manage-order.component';
+import { ManageOfficerComponent } from './manageofficer/manageofficer.component';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { ManageOrderComponent } from './manageorder/manage-order.component';
     ManageUserComponent,
     LogoutAdminComponent,
     ManageOrderComponent,
+    ManageOfficerComponent,
   ]
 })
 export class AdminModule { }

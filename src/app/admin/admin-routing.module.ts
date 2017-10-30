@@ -5,6 +5,7 @@ import { AdminComponent } from './admin.component';
 import { ManageUserComponent } from './manageuser/manage-user.component'
 import { LogoutAdminComponent } from './logout/logout.admin.component';
 import { ManageOrderComponent } from './manageorder/manage-order.component';
+import { ManageOfficerComponent } from './manageofficer/manageofficer.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,10 @@ const routes: Routes = [
       {
         path: 'manage-order',
         component: ManageOrderComponent
+      },
+      {
+        path: 'manage-officer',
+        component: ManageOfficerComponent
       },
       {
         path: 'logout',
