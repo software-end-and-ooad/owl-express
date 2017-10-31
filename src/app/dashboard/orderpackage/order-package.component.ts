@@ -113,6 +113,7 @@ export class OrderPackageComponent implements OnInit{
 
   submit(value) {
     value.userId = this.dataService.getUserData().id;
+    console.log(value);
     this.http.post(API.protect.order, value)
       .subscribe(
         (res: any) => {
@@ -123,7 +124,7 @@ export class OrderPackageComponent implements OnInit{
             'สั่งของผ่าน Owl-Express เรียบร้อยแล้ว!!     กรุณารอการเจ้าหน้าที่เข้ารับพัสดุ'
           );
           setTimeout(() => {
-            this.router.navigateByUrl('/order-list')
+            //this.router.navigateByUrl('/order-list')
           }, 1000);
         },
         (err: any) => {

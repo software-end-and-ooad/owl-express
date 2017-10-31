@@ -137,8 +137,11 @@ export class ManageOrderComponent implements OnInit{
     private dataAdminService: DataAdminService,
     private dataService: DataService,
     private formBuilder: FormBuilder,
-    private notififyService: NotificationService
+    private notififyService: NotificationService,
+    private router: Router,
   ) {
+    this.settings.actions.delete = this.router.url.search('officer') > -1? true: false;
+    this.settings = Object.assign({}, this.settings)
     this.getAllOrder();
     this.source = new LocalDataSource(this.datas);
     this.getSrcProvince();
