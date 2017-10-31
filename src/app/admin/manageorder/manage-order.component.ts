@@ -111,7 +111,7 @@ export class ManageOrderComponent implements OnInit{
     actions: {
       add: false,
       edit: true,
-      delete: false,
+      delete: true,
       columnTitle: 'จัดการ',
       position: 'right',
     },
@@ -122,9 +122,10 @@ export class ManageOrderComponent implements OnInit{
       confirmSave: false,
     },
     delete: {
-      deleteButtonContent: 'ลบ',
-      saveButtonContent: 'บันทึก',
-      cancelButtonContent: 'ยกเลิก'
+      deleteButtonContent: `<div class='btn btn-success btn-sm'><i class='ion-android-done-all'></i></h1>`,
+      saveButtonContent: `<div class='btn btn-success btn-sm'><i class='ion-android-done-all'></i></h1>`,
+      cancelButtonContent: `<div class='btn btn-danger btn-sm'><i class='ion-android-close'></i></h1>`,
+      confirmSave: false,
     },
     hideSubHeader: true,
     noDataMessage: 'ไม่พบข้อมูล',
@@ -364,6 +365,25 @@ export class ManageOrderComponent implements OnInit{
         },
         (err: any) => {
           this.inputLength.other = 'กรุณาตรวจสอบการกรอกข้อมูลให้ถูกต้องและครบถ้วน';
+          console.log(err.error.data);
+          console.log('error');
+        }
+      )
+  }
+
+  acceptOrder(value: any) {
+    const headers = new HttpHeaders({
+      'Authorization': 'bearer ' + this.dataAdminService.getToken()
+    })
+
+    const data = {track: value.data.track}
+
+    this.http.put(API.adminProtect.acceptOrder, data, {headers: headers})
+      .subscribe(
+        (res: any) => {
+          this.notififyService.showNotification('success', 'ยอมรับการเข้ารับพัสดุแล้ว', '');
+        },
+        (err: any) => {
           console.log(err.error.data);
           console.log('error');
         }
