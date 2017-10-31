@@ -83,7 +83,7 @@ export class ManageOfficerComponent implements OnInit{
       position: 'right',
     },
     add: {
-      addButtonContent: `<div class='btn btn-success btn-sm'><i class='ion-edit'></i></h1>`,
+      addButtonContent: `<div class='btn btn-success btn-sm'><i class='ion-person-add'></i></h1>`,
       saveButtonContent: `<div class='btn btn-success btn-sm'><i class='ion-edit'></i></h1>`,
       cancelButtonContent: `<div class='btn btn-danger btn-sm'><i class='ion-android-close'></i></h1>`,
       confirmSave: false,
@@ -165,10 +165,13 @@ export class ManageOfficerComponent implements OnInit{
 
   addData(event) {
     this.createMode = true;
+    this.editofficerForm.controls['email'].enable({onlySelf: true})
     this.toggleModal();
   }
 
   editData(event): void {
+    this.createMode = false;
+    this.editofficerForm.controls['email'].disable({onlySelf: true})
     this.rowData = event.data;
     //console.log(this.rowData);
     // Call address for current value selection

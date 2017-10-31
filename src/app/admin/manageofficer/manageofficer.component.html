@@ -39,7 +39,7 @@
                 <!--Email-->
                 <label class="control-label">อีเมล</label>
                 <div class="is-info label-floating is-empty text-left">
-                  <input type="EMAIL" class="form-control" formControlName="email" placeholder="อีเมล" [value]="rowData==undefined? '': rowData.email" [disabled]="createMode==false" >
+                  <input type="EMAIL" class="form-control" formControlName="email" placeholder="อีเมล" [value]="rowData==undefined? '': rowData.email">
                 </div>
 
                 <div class="text-left">
@@ -104,7 +104,7 @@
                 <label class="control-label">อำเภอ</label>
                 <div class="is-empty is-info">
                   <select formControlName="district" required class="form-control" (change)="getSubDistrict($event.target.value)">
-                    <option value="" [selected]="rowData==undefined? false: rowData.districts.length==0? false: rowData.districts[0].DISTRICT_ID==undefined? true: false">เลือกอำเภอ {{ rowData==undefined? '': rowData.districts[0]==undefined? '': rowData.districts[0].DISTRICT_NAME}}</option>
+                    <option value="" [selected]="rowData==undefined? false: rowData.districts.length==0? false: rowData.districts[0].DISTRICT_ID==undefined? true: false">เลือกอำเภอ</option>
                     <option *ngFor="let district of districts!=undefined? districts: []" [value]="districts==undefined? null: district.DISTRICT_ID" [selected]="districts==undefined? false: rowData==undefined? false: rowData.districts.length==undefined? false: rowData.districts.length==0? false: district.DISTRICT_ID==rowData.districts[0].DISTRICT_ID? true: false"> {{ districts==undefined? '': district.DISTRICT_NAME }} </option>
                   </select>
                 </div>
