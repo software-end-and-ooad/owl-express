@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 declare const $: any;
 declare interface RouteInfo {
@@ -13,6 +14,10 @@ export const ROUTES: RouteInfo[] = [
     { path: 'manage-officer', title: 'ผู้ดูแลระบบ',  icon:'person', id: 1 },
 ];
 
+export const OFFICER_ROUTES: RouteInfo[] = [
+    { path: 'manage-order', title: 'Order',  icon:'person', id: 1 },
+];
+
 @Component({
   selector: 'app-adminsidebar',
   templateUrl: './sidebar.admin.component.html',
@@ -22,10 +27,13 @@ export class AdminSidebarComponent implements OnInit {
   menuItems: any[];
   selectedMenu: number = 0;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
-    this.menuItems = ROUTES.filter(menuItem => menuItem);
+    if (this.router.url.search('officer') > -1)
+      this.menuItems = OFFICER_ROUTES.filter(menuItem => menuItem);
+    else
+      this.menuItems = ROUTES.filter(menuItem => menuItem);
   }
 
   selectedItem(item) {

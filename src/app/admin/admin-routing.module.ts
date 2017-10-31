@@ -6,6 +6,8 @@ import { ManageUserComponent } from './manageuser/manage-user.component'
 import { LogoutAdminComponent } from './logout/logout.admin.component';
 import { ManageOrderComponent } from './manageorder/manage-order.component';
 import { ManageOfficerComponent } from './manageofficer/manageofficer.component';
+import { NotOfficerGuard } from '../shared/authentication/guard/adminorofficer-guard.service';
+import { NotAdminGuard } from '../shared/authentication/guard/officeroradmin-guard.service';
 
 const routes: Routes = [
   {
@@ -18,15 +20,33 @@ const routes: Routes = [
         pathMatch: 'full',
       },
       {
+        path: 'officer',
+        children: [
+          {
+            path: '',
+            redirectTo: 'manage-order',
+            pathMatch: 'full'
+          },
+          {
+            path: 'manage-order',
+            canActivate: [ NotAdminGuard ],
+            component: ManageOrderComponent
+          }
+        ]
+      },
+      {
         path: 'manage-user',
-        component: ManageUserComponent
+        canActivate: [ NotOfficerGuard ],
+        component: ManageUserComponent,
       },
       {
         path: 'manage-order',
+        canActivate: [ NotOfficerGuard ],
         component: ManageOrderComponent
       },
       {
         path: 'manage-officer',
+        canActivate: [ NotOfficerGuard ],
         component: ManageOfficerComponent
       },
       {
