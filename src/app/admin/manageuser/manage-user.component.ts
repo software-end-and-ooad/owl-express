@@ -146,7 +146,6 @@ export class ManageUserComponent implements OnInit{
       .subscribe(
         (res: any) => {
           this.datas = res.data;
-          console.log(this.datas);
 
           // Resolve data to Thai language for show in html
           for (let i in this.datas) {
@@ -244,8 +243,8 @@ export class ManageUserComponent implements OnInit{
     const headers = new HttpHeaders({
       'Authorization': 'bearer ' + this.dataAdminService.getToken()
     })
+    value.email = this.rowData.email;
 
-    console.log(value);
     this.http.post(API.adminProtect.edituser, value, {headers: headers})
       .subscribe(
         (res: any) => {
