@@ -259,22 +259,20 @@ export class ManageOfficerComponent implements OnInit{
           }
         )
     } else {
-      console.log(value);
-      /*
-       *this.http.post(API.adminProtect.addOfficer, value, {headers: headers})
-       *  .subscribe(
-       *    (res: any) => {
-       *      this.getAllOfficer();
-       *      this.toggleModal();
-       *      this.notififyService.showNotification('success', 'เพิ่มพนักงานเรียบร้อยแล้ว', '');
-       *    },
-       *    (err: any) => {
-       *      this.inputLength.other = 'กรุณาตรวจสอบการกรอกข้อมูลให้ถูกต้องและครบถ้วน';
-       *      console.log(err.error.data);
-       *      console.log('error');
-       *    }
-       *  )
-       */
+
+      this.http.post(API.adminProtect.addOfficer, value, {headers: headers})
+        .subscribe(
+          (res: any) => {
+            this.getAllOfficer();
+            this.toggleModal();
+            this.notififyService.showNotification('success', 'เพิ่มพนักงานเรียบร้อยแล้ว', '');
+          },
+          (err: any) => {
+            this.inputLength.other = 'กรุณาตรวจสอบการกรอกข้อมูลให้ถูกต้องและครบถ้วน';
+            console.log(err.error.data);
+            console.log('error');
+          }
+        )
     }
 
 
