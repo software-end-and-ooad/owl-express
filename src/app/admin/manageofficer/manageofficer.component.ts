@@ -22,10 +22,9 @@ export class ManageOfficerComponent implements OnInit{
   private source: LocalDataSource;
   private rowData: any; // Data per row for edit
 
-  // Form variable
+  // Edit Form variable
   private editofficerForm: FormGroup;
   private formInvalid: string;
-  private submit: boolean = false;
   private inputLength = {
     tellMin: 9,
     tellMax: 10,
@@ -35,8 +34,9 @@ export class ManageOfficerComponent implements OnInit{
   }
 
   // Other variable
+  private createMode: boolean = false;
   @ViewChild('manageOfficerModal') public manageOfficerModal: ElementRef; // Give to navbar main for open
-  private provinces: Array<any> = [{title: 'test', value: 3}]
+  private provinces: Array<any> = [{title: 'test', value: 3}];
   private districts: Array<any>;
   private sub_districts: Array<any>;
 
@@ -76,11 +76,17 @@ export class ManageOfficerComponent implements OnInit{
       },
     },
     actions: {
-      add: false,
+      add: true,
       edit: true,
       delete: false,
       columnTitle: 'จัดการ',
       position: 'right',
+    },
+    add: {
+      addButtonContent: `<div class='btn btn-success btn-sm'><i class='ion-edit'></i></h1>`,
+      saveButtonContent: `<div class='btn btn-success btn-sm'><i class='ion-edit'></i></h1>`,
+      cancelButtonContent: `<div class='btn btn-danger btn-sm'><i class='ion-android-close'></i></h1>`,
+      confirmSave: false,
     },
     edit: {
       editButtonContent: `<div class='btn btn-warning btn-sm'><i class='ion-edit'></i></h1>`,
@@ -93,7 +99,7 @@ export class ManageOfficerComponent implements OnInit{
       saveButtonContent: 'บันทึก',
       cancelButtonContent: 'ยกเลิก'
     },
-    hideSubHeader: true,
+    hideSubHeader: false,
     noDataMessage: 'ไม่พบข้อมูล',
     mode: 'external'
   };
@@ -114,6 +120,7 @@ export class ManageOfficerComponent implements OnInit{
     const inputLength = this.inputLength;
 
     this.editofficerForm = this.formBuilder.group({
+      email: [null, [ Validators.required, Validators.email ]],
       fullname: [null, [ Validators.required, Validators.maxLength(inputLength.fullnameMax) ]],
       tell: [null, [ Validators.required, Validators.minLength(inputLength.tellMin), Validators.maxLength(inputLength.tellMax) ]],
       role: [null, [ Validators.required, Validators.pattern('officer|admin') ]],
@@ -142,9 +149,8 @@ export class ManageOfficerComponent implements OnInit{
             data.district_content       = data.districts.length       == 0? 'ไม่ระบุ': data.districts[0].DISTRICT_NAME; // Not finish yet
             data.province_content       = data.provinces.length       == 0? 'ไม่ระบุ': data.provinces[0].PROVINCE_NAME; // Not finish yet
             data.address_other          = data.address_other          == null? 'ไม่ระบุ': data.address_other;
-
-            console.log(data.provinces[0].PROVINCE_ID);
           }
+
           this.source.load(this.datas) // Set data into source
 
         },
@@ -157,9 +163,14 @@ export class ManageOfficerComponent implements OnInit{
     this.manageOfficerModal.nativeElement.click();
   }
 
+  addData(event) {
+    this.createMode = true;
+    this.toggleModal();
+  }
+
   editData(event): void {
     this.rowData = event.data;
-    console.log(this.rowData);
+    //console.log(this.rowData);
     // Call address for current value selection
     if (event.data.provinces.length > 0 )
       this.getDistrict(this.rowData.provinces[0].PROVINCE_ID);
@@ -228,20 +239,44 @@ export class ManageOfficerComponent implements OnInit{
       'Authorization': 'bearer ' + this.dataAdminService.getToken()
     })
 
-    console.log(value);
-    this.http.post(API.adminProtect.editOfficer, value, {headers: headers})
-      .subscribe(
-        (res: any) => {
-          this.getAllOfficer();
-          this.toggleModal();
-          this.notififyService.showNotification('success', 'แก้ไขข้อมูลพนักงานเรียบร้อยแล้ว', '');
-        },
-        (err: any) => {
-          this.inputLength.other = 'กรุณาตรวจสอบการกรอกข้อมูลให้ถูกต้องและครบถ้วน';
-          console.log(err.error.data);
-          console.log('error');
-        }
-      )
+    if (this.createMode == false) {
+      delete value.email
+
+      this.http.post(API.adminProtect.editOfficer, value, {headers: headers})
+        .subscribe(
+          (res: any) => {
+            this.getAllOfficer();
+            this.toggleModal();
+            this.notififyService.showNotification('success', 'แก้ไขข้อมูลพนักงานเรียบร้อยแล้ว', '');
+          },
+          (err: any) => {
+            this.inputLength.other = 'กรุณาตรวจสอบการกรอกข้อมูลให้ถูกต้องและครบถ้วน';
+            console.log(err.error.data);
+            console.log('error');
+          }
+        )
+    } else {
+      console.log(value);
+      /*
+       *this.http.post(API.adminProtect.addOfficer, value, {headers: headers})
+       *  .subscribe(
+       *    (res: any) => {
+       *      this.getAllOfficer();
+       *      this.toggleModal();
+       *      this.notififyService.showNotification('success', 'เพิ่มพนักงานเรียบร้อยแล้ว', '');
+       *    },
+       *    (err: any) => {
+       *      this.inputLength.other = 'กรุณาตรวจสอบการกรอกข้อมูลให้ถูกต้องและครบถ้วน';
+       *      console.log(err.error.data);
+       *      console.log('error');
+       *    }
+       *  )
+       */
+    }
+
+
   }
+
+
 
 }

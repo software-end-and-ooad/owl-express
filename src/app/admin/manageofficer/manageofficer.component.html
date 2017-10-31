@@ -7,12 +7,12 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header" data-background-color="blue">
-            <h4 class="title">จัดการผู้ใช้</h4>
+            <h4 class="title">จัดการพนักงาน</h4>
             <p class="category">เพิ่ม ลบ แก้ไข รายชื่อพนักงานทั้งหมด</p>
           </div>
           <div  class="card-content table-responsive">
             <div class="content table-responsive table-full-width">
-              <ng2-smart-table [settings]="settings" [source]="source" (edit)="editData($event)"></ng2-smart-table>
+              <ng2-smart-table [settings]="settings" [source]="source" (create)="addData($event)" (edit)="editData($event)"></ng2-smart-table>
             </div>
           </div>
         </div>
@@ -39,7 +39,12 @@
                 <!--Email-->
                 <label class="control-label">อีเมล</label>
                 <div class="is-info label-floating is-empty text-left">
-                  <input type="EMAIL" class="form-control" placeholder="อีเมล" disabled [value]="rowData==undefined? '': rowData.email">
+                  <input type="EMAIL" class="form-control" formControlName="email" placeholder="อีเมล" [value]="rowData==undefined? '': rowData.email" [disabled]="createMode==false" >
+                </div>
+
+                <div class="text-left">
+                  <strong class="text-danger text-left" *ngIf="editofficerForm.controls['email'].hasError('required')" [hidden]="editofficerForm.controls['email'].untouched">กรุณากรอกอีเมล</strong>
+                  <strong class="text-danger text-left" *ngIf="editofficerForm.controls['email'].hasError('email')" [hidden]="editofficerForm.controls['email'].untouched">รูปแบบอีเมลไม่ถูกต้อง</strong>
                 </div>
 
                 <!-- Type -->
@@ -50,8 +55,8 @@
                 </select>
 
                 <div class="text-left">
-                  <strong class="text-danger text-left" *ngIf="editofficerForm.controls['role'].hasError('required')" [hidden]="editofficerForm.controls['role'].pristine">กรุณาเลือกประเภทผู้ใช้งาน</strong>
-                  <strong class="text-danger text-left" *ngIf="editofficerForm.controls['role'].hasError('pattern')" [hidden]="editofficerForm.controls['role'].pristine">รูปแบบสิทธิพนักงานไม่ถูกต้อง</strong>
+                  <strong class="text-danger text-left" *ngIf="editofficerForm.controls['role'].hasError('required')" [hidden]="editofficerForm.controls['role'].untouched">กรุณาเลือกประเภทผู้ใช้งาน</strong>
+                  <strong class="text-danger text-left" *ngIf="editofficerForm.controls['role'].hasError('pattern')" [hidden]="editofficerForm.controls['role'].untouched">รูปแบบสิทธิพนักงานไม่ถูกต้อง</strong>
                 </div>
 
                 <!-- Fullname -->
@@ -61,8 +66,8 @@
                 </div>
 
                 <div class="text-left">
-                  <strong class="text-danger text-left" *ngIf="editofficerForm.controls['fullname'].hasError('required')" [hidden]="editofficerForm.controls['fullname'].pristine">กรุณากรอกชื่อ-สกุล</strong>
-                  <strong class="text-danger text-left" *ngIf="editofficerForm.controls['fullname'].hasError('maxlength')" [hidden]="editofficerForm.controls['fullname'].pristine"> ชื่อ-สกุล ต้องไม่ยาวกว่า {{ inputLength.fullnameMax }} ตัวอักษร </strong>
+                  <strong class="text-danger text-left" *ngIf="editofficerForm.controls['fullname'].hasError('required')" [hidden]="editofficerForm.controls['fullname'].untouched">กรุณากรอกชื่อ-สกุล</strong>
+                  <strong class="text-danger text-left" *ngIf="editofficerForm.controls['fullname'].hasError('maxlength')" [hidden]="editofficerForm.controls['fullname'].untouched"> ชื่อ-สกุล ต้องไม่ยาวกว่า {{ inputLength.fullnameMax }} ตัวอักษร </strong>
                 </div>
 
                 <!-- Tell -->
@@ -72,7 +77,8 @@
                 </div>
 
                 <div class="text-left">
-                  <strong class="text-danger text-left" *ngIf="editofficerForm.controls['tell'].hasError('required')" [hidden]="editofficerForm.controls['tell'].pristine">กรุณากรอกเบอร์ติดต่อ</strong>
+                  <strong class="text-danger text-left" *ngIf="editofficerForm.controls['tell'].hasError('required')" [hidden]="editofficerForm.controls['tell'].untouched">กรุณากรอกเบอร์ติดต่อ</strong>
+                  <strong class="text-danger text-left" *ngIf="editofficerForm.controls['tell'].hasError('maxlength') || editofficerForm.controls['tell'].hasError('minlength')" [hidden]="editofficerForm.controls['tell'].untouched">ความยาวเบอร์ติดต่อต้องอยู่ระหว่าง 9-10 หลัก</strong>
                 </div>
 
 
@@ -89,6 +95,10 @@
                   </select>
                 </div>
 
+                <div class="text-left">
+                  <strong class="text-danger text-left" *ngIf="editofficerForm.controls['province'].hasError('required')" [hidden]="editofficerForm.controls['province'].untouched">กรุณาเลือกจังหวัด</strong>
+                </div>
+
 
                 <!-- District -->
                 <label class="control-label">อำเภอ</label>
@@ -97,6 +107,10 @@
                     <option value="" [selected]="rowData==undefined? false: rowData.districts.length==0? false: rowData.districts[0].DISTRICT_ID==undefined? true: false">เลือกอำเภอ {{ rowData==undefined? '': rowData.districts[0]==undefined? '': rowData.districts[0].DISTRICT_NAME}}</option>
                     <option *ngFor="let district of districts!=undefined? districts: []" [value]="districts==undefined? null: district.DISTRICT_ID" [selected]="districts==undefined? false: rowData==undefined? false: rowData.districts.length==undefined? false: rowData.districts.length==0? false: district.DISTRICT_ID==rowData.districts[0].DISTRICT_ID? true: false"> {{ districts==undefined? '': district.DISTRICT_NAME }} </option>
                   </select>
+                </div>
+
+                <div class="text-left">
+                  <strong class="text-danger text-left" *ngIf="editofficerForm.controls['district'].hasError('required')" [hidden]="editofficerForm.controls['district'].untouched">กรุณาเลือกอำเภอ</strong>
                 </div>
 
                 <!-- Subdistrict -->
@@ -108,6 +122,10 @@
                   </select>
                 </div>
 
+                <div class="text-left">
+                  <strong class="text-danger text-left" *ngIf="editofficerForm.controls['sub_district'].hasError('required')" [hidden]="editofficerForm.controls['sub_district'].untouched">กรุณาเลือกตำบล</strong>
+                </div>
+
                 <!-- Address Other -->
                 <label class="control-label">รายละเอียดที่อยู่เพิ่มเติม</label>
                 <div class="is-info label-floating is-empty text-left">
@@ -115,7 +133,8 @@
                 </div>
 
                   <div class="text-left">
-                    <strong class="text-danger text-left" *ngIf="editofficerForm.controls['address_other'].hasError('maxlength')" [hidden]="editofficerForm.controls['address_other'].pristine">รายละเอียดที่อยู่ยาวกว่า {{ inputLength.address_otherMax }} ตัวอักษร</strong>
+                    <strong class="text-danger text-left" *ngIf="editofficerForm.controls['address_other'].hasError('required')" [hidden]="editofficerForm.controls['address_other'].untouched">กรุณากรอกรายละเอียดที่อยู่เพิ่มเติม</strong>
+                    <strong class="text-danger text-left" *ngIf="editofficerForm.controls['address_other'].hasError('maxlength')" [hidden]="editofficerForm.controls['address_other'].untouched">รายละเอียดที่อยู่ยาวกว่า {{ inputLength.address_otherMax }} ตัวอักษร</strong>
                   </div>
 
               </div>
@@ -129,7 +148,7 @@
               <button type="button" class="btn btn-default btn-round pull-right" style="font-size: 14px" (click)="toggleModal()">
                 <span>ยกเลิก</span>
               </button>
-              <button type="submit" class="btn btn-success btn-round pull-right" style="font-size: 14px">
+              <button type="submit" class="btn btn-success btn-round pull-right" style="font-size: 14px" [disabled]="editofficerForm.invalid">
                 <i class="fa fa-spinner ld ld-spin" *ngIf="submit"></i>
                 <span *ngIf="!submit">ยืนยัน</span>
               </button>
