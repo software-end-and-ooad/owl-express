@@ -49,7 +49,7 @@ export class OrderPackageComponent implements OnInit{
       destDistrict: [null, [ Validators.required ]],
       destProvince: [null, [ Validators.required ]],
       destAddressOther: [null, [ Validators.required, Validators.maxLength(255) ]],
-      pickupDate: ['', [ Validators.required, Validators.pattern('[0-1]{0,1}[0-9]/[0-3]{0,1}[0-9]/[0-9][0-9][0-9][0-9]') ]],
+      pickupDate: ['', [ Validators.pattern('[0-1]{0,1}[0-9]/[0-3]{0,1}[0-9]/[0-9][0-9][0-9][0-9]') ]],
     });
   }
 

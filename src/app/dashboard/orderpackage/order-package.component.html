@@ -147,9 +147,6 @@
 
                   <input type="TEXT" class="form-control" formControlName="pickupDate" />
 
-                  <small class="text-danger" *ngIf="orderForm.controls['pickupDate'].hasError('required')"  [hidden]="orderForm.controls['pickupDate'].pristine">
-                    กรุณาระบุวันที่รับล่วงหน้า
-                  </small>
                   <small class="text-danger" *ngIf="orderForm.controls['pickupDate'].hasError('pattern')"  [hidden]="orderForm.controls['pickupDate'].pristine">
                     รูปแบบวันที่ไม่ถูกต้องตามกำหนด (MM/DD/YYYY)
                   </small>

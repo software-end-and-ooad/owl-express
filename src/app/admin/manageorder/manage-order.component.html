@@ -127,7 +127,6 @@
                 </div>
 
                 <div class="text-left">
-                  <strong class="text-danger text-left" *ngIf="editorderForm.controls['pickupDate'].hasError('required')" [hidden]="editorderForm.controls['pickupDate'].pristine">กรุณากรอกวันที่รับล่วงหน้า</strong>
                   <strong class="text-danger text-left" *ngIf="editorderForm.controls['pickupDate'].hasError('pattern')" [hidden]="editorderForm.controls['pickupDate'].pristine">รูปแบบวันที่รับล่วงหน้าไม่ถูกต้อง</strong>
                 </div>
 

@@ -155,7 +155,7 @@ export class ManageOrderComponent implements OnInit{
       transportType: [null, [ Validators.required, Validators.pattern('EMS|sameday') ]],
       status: [null, [ Validators.required, Validators.pattern('1|2|3|4') ]], // insert status after you sure about value
       price: [null, [ Validators.required, Validators.pattern('[0-9]*') ]],
-      pickupDate: ['', [ Validators.required, Validators.pattern('[0-1]{0,1}[0-9]/[0-3]{0,1}[0-9]/[0-9][0-9][0-9][0-9]') ]],
+      pickupDate: ['', [ Validators.pattern('[0-1]{0,1}[0-9]/[0-3]{0,1}[0-9]/[0-9][0-9][0-9][0-9]') ]],
       track: [null], // Defined for send unique id of item to update
 
       srcSubdistrict: [null, [ Validators.required ]],
@@ -350,6 +350,9 @@ export class ManageOrderComponent implements OnInit{
     const headers = new HttpHeaders({
       'Authorization': 'bearer ' + this.dataAdminService.getToken()
     })
+    // Fix: Edit data not to send if pick_date not change because backend will get present date
+    if (this.editorderForm.controls['pickupDate'].value == this.rowData.pickup_date)
+      delete value.pickupDate
 
     this.http.post(API.adminProtect.editOrder, value, {headers: headers})
       .subscribe(
