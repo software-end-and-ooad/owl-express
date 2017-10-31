@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
           }, 1500);
 
           setTimeout(() => {
-            this.router.navigateByUrl('admin/dashboard');
+            location.href = 'admin/dashboard';
           }, 2000);
         },
         err => {

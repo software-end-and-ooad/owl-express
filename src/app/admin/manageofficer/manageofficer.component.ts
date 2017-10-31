@@ -243,7 +243,7 @@ export class ManageOfficerComponent implements OnInit{
     })
 
     if (this.createMode == false) {
-      delete value.email
+      value.email = this.rowData.email
 
       this.http.post(API.adminProtect.editOfficer, value, {headers: headers})
         .subscribe(

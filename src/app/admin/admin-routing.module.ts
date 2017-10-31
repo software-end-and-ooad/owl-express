@@ -45,7 +45,7 @@ const routes: Routes = [
         component: ManageOrderComponent
       },
       {
-        path: 'manage-officer',
+        path: 'manage-member',
         canActivate: [ NotOfficerGuard ],
         component: ManageOfficerComponent
       },
