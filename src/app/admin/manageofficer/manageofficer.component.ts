@@ -78,7 +78,7 @@ export class ManageOfficerComponent implements OnInit{
     actions: {
       add: true,
       edit: true,
-      delete: false,
+      delete: true,
       columnTitle: 'จัดการ',
       position: 'right',
     },
@@ -95,9 +95,10 @@ export class ManageOfficerComponent implements OnInit{
       confirmSave: false,
     },
     delete: {
-      deleteButtonContent: 'ลบ',
-      saveButtonContent: 'บันทึก',
-      cancelButtonContent: 'ยกเลิก'
+      deleteButtonContent: `<div class='btn btn-danger btn-sm'><i class='ion-android-delete'></i></h1>`,
+      saveButtonContent: `<div class='btn btn-success btn-sm'><i class='ion-android-delete'></i></h1>`,
+      cancelButtonContent: `<div class='btn btn-danger btn-sm'><i class='ion-android-close'></i></h1>`,
+      confirmSave: true,
     },
     hideSubHeader: false,
     noDataMessage: 'ไม่พบข้อมูล',
@@ -278,6 +279,27 @@ export class ManageOfficerComponent implements OnInit{
 
   }
 
+
+  removeData(value: any) {
+    const headers = new HttpHeaders({
+      'Authorization': 'bearer ' + this.dataAdminService.getToken()
+    });
+
+    if (window.confirm('คุณต้องการจะลบพนักงานคนนี้ใช่หรือไม่')) {
+
+      this.http.delete(API.adminProtect.deleteOfficer + value.data.email, {headers: headers})
+        .subscribe(
+          (res: any) => {
+            this.getAllOfficer();
+            this.notififyService.showNotification('success', 'ถอดถอนพนักงานเรียบร้อยแล้ว', '');
+          },
+          (err: any) => {
+            console.log('cannot delete user');
+          }
+        )
+
+    }
+  }
 
 
 }

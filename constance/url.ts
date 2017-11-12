@@ -45,6 +45,7 @@ const adminProtect = {
   editOfficer: adminProtectDomain + 'editofficer',
   addOfficer: adminProtectDomain + 'addofficer',
   acceptOrder: adminProtectDomain + 'acceptorder',
+  deleteOfficer: adminProtectDomain + 'remove-officer/',
 }
 
 export const API = {api, protect, admin, adminProtect};

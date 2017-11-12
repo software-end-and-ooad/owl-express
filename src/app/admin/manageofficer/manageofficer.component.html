@@ -12,7 +12,12 @@
           </div>
           <div  class="card-content table-responsive">
             <div class="content table-responsive table-full-width">
-              <ng2-smart-table [settings]="settings" [source]="source" (create)="addData($event)" (edit)="editData($event)"></ng2-smart-table>
+              <ng2-smart-table
+                [settings]="settings"
+                [source]="source"
+                (create)="addData($event)"
+                (edit)="editData($event)"
+                (delete)="removeData($event)"></ng2-smart-table>
             </div>
           </div>
         </div>
