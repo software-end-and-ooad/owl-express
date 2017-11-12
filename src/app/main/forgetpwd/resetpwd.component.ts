@@ -5,6 +5,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 
 import { PasswordValidation } from '../register/validation.matchpassword';
 import { API } from '../../../../constance/url';
+import { NotificationService } from '../../shared/notification.service';
 
 @Component({
   selector: 'main-resetpwd',
@@ -24,6 +25,7 @@ export class ResetPasswordComponent implements OnInit {
     private router: Router,
     private activateRoute: ActivatedRoute,
     private http: HttpClient,
+    private notifyService: NotificationService,
   ) {}
 
   ngOnInit() {
@@ -94,7 +96,11 @@ export class ResetPasswordComponent implements OnInit {
             this.submit = false;
           }, 1500)
           // Alert here
-          alert('เปลียนรหัสผ่านเรียบร้อยแล้ว');
+          this.notifyService.showNotification(
+            'success',
+            'เปลี่ยนรหัสผ่านเรียบร้อยแล้ว',
+            ''
+          );
           this.router.navigateByUrl('admin/login')
         },
         (err: any) => {

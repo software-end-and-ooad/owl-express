@@ -11,6 +11,7 @@ import { RegisterComponent } from './register/register.component';
 import { SendForgetComponent } from './forgetpwd/sendforget.component';
 import { ResetPasswordComponent } from './forgetpwd/resetpwd.component';
 import { ActivateComponent } from './activate/activate.component';
+import { NotificationService } from '../shared/notification.service';
 
 @NgModule({
   imports: [
@@ -18,6 +19,9 @@ import { ActivateComponent } from './activate/activate.component';
     MainRoutingModule,
     FormsModule,
     ReactiveFormsModule
+  ],
+  providers: [
+    NotificationService,
   ],
   declarations: [
     MainComponent,
