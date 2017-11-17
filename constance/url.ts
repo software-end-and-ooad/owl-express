@@ -39,7 +39,7 @@ const adminProtect = {
   refreshToken: adminProtectDomain + 'refresh',
   getAllUser: adminProtectDomain  + 'getalluser',
   edituser: adminProtectDomain + 'edituser/',
-  getAllOrder: adminProtectDomain + 'allorder',
+  getAllOrder: adminProtectDomain + 'allorder/',
   editOrder: adminProtectDomain + 'editorder/',
   getAllOfficer: adminProtectDomain + 'getallofficer',
   editOfficer: adminProtectDomain + 'editofficer',

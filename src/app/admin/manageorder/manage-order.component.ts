@@ -44,7 +44,8 @@ export class ManageOrderComponent implements OnInit{
   private dest_districts: Array<any>;
   private dest_sub_districts: Array<any>;
 
-  private postman: any; // Get postman information for selection of postman_id
+  private postmans: any; // Get postman information for selection of postman_id
+  private myRole: any;
 
 
   public settings = {
@@ -146,6 +147,7 @@ export class ManageOrderComponent implements OnInit{
     this.source = new LocalDataSource(this.datas);
     this.getSrcProvince();
     this.getDestProvince();
+    this.getPostman();
   }
 
   ngOnInit() {
@@ -176,11 +178,14 @@ export class ManageOrderComponent implements OnInit{
   }
 
 
-  getAllOrder() {
+   async getAllOrder() {
     const headers = new HttpHeaders({
       'Authorization': 'bearer ' + this.dataAdminService.getToken()
     })
-    this.http.get(API.adminProtect.getAllOrder, {headers: headers})
+     // Get role, if admin api will return all order, else api will return only null and my officer_no orders
+     this.myRole = await this.dataAdminService.getAdmins().toPromise();
+
+    this.http.get(API.adminProtect.getAllOrder + this.myRole.role, {headers: headers})
       .subscribe(
         (res: any) => {
           this.datas = []
@@ -349,6 +354,21 @@ export class ManageOrderComponent implements OnInit{
     }
   }
 
+  getPostman() {
+    const headers = new HttpHeaders({
+      'Authorization': 'bearer ' + this.dataAdminService.getToken()
+    })
+
+    this.http.get(API.adminProtect.getAllOfficer, {headers: headers})
+      .subscribe(
+        (res: any) => {
+          this.postmans = res.data;
+        },
+        (err: any) => {
+          this.postmans = undefined;
+          console.log('Cannot get officers');
+        })
+  }
 
   submitEdit(value: any) {
     const headers = new HttpHeaders({
@@ -367,8 +387,8 @@ export class ManageOrderComponent implements OnInit{
           this.notififyService.showNotification('success', 'แก้ไขพัสดุเรียบร้อยแล้ว', '');
         },
         (err: any) => {
-          this.inputLength.other = 'กรุณาตรวจสอบการกรอกข้อมูลให้ถูกต้องและครบถ้วน';
-          console.log(err.error.data);
+          this.inputLength.other = 'กรุณาตรวจสอบการกรอกข้อมูลให้ถูกต้อง และ ครบถ้วน';
+          console.log(err);
           console.log('error');
         }
       )
@@ -385,6 +405,7 @@ export class ManageOrderComponent implements OnInit{
       .subscribe(
         (res: any) => {
           this.notififyService.showNotification('success', 'ยอมรับการเข้ารับพัสดุแล้ว', '');
+          this.getAllOrder();
         },
         (err: any) => {
           console.log(err.error.data);
