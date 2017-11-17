@@ -183,9 +183,10 @@ export class ManageOrderComponent implements OnInit{
       'Authorization': 'bearer ' + this.dataAdminService.getToken()
     })
      // Get role, if admin api will return all order, else api will return only null and my officer_no orders
-     this.myRole = await this.dataAdminService.getAdmins().toPromise();
+     const role = await this.dataAdminService.getAdmins().toPromise();
+     this.myRole = role.role;
 
-    this.http.get(API.adminProtect.getAllOrder + this.myRole.role, {headers: headers})
+    this.http.get(API.adminProtect.getAllOrder + this.myRole, {headers: headers})
       .subscribe(
         (res: any) => {
           this.datas = []
