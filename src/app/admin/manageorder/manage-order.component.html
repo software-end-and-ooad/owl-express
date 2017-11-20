@@ -74,7 +74,7 @@
                 <!-- Postman ID -->
                 <label class="control-label">ผู้รับผิดชอบ</label>
                 <select formControlName="postmanId" required class="form-control" >
-                  <option value="" selected>{{ myRole=="admin"? "-- เลือก Postman --": "ไม่มีผู้รับผิดชอบ" }}</option>
+                  <option value="" [selected]="rowData==undefined? true: rowData.postman_id=='' || rowData.postman_id=='ยังไม่เข้ารับ'">{{ myRole=="admin"? "-- เลือก Postman --": "ไม่มีผู้รับผิดชอบ" }}</option>
                   <option [value]="postman.officer_no" *ngFor="let postman of myRole!='admin'? []: postmans!=undefined? postmans: []" [selected]="rowData==undefined? false: rowData.postman_id==undefined? false: rowData.postman_id==postman.officer_no? true: false">{{ postman.officer_no }}</option>
                 </select>
 

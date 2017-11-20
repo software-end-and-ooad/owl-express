@@ -250,7 +250,7 @@ export class ManageOrderComponent implements OnInit{
     this.editorderForm.controls['tell'].patchValue(event.data.tell);
     this.editorderForm.controls['size'].patchValue(event.data.size==null? '': event.data.size);
     this.editorderForm.controls['price'].patchValue(event.data.price.constructor==String? null: event.data.price);
-    this.editorderForm.controls['postmanId'].patchValue(event.data.postmanId==null? '': event.data.postmanId);
+    this.editorderForm.controls['postmanId'].patchValue(event.data.postman_id=='ยังไม่เข้ารับ'? '': event.data.postman_id);
     this.editorderForm.controls['transportType'].patchValue(event.data.transport_type==null? '': event.data.transport_type);
     this.editorderForm.controls['status'].patchValue(event.data.status==null? '': event.data.status);
     this.editorderForm.controls['pickupDate'].patchValue(event.data.pickup_date==null? '': event.data.pickup_date);
