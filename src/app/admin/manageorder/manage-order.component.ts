@@ -46,6 +46,7 @@ export class ManageOrderComponent implements OnInit{
 
   private postmans: any; // Get postman information for selection of postman_id
   private myRole: any;
+  private myAccountID: Array<any>;
 
 
   public settings = {
@@ -185,6 +186,8 @@ export class ManageOrderComponent implements OnInit{
      // Get role, if admin api will return all order, else api will return only null and my officer_no orders
      const role = await this.dataAdminService.getAdmins().toPromise();
      this.myRole = role.role;
+     if (role.role == 'officer')
+       this.myAccountID = [{officer_no: role.officer_no}];
 
     this.http.get(API.adminProtect.getAllOrder + this.myRole, {headers: headers})
       .subscribe(
