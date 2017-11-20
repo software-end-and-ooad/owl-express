@@ -117,8 +117,8 @@
                 </div>
 
                 <div class="text-left">
-                  <strong class="text-danger text-left" *ngIf="editorderForm.controls['price'].hasError('required')" [hidden]="editorderForm.controls['price'].untouched || editorderForm.controls['price'].value==null">กรุณาระบุราคา</strong>
-                  <strong class="text-danger text-left" *ngIf="editorderForm.controls['price'].hasError('pattern')" [hidden]="editorderForm.controls['price'].pristine || editorderForm.controls['price'].value==null">รูปแบบราคาไม่ถูกต้อง</strong>
+                  <strong class="text-danger text-left" *ngIf="editorderForm.controls['price'].hasError('required')" [hidden]="editorderForm.controls['price'].pristine || editorderForm.controls['price'].value==''">กรุณาระบุราคา</strong>
+                  <strong class="text-danger text-left" *ngIf="editorderForm.controls['price'].hasError('pattern')" [hidden]="editorderForm.controls['price'].pristine || editorderForm.controls['price'].value==''">รูปแบบราคาไม่ถูกต้อง</strong>
                 </div>
 
                 <!-- Pickup Date -->
