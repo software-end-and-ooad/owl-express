@@ -19,6 +19,7 @@ const protect = {
   auth: domainProtect + 'login',
   order: domainProtect + 'order',
   orderList: domainProtect + 'order-list',
+  profileSetting: domainProtect + 'profile-setting',
 
 }
 

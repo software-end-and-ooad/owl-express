@@ -21,6 +21,13 @@ export class ProfileSettingComponent implements OnInit{
   formInvalid: any = {
     pickupDate: null
   }
+  profileData: any;
+  inputLength = {
+    fullnameMax: 40,
+    address_otherMax: 255,
+    tellMax: 10,
+    tellMin: 9
+  }
 
   constructor(
     private http: HttpClient,
@@ -33,17 +40,42 @@ export class ProfileSettingComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.profileForm = this.formBuilder.group({
-      fullname: [null, [ Validators.pattern('L|M|S|XL') ]],
-      tel: [null, [ Validators.required ]],
-      Subdistrict: [null, [ Validators.required ]],
-      District: [null, [ Validators.required ]],
-      Province: [null, [ Validators.required ]],
-      subscribe_line: [null, [ Validators.required, Validators.maxLength(255) ]],
-      subscribe_sms: ['', [ Validators.pattern('[0-1]{0,1}[0-9]/[0-3]{0,1}[0-9]/[0-9][0-9][0-9][0-9]') ]],
-    });
-  }
+    const inputLength = this.inputLength;
 
+    this.profileForm = this.formBuilder.group({
+      fullname: [null, [ Validators.required, Validators.maxLength(inputLength.fullnameMax) ]],
+      tell: [null, [ Validators.required, Validators.maxLength(inputLength.tellMax), Validators.minLength(inputLength.tellMin) ]],
+      subdistrict: [null, []],
+      district: [null, []],
+      province: [null, []],
+      addressOther: ['', [ Validators.maxLength(inputLength.address_otherMax)]],
+      subscribe_line: [null, [ Validators.pattern('true|false') ]],
+      subscribe_sms: [null, [ Validators.pattern('true|false') ]],
+    });
+
+    this.dataService.getUsers()
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          this.profileForm.controls['fullname'].patchValue(res.fullname);
+          this.profileForm.controls['tell'].patchValue(res.tell);
+          this.profileForm.controls['province'].patchValue(res.province);
+          this.profileForm.controls['district'].patchValue(res.district);
+          this.profileForm.controls['addressOther'].patchValue(res.address_other);
+          this.profileForm.controls['subdistrict'].patchValue(res.sub_district);
+          this.profileForm.controls['subscribe_sms'].patchValue(res.subscribe_sms);
+          this.profileForm.controls['subscribe_line'].patchValue(res.subscribe_line);
+
+          if (res.province > 0) {
+            this.getDistrict(res.province)
+          }
+          if (res.district > 0) {
+            this.getSubdistrict(res.district)
+          }
+        })
+
+
+  }
 
   getProvince() {
     this.dataService.getProvince()
@@ -74,16 +106,18 @@ export class ProfileSettingComponent implements OnInit{
 
 
   submit(value) {
-    //value.userId = this.dataService.getUserData().id;
-    //console.log(value);
-    this.http.post(API.protect.order, value)
+    console.log(value);
+    const headers = new HttpHeaders({
+      'Authorization': 'bearer ' + this.dataService.getToken()
+    })
+
+    this.http.put(API.protect.profileSetting, value, {headers: headers},)
       .subscribe(
         (res: any) => {
-          this.formInvalid.pickupDate = null;
           this.notifyService.showNotification(
             'success',
             'สำเร็จ',
-            'สั่งของผ่าน Owl-Express เรียบร้อยแล้ว!!     กรุณารอการเจ้าหน้าที่เข้ารับพัสดุ'
+            'แก้ไขโปรไฟล์เรียบร้อยแล้ว'
           );
           setTimeout(() => {
             //this.router.navigateByUrl('/order-list')
@@ -91,8 +125,12 @@ export class ProfileSettingComponent implements OnInit{
         },
         (err: any) => {
           const error = err.error.data;
-          if (error.pickupDate[0] == 'pickupDate_MUST_AFTER_PRESENT')
-            this.formInvalid.pickupDate = 'pickupDate_MUST_AFTER_PRESENT';
+          console.log(error);
+          this.notifyService.showNotification(
+            'danger',
+            'ไม่สำเร็จ',
+            'ไม่สามารแก้ไขข้อมูลส่วนตัวได้ โปรดตรวจสอบข้อมูลอีกครั้ง'
+          );
         }
       )
   }

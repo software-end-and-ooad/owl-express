@@ -17,77 +17,63 @@
               <div class="col-md-12">
 
                 <!-- Fullname -->
-                <div class="form-group label-floating is-empty">
-                  <label class="control-label" for="">ชื่อ-สกุล
-                    <span class="star">*</span>
-                  </label>
-
+                <label class="control-label" for="">ชื่อ-สกุล <span class="star">*</span> </label>
+                <div class="is-info label-floating is-empty text-left">
                   <input type="TEXT" class="form-control" formControlName="fullname" />
 
-                  <small class="text-danger" *ngIf="profileForm.controls['fullname'].hasError('required')"  [hidden]="profileForm.controls['paymentType'].pristine">
-                    กรุณาระบุประเภทการชำระเงิน
-                  </small>
+                  <strong class="text-danger text-left" *ngIf="profileForm.controls['fullname'].hasError('required') || profileForm.controls['subscribe_line'].hasError('pattern')" [hidden]="profileForm.controls['fullname'].pristine">กรุณากรอกชื่อ-สกุล</strong>
                 </div>
 
-                <!-- Tel -->
-                <div class="form-group label-floating is-empty">
-                  <label class="control-label" for="">เบอร์ติดต่อ
-                    <span class="star">*</span>
-                  </label>
+                <!-- tell -->
+                <label class="control-label" for="">เบอร์ติดต่อ <span class="star">*</span> </label>
+                <div class="is-info label-floating is-empty text-left">
+                  <input type="TEXT" class="form-control" formControlName="tell" />
 
-                  <input type="TEXT" class="form-control" formControlName="tel" />
-
-                  <small class="text-danger" *ngIf="profileForm.controls['tel'].hasError('required')"  [hidden]="profileForm.controls['tel'].pristine">
-                    กรุณาระบุประเภทการส่ง
-                  </small>
+                  <strong class="text-danger text-left" *ngIf="profileForm.controls['tell'].hasError('required')" [hidden]="profileForm.controls['tell'].pristine">กรุณากรอกเบอร์ิติดต่อ</strong>
+                  <strong class="text-danger text-left" *ngIf="profileForm.controls['tell'].hasError('maxlength')" [hidden]="profileForm.controls['tell'].pristine">เบอรติดต่อต้องไม่เกิน {{ inputLength.tellMax }} ตัวอักษร</strong>
+                  <strong class="text-danger text-left" *ngIf="profileForm.controls['tell'].hasError('minlength')" [hidden]="profileForm.controls['tell'].pristine">เบอรติดต่อต้องมากกว่า {{ inputLength.tellMin }} ตัวอักษร</strong>
                 </div>
 
                 <!-- Province -->
-                <div class="form-group label-floating is-empty">
-                  <label class="control-label" for="">เลือกจังหวัด
-                    <span class="star">*</span>
-                  </label>
+                <label class="control-label" for="">เลือกจังหวัด </label>
+                <div class="is-info label-floating is-empty text-left">
 
-                  <select formControlName="Province" class="form-control" (change)="getDistrict($event.target.value)" >
+                  <select formControlName="province" class="form-control" (change)="getDistrict($event.target.value)" >
                     <option value="" selected></option>
                     <option  *ngFor="let province of provinces" [value]="province.PROVINCE_ID">{{ province.PROVINCE_NAME }}</option>
                   </select>
 
-                  <small class="text-danger" *ngIf="profileForm.controls['Province'].hasError('required')"  [hidden]="profileForm.controls['Province'].pristine">
-                    กรุณาระบุจังหวัดต้นทาง
-                  </small>
                 </div>
 
                 <!-- District -->
-                <div class="form-group label-floating is-empty">
-                  <label class="control-label" for="">เลือกอำเภอ
-                    <span class="star">*</span>
-                  </label>
-
-                  <select formControlName="District" class="form-control" (change)="getSubdistrict($event.target.value)" [disabled]="districts==undefined">
+                <label class="control-label" for="">เลือกอำเภอ </label>
+                <div class="is-info label-floating is-empty text-left">
+                  <select formControlName="district" class="form-control" (change)="getSubdistrict($event.target.value)" [disabled]="districts==undefined">
                     <option value="" selected></option>
                     <option  *ngFor="let district of districts" [value]="district.DISTRICT_ID">{{ district.DISTRICT_NAME }}</option>
                   </select>
 
-                  <small class="text-danger" *ngIf="profileForm.controls['District'].hasError('required')"  [hidden]="profileForm.controls['District'].pristine">
-                    กรุณาระบุอำเภอต้นทาง
-                  </small>
                 </div>
 
                 <!-- Subdistrict -->
-                <div class="form-group label-floating is-empty">
-                  <label class="control-label" for="">เลือกตำบล
-                    <span class="star">*</span>
-                  </label>
+                <label class="control-label" for="">เลือกตำบล </label>
+                <div class="is-info label-floating is-empty text-left">
 
-                  <select formControlName="Subdistrict" class="form-control" [disabled]="subdistricts==undefined">
+                  <select formControlName="subdistrict" class="form-control" [disabled]="subdistricts==undefined">
                     <option value="" selected></option>
                     <option  *ngFor="let subdistrict of subdistricts" [value]="subdistrict.SUBDISTRICT_ID">{{ subdistrict.SUBDISTRICT_NAME }}</option>
                   </select>
 
-                  <small class="text-danger" *ngIf="profileForm.controls['Subdistrict'].hasError('required')"  [hidden]="profileForm.controls['Subdistrict'].pristine">
-                    กรุณาระบุตำบลต้นทาง
-                  </small>
+                </div>
+
+                <!-- Address Other -->
+                <label class="control-label">รายละเอียดที่อยู่เพิ่มเติม</label>
+                <div class="is-info label-floating is-empty text-left">
+                  <textarea type="TEXT" class="form-control" formControlName="addressOther" placeholder="รายละเอียดที่อยู่ต้นทางเพิ่มเติม" ></textarea>
+                </div>
+
+                <div class="text-left">
+                  <strong class="text-danger text-left" *ngIf="profileForm.controls['addressOther'].hasError('maxlength')" [hidden]="profileForm.controls['addressOther'].pristine">รายละเอียดที่อยู่ยาวกว่า {{ inputLength.address_otherMax }} ตัวอักษร</strong>
                 </div>
 
                 <!-- Subscribe -->
@@ -95,19 +81,20 @@
                   <div class="checkbox">
                     <div class="col-md-6">
                       <label class="left">
-                        <input name="optionsCheckboxes" type="checkbox" value="1">
+                        <input  formControlName="subscribe_sms" type="checkbox" value="true" [checked]="this.profileForm.controls['subscribe_sms'].value">
                         <span class="checkbox-material"><span class="check"></span></span>
                       </label>
                       ติดตามสถานะพัสดุผ่าน SMS
                     </div>
                     <div class="col-md-6">
                       <label class="left">
-                        <input name="optionsCheckboxes" type="checkbox" value="1">
+                        <input formControlName="subscribe_line" type="checkbox" value="true" [checked]="this.profileForm.controls['subscribe_line'].value">
                         <span class="checkbox-material"><span class="check"></span></span>
                       </label>
                       ติดตามสถานะพัสดุผ่าน Line
                     </div>
                   </div>
+                  <strong class="text-danger text-left" *ngIf="profileForm.controls['subscribe_line'].hasError('pattern') || profileForm.controls['subscribe_line'].hasError('pattern')" [hidden]="profileForm.controls['subscribe_sms'].pristine">รูปแบบข้อมูลการติดตามสถานะพัสุไม่ถูกต้อง</strong>
                 </div>
 
               </div>
@@ -123,7 +110,7 @@
                 </div>
               </div>
               <div class="pull-right">
-                <button class="btn btn-rose btn-fill btn-wd btn-info" type="submit" [disabled]="profileForm.invalid">เสร็จสิ้น</button>
+                <button class="btn btn-rose btn-fill btn-wd btn-info" type="submit">แก้ไข</button>
               </div>
             </form>
           </div>
