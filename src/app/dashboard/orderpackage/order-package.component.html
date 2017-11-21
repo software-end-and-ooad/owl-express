@@ -132,16 +132,11 @@
                 </div>
 
                 <!--Pickup Date-->
-                <div class="form-group label-floating is-empty">
-                  <label class="control-label" for="">วันรับล่วงหน้า (เดือน/วัน//ปี, MM/DD/YYYY)
-                    <span class="star">*</span>
-                  </label>
+                <label class="control-label" for="">วันรับล่วงหน้า (เดือน/วัน//ปี, MM/DD/YYYY) <span class="star">*</span> </label>
+                <div class="is-info label-floating is-empty text-left">
 
-                  <input type="TEXT" class="form-control" formControlName="pickupDate" />
+                  <input type="DATE" class="form-control" formControlName="pickupDate" [attr.min]="getDateTMR()" />
 
-                  <small class="text-danger" *ngIf="orderForm.controls['pickupDate'].hasError('pattern')"  [hidden]="orderForm.controls['pickupDate'].pristine">
-                    รูปแบบวันที่ไม่ถูกต้องตามกำหนด (MM/DD/YYYY)
-                  </small>
                   <small class="text-danger" *ngIf="formInvalid.pickupDate == 'pickupDate_MUST_AFTER_PRESENT'">
                     วันที่รับล่วงหน้าต้องมากกว่าปัจจุบัน
                   </small>

@@ -49,7 +49,7 @@ export class OrderPackageComponent implements OnInit{
       destDistrict: [null, [ Validators.required ]],
       destProvince: [null, [ Validators.required ]],
       destAddressOther: [null, [ Validators.required, Validators.maxLength(255) ]],
-      pickupDate: ['', [ Validators.pattern('[0-1]{0,1}[0-9]/[0-3]{0,1}[0-9]/[0-9][0-9][0-9][0-9]') ]],
+      pickupDate: ['', []],
     });
   }
 
@@ -107,6 +107,14 @@ export class OrderPackageComponent implements OnInit{
 
         }
       )
+  }
+
+  getDateTMR() {
+    var currentDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+    var day = currentDate.getDate()
+    var month = currentDate.getMonth() + 1
+    var year = currentDate.getFullYear()
+    return year + "-" + month + "-" + day;
   }
 
   useAccountAddress() {
