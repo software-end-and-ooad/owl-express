@@ -51,10 +51,8 @@
                 </div>
 
                 <!-- Source Province -->
-                <div class="form-group label-floating is-empty">
-                  <label class="control-label" for="">เลือกจังหวัด
-                    <span class="star">*</span>
-                  </label>
+                <label class="control-label" for="">เลือกจังหวัด <span class="star">*</span> </label>
+                <div class="is-info label-floating is-empty text-left">
 
                   <select formControlName="srcProvince" class="form-control" (change)="getDistrict($event.target.value)" >
                     <option value="" selected></option>
@@ -67,10 +65,8 @@
                 </div>
 
                 <!-- Source District -->
-                <div class="form-group label-floating is-empty">
-                  <label class="control-label" for="">เลือกอำเภอ
-                    <span class="star">*</span>
-                  </label>
+                <label class="control-label" for="">เลือกอำเภอ <span class="star">*</span> </label>
+                <div class="is-info label-floating is-empty text-left">
 
                   <select formControlName="srcDistrict" class="form-control" (change)="getSubdistrict($event.target.value)" [disabled]="districts==undefined">
                     <option value="" selected></option>
@@ -83,10 +79,8 @@
                 </div>
 
                 <!-- Source Subdistrict -->
-                <div class="form-group label-floating is-empty">
-                  <label class="control-label" for="">เลือกตำบล
-                    <span class="star">*</span>
-                  </label>
+                <label class="control-label" for="">เลือกตำบล <span class="star">*</span> </label>
+                <div class="is-info label-floating is-empty text-left">
 
                   <select formControlName="srcSubdistrict" class="form-control" [disabled]="subdistricts==undefined">
                     <option value="" selected></option>
@@ -99,10 +93,8 @@
                 </div>
 
                 <!-- Source Other Address -->
-                <div class="form-group label-floating is-empty">
-                  <label class="control-label" for="">รายละเอียดที่อยู่ต้นทางเพิ่มเติม
-                    <span class="star">*</span>
-                  </label>
+                <label class="control-label" for="">รายละเอียดที่อยู่ต้นทางเพิ่มเติม <span class="star">*</span> </label>
+                <div class="is-info label-floating is-empty text-left">
 
                   <textarea class="form-control" rows="4" formControlName="srcAddressOther"></textarea>
 
@@ -158,10 +150,8 @@
                 </div>
 
                 <!-- Dest Province -->
-                <div class="form-group label-floating is-empty">
-                  <label class="control-label" for="">เลือกจังหวัด
-                    <span class="star">*</span>
-                  </label>
+                <label class="control-label" for="">เลือกจังหวัด <span class="star">*</span> </label>
+                <div class="is-info label-floating is-empty text-left">
 
                   <select formControlName="destProvince" class="form-control" (change)="getDestDistrict($event.target.value)" >
                     <option value="" selected></option>
@@ -174,10 +164,8 @@
                 </div>
 
                 <!-- Dest District -->
-                <div class="form-group label-floating is-empty">
-                  <label class="control-label" for="">เลือกอำเภอ
-                    <span class="star">*</span>
-                  </label>
+                <label class="control-label" for="">เลือกอำเภอ <span class="star">*</span> </label>
+                <div class="is-info label-floating is-empty text-left">
 
                   <select formControlName="destDistrict" class="form-control" (change)="getDestSubdistrict($event.target.value)" [disabled]="disabled">
                     <option value="" selected></option>
@@ -190,10 +178,8 @@
                 </div>
 
                 <!-- Dest Subdistrict -->
-                <div class="form-group label-floating is-empty">
-                  <label class="control-label" for="">เลือกตำบล
-                    <span class="star">*</span>
-                  </label>
+                <label class="control-label" for="">เลือกตำบล <span class="star">*</span> </label>
+                <div class="is-info label-floating is-empty text-left">
 
                   <select formControlName="destSubdistrict" class="form-control" [disabled]="destSubdistricts==undefined">
                     <option value="" selected></option>
@@ -206,10 +192,8 @@
                 </div>
 
                 <!-- Dest Other Address -->
-                <div class="form-group label-floating is-empty">
-                  <label class="control-label" for="">รายละเอียดที่อยู่ปลายทางเพิ่มเติม
-                    <span class="star">*</span>
-                  </label>
+                <label class="control-label" for="">รายละเอียดที่อยู่ปลายทางเพิ่มเติม <span class="star">*</span> </label>
+                <div class="is-info label-floating is-empty text-left">
 
                   <textarea class="form-control" rows="4" formControlName="destAddressOther"></textarea>
 
@@ -224,9 +208,10 @@
               </div>
 
               <div class="form-footer text-right">
-                <div class="category form-category">
+                <div class="pull-left">
+                  <div class="btn btn-rose btn-fill btn-wd btn-primary" (click)="useAccountAddress()">ใช้ที่อยู่จากข้อมูลส่วนตัว</div>
                 </div>
-                <div class="checkbox pull-left">
+                <div class="checkbox pull-left" style="margin-left: 10px;">
                   <label>
                     <span class="star">*</span> Required fields
                   </label>

@@ -109,7 +109,25 @@ export class OrderPackageComponent implements OnInit{
       )
   }
 
+  useAccountAddress() {
+    const province = this.orderForm.controls['srcProvince'];
+    const district = this.orderForm.controls['srcDistrict'];
+    const subdistrict = this.orderForm.controls['srcSubdistrict'];
+    const addressOther = this.orderForm.controls['srcAddressOther'];
+    const myAccountAddress = this.dataService.getUserData();
 
+    // Set value form
+    province.patchValue(myAccountAddress.province);
+    district.patchValue(myAccountAddress.district);
+    subdistrict.patchValue(myAccountAddress.sub_district);
+    addressOther.patchValue(myAccountAddress.address_other);
+
+    // Call list of selection if there is value of address
+    if (province.value == myAccountAddress.province)
+      this.getDistrict(province.value);
+    if (district.value == myAccountAddress.district)
+      this.getSubdistrict(district.value);
+  }
 
   submit(value) {
     value.userId = this.dataService.getUserData().id;
