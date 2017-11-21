@@ -11,6 +11,7 @@ import { DashboardComponent } from './dashboard.component';
 import { OrderPackageComponent } from './orderpackage/order-package.component';
 import { LogoutComponent } from './logout/logout.component';
 import { OrderListComponent } from './orderlist/orderlist.component';
+import { ProfileSettingComponent } from './profilesetting/profile-setting.component';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { OrderListComponent } from './orderlist/orderlist.component';
     OrderPackageComponent,
     LogoutComponent,
     OrderListComponent,
+    ProfileSettingComponent
   ]
 })
 export class DashboardModule { }

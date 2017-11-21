@@ -5,6 +5,7 @@ import { DashboardComponent } from './dashboard.component';
 import { OrderPackageComponent } from './orderpackage/order-package.component';
 import { LogoutComponent } from './logout/logout.component';
 import { OrderListComponent } from './orderlist/orderlist.component';
+import { ProfileSettingComponent } from './profilesetting/profile-setting.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,10 @@ const routes: Routes = [
       {
         path: 'order-package',
         component: OrderPackageComponent,
+      },
+      {
+        path: 'profile-setting',
+        component: ProfileSettingComponent,
       },
     ]
   },

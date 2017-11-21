@@ -1,0 +1,134 @@
+<div class="main-content">
+  <div class="container-fluid">
+
+    <!--<app-status></app-status>-->
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header" data-background-color="blue">
+            <h4 class="title">ตั้งค่าโปรไฟล์</h4>
+            <p class="category">ข้อมูลโปรไฟล์เหล่านี้จะถูกนำไปใช้กับที่อยู่เมื่อกรอกข้อมูลส่งของได้</p>
+          </div>
+          <div  class="card-content table-responsive">
+            <form class="form" [formGroup]="profileForm" (ngSubmit)="submit(profileForm.value)" method="POST">
+
+              <!--column 1-->
+              <div class="col-md-12">
+
+                <!-- Fullname -->
+                <div class="form-group label-floating is-empty">
+                  <label class="control-label" for="">ชื่อ-สกุล
+                    <span class="star">*</span>
+                  </label>
+
+                  <input type="TEXT" class="form-control" formControlName="fullname" />
+
+                  <small class="text-danger" *ngIf="profileForm.controls['fullname'].hasError('required')"  [hidden]="profileForm.controls['paymentType'].pristine">
+                    กรุณาระบุประเภทการชำระเงิน
+                  </small>
+                </div>
+
+                <!-- Tel -->
+                <div class="form-group label-floating is-empty">
+                  <label class="control-label" for="">เบอร์ติดต่อ
+                    <span class="star">*</span>
+                  </label>
+
+                  <input type="TEXT" class="form-control" formControlName="tel" />
+
+                  <small class="text-danger" *ngIf="profileForm.controls['tel'].hasError('required')"  [hidden]="profileForm.controls['tel'].pristine">
+                    กรุณาระบุประเภทการส่ง
+                  </small>
+                </div>
+
+                <!-- Province -->
+                <div class="form-group label-floating is-empty">
+                  <label class="control-label" for="">เลือกจังหวัด
+                    <span class="star">*</span>
+                  </label>
+
+                  <select formControlName="Province" class="form-control" (change)="getDistrict($event.target.value)" >
+                    <option value="" selected></option>
+                    <option  *ngFor="let province of provinces" [value]="province.PROVINCE_ID">{{ province.PROVINCE_NAME }}</option>
+                  </select>
+
+                  <small class="text-danger" *ngIf="profileForm.controls['Province'].hasError('required')"  [hidden]="profileForm.controls['Province'].pristine">
+                    กรุณาระบุจังหวัดต้นทาง
+                  </small>
+                </div>
+
+                <!-- District -->
+                <div class="form-group label-floating is-empty">
+                  <label class="control-label" for="">เลือกอำเภอ
+                    <span class="star">*</span>
+                  </label>
+
+                  <select formControlName="District" class="form-control" (change)="getSubdistrict($event.target.value)" [disabled]="districts==undefined">
+                    <option value="" selected></option>
+                    <option  *ngFor="let district of districts" [value]="district.DISTRICT_ID">{{ district.DISTRICT_NAME }}</option>
+                  </select>
+
+                  <small class="text-danger" *ngIf="profileForm.controls['District'].hasError('required')"  [hidden]="profileForm.controls['District'].pristine">
+                    กรุณาระบุอำเภอต้นทาง
+                  </small>
+                </div>
+
+                <!-- Subdistrict -->
+                <div class="form-group label-floating is-empty">
+                  <label class="control-label" for="">เลือกตำบล
+                    <span class="star">*</span>
+                  </label>
+
+                  <select formControlName="Subdistrict" class="form-control" [disabled]="subdistricts==undefined">
+                    <option value="" selected></option>
+                    <option  *ngFor="let subdistrict of subdistricts" [value]="subdistrict.SUBDISTRICT_ID">{{ subdistrict.SUBDISTRICT_NAME }}</option>
+                  </select>
+
+                  <small class="text-danger" *ngIf="profileForm.controls['Subdistrict'].hasError('required')"  [hidden]="profileForm.controls['Subdistrict'].pristine">
+                    กรุณาระบุตำบลต้นทาง
+                  </small>
+                </div>
+
+                <!-- Subscribe -->
+                <div class="form-group label-floating is-empty">
+                  <div class="checkbox">
+                    <div class="col-md-6">
+                      <label class="left">
+                        <input name="optionsCheckboxes" type="checkbox" value="1">
+                        <span class="checkbox-material"><span class="check"></span></span>
+                      </label>
+                      ติดตามสถานะพัสดุผ่าน SMS
+                    </div>
+                    <div class="col-md-6">
+                      <label class="left">
+                        <input name="optionsCheckboxes" type="checkbox" value="1">
+                        <span class="checkbox-material"><span class="check"></span></span>
+                      </label>
+                      ติดตามสถานะพัสดุผ่าน Line
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+
+              <div class="form-footer text-right">
+                <div class="category form-category">
+                </div>
+                <div class="checkbox pull-left">
+                  <label>
+                    <span class="star">*</span> Required fields
+                  </label>
+                </div>
+              </div>
+              <div class="pull-right">
+                <button class="btn btn-rose btn-fill btn-wd btn-info" type="submit" [disabled]="profileForm.invalid">เสร็จสิ้น</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>

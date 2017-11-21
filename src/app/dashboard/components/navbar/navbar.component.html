@@ -16,6 +16,8 @@
                        <i class="material-icons">person</i>
                        <span *ngIf="user != undefined">{{ user.fullname }}</span>
                        <ul class="dropdown-menu">
+                         <li><a routerLink="profile-setting">Setting</a></li>
+                         <li role="separator" class="divider"></li>
                          <li><a routerLink="logout">Logout</a></li>
                        </ul>
                     </a>
