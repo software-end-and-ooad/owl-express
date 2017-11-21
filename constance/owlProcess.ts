@@ -1,6 +1,15 @@
-const process = {
-  first: 'รอรับของปลายทาง',
-  second: 'นำไปทิ้ง',
-}
+const process = [{
+  title: 'รอการชำระ'
+},{
+  title: 'รอรับของปลายทาง',
+},{
+  title: 'เข้ารับพัสดุแล้ว',
+},{
+  title: 'พัสดุถึงศูนย์คัดแยก',
+}, {
+  title: 'พัสดุถึงสาขาปลายทาง',
+},{
+  title: 'ปลายทางได้รับพัดสุแล้ว',
+}]
 
-export const Owlexperss = { process };
+export const Owlexpress = { process };

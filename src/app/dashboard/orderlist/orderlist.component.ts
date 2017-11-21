@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { API } from '../../../../constance/url';
 import { DataService } from '../../shared/data.service';
-import { Owlexperss } from '../../../../constance/owlProcess';
+import { Owlexpress } from '../../../../constance/owlProcess';
 
 declare var $: any;
 @Component({
@@ -71,7 +71,7 @@ export class OrderListComponent {
             data['size'] = data['size']==''||data['size']==null? 'ไม่กำหนด': data['size'];
             data['price'] = data['price']==null||data['price']<=0? '-': data['price'];
             data['payment_type'] = data['payment_type']=='dest'? 'ชำระปลายทาง': 'ชำระด้วยการโอน';
-            data['status'] = data['status']==null? Owlexperss.process.first: data['status']; // Not finish yet
+            data['status'] = data['status']==null? Owlexpress.process[0].title: Owlexpress.process[parseInt(data['status'])].title; // Not finish yet
             data['payment_status'] = data['payment_status']=='NOT'? 'รอการชำระ': 'ชำระแล้ว';
             data['payment_status'] = data['payment_status']=='NOT'? 'รอการชำระ': 'ชำระแล้ว';
             //data['pickup_date'] = data['pickup_date'].substring(0, data['pickup_date'].indexOf('T'))

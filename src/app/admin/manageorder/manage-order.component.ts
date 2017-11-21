@@ -8,6 +8,7 @@ import { DataAdminService } from '../../shared/data.admin.service';
 import { API } from '../../../../constance/url';
 import { DataService } from '../../shared/data.service';
 import { NotificationService } from '../../shared/notification.service';
+import { Owlexpress } from '../../../../constance/owlProcess';
 
 
 @Component({
@@ -160,7 +161,7 @@ export class ManageOrderComponent implements OnInit{
       size: [null, [ Validators.required, Validators.pattern('L|M|S|XL') ]],
       postmanId: [null],
       transportType: [null, [ Validators.required, Validators.pattern('EMS|sameday') ]],
-      status: [null, [ Validators.required, Validators.pattern('1|2|3|4') ]], // insert status after you sure about value
+      status: [null, [ Validators.required, Validators.pattern('1|2|3|4|5') ]], // insert status after you sure about value
       price: [null, [ Validators.required, Validators.pattern('[0-9]*') ]],
       pickupDate: ['', [ Validators.pattern('[0-1]{0,1}[0-9]/[0-3]{0,1}[0-9]/[0-9][0-9][0-9][0-9]') ]],
       track: [null], // Defined for send unique id of item to update
@@ -210,7 +211,7 @@ export class ManageOrderComponent implements OnInit{
               data.size                      = data.size                     == 0? 'ไม่ระบุ': data.size;
               data.postman_id                = data.postman_id               == null? 'ยังไม่เข้ารับ': data.postman_id;
               data.transport_type            = data.transport_type;
-              data.status_content            = data.status                   == 1? 'เข้ารับพัสดุแล้ว': data.status==2? 'พัสดุถึงศูนย์คัดแยกสินค้า': data.status==3? 'พัสดุถึงสาขาปลายทาง': data.status==4? 'ปลายทางได้รับเรียบร้อยแล้ว': 'ยังไม่เข้ารับ';
+              data.status_content            = data.status                   == null? Owlexpress.process[0].title: Owlexpress.process[data.status].title
               data.price                     = data.price                    == null? 'ยังไม่เข้ารับ': data.price;
               data.pickup_date               = this.dataService.dateFormat(data.pickup_date);
 
