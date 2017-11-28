@@ -44,7 +44,7 @@ export class OrderListComponent {
       edit: false,
       delete: false
     },
-    hideSubHeader: true,
+    hideSubHeader: false,
   };
 
 

@@ -58,7 +58,6 @@ export class ManageOrderComponent implements OnInit{
       //},
       fullname: {
         title: 'ชื่อ-สกุล',
-        width: '9%'
       },
       tell: {
         title: 'เบอร์ติดต่อ'
@@ -68,7 +67,6 @@ export class ManageOrderComponent implements OnInit{
       },
       postman_id: {
         title: 'ผู้รับผิดชอบ',
-        width: '6%'
       },
       transport_type: {
         title: 'รูปแบบการส่ง'
@@ -84,31 +82,29 @@ export class ManageOrderComponent implements OnInit{
       },
       src_sub_district_content: {
         title: 'ตำบลต้นทาง',
-        width: '7%'
       },
       src_district_content: {
         title: 'อำเภอต้นทาง',
-        width: '6%'
       },
       src_province_content: {
         title: 'จังหวัดต้นทาง',
       },
       src_address_other: {
-        title: 'รายละเอียดที่อยู่ต้นทาง'
+        title: 'รายละเอียดที่อยู่ต้นทาง',
+        width: '9%'
       },
       dest_sub_district_content: {
         title: 'ตำบลปลายทาง',
-        width: '7%'
       },
       dest_district_content: {
         title: 'อำเภอปลายทาง',
-        width: '6%'
       },
       dest_province_content: {
         title: 'จังหวัดปลายทาง',
       },
       dest_address_other: {
-        title: 'รายละเอียดที่อยู่ปลายทาง'
+        title: 'รายละเอียดที่อยู่ปลายทาง',
+        width: '9%'
       },
     },
     actions: {
@@ -130,7 +126,7 @@ export class ManageOrderComponent implements OnInit{
       cancelButtonContent: `<div class='btn btn-danger btn-sm'><i class='ion-android-close'></i></h1>`,
       confirmSave: false,
     },
-    hideSubHeader: true,
+    hideSubHeader: false,
     noDataMessage: 'ไม่พบข้อมูล',
     mode: 'external'
   };

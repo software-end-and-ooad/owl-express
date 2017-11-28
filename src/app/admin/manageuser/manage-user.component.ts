@@ -48,37 +48,30 @@ export class ManageUserComponent implements OnInit{
       },
       fullname: {
         title: 'ชื่อ-สกุล',
-        width: '10%'
       },
       tell: {
         title: 'เบอร์ติดต่อ'
       },
       sub_district_content: {
         title: 'ตำบล',
-        width: '8%'
       },
       district_content: {
         title: 'อำเภอ',
-        width: '10%'
       },
       province_content: {
         title: 'จังหวัด',
       },
       address_other: {
         title: 'รายละเอียดที่อยู่',
-        width: '10%'
       },
       subscribe_sms_content: {
         title: 'การรับข่าวสารผ่าน SMS',
-        width: '6%'
       },
       subscribe_line_content: {
         title: 'การรับข่าวสารผ่าน Line',
-        width: '6%'
       },
       rejected_order: {
         title: 'ปฏิเสธรับของ',
-        width: '3%'
       },
       activated_content: {
         title: 'ยืนยันบัญชี',
@@ -102,7 +95,7 @@ export class ManageUserComponent implements OnInit{
       saveButtonContent: 'บันทึก',
       cancelButtonContent: 'ยกเลิก'
     },
-    hideSubHeader: true,
+    hideSubHeader: false,
     noDataMessage: 'ไม่พบข้อมูล',
     mode: 'external'
   };
