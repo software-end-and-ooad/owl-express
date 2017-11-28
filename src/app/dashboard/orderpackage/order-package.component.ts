@@ -150,13 +150,16 @@ export class OrderPackageComponent implements OnInit{
             'สั่งของผ่าน Owl-Express เรียบร้อยแล้ว!!     กรุณารอการเจ้าหน้าที่เข้ารับพัสดุ'
           );
           setTimeout(() => {
-            //this.router.navigateByUrl('/order-list')
+            this.router.navigateByUrl('/order-list')
           }, 1000);
         },
         (err: any) => {
           const error = err.error.data;
+          console.log(error);
           if (error.pickupDate[0] == 'pickupDate_MUST_AFTER_PRESENT')
             this.formInvalid.pickupDate = 'pickupDate_MUST_AFTER_PRESENT';
+          else if(error.pickupDate[0] == 'pickupDate_MUST_BE_DATE')
+            this.formInvalid.pickupDate = 'pickupDate_MUST_BE_DATE';
         }
       )
   }

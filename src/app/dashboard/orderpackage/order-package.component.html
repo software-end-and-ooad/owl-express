@@ -24,7 +24,6 @@
 
                   <select formControlName="paymentType" class="form-control">
                     <option value="" selected></option>
-                    <option value="dest">ชำระเงินปลายทาง</option>
                     <option value="transfer">โอนเงิน</option>
                   </select>
 
@@ -132,13 +131,16 @@
                 </div>
 
                 <!--Pickup Date-->
-                <label class="control-label" for="">วันรับล่วงหน้า (เดือน/วัน//ปี, MM/DD/YYYY) <span class="star">*</span> </label>
+                <label class="control-label" for="">วันรับล่วงหน้า (เดือน/วัน/ปี, MM/DD/YYYY) <span class="star">*</span> </label>
                 <div class="is-info label-floating is-empty text-left">
 
                   <input type="DATE" class="form-control" formControlName="pickupDate" [attr.min]="getDateTMR()" />
 
                   <small class="text-danger" *ngIf="formInvalid.pickupDate == 'pickupDate_MUST_AFTER_PRESENT'">
                     วันที่รับล่วงหน้าต้องมากกว่าปัจจุบัน
+                  </small>
+                  <small class="text-danger" *ngIf="formInvalid.pickupDate == 'pickupDate_MUST_BE_DATE'">
+                    รูปแบบวันที่รับล่วงหน้าไม่ถูกต้อง
                   </small>
 
                   <span class="material-input"></span>

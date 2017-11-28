@@ -120,7 +120,7 @@ export class ProfileSettingComponent implements OnInit{
             'แก้ไขโปรไฟล์เรียบร้อยแล้ว'
           );
           setTimeout(() => {
-            //this.router.navigateByUrl('/order-list')
+            this.router.navigateByUrl('/dashboard')
           }, 1000);
         },
         (err: any) => {
