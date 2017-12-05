@@ -3,47 +3,15 @@
   <div class="col-lg-3 col-md-6 col-sm-6">
     <div class="card card-stats" >
       <div class="card-header" data-background-color="orange">
-        <i class="material-icons">content_copy</i>
+        <i class="fa fa-archive"></i>
       </div>
       <div class="card-content">
-        <p class="category">Used Space</p>
-        <h3 class="title">49/50<small>GB</small></h3>
+        <p class="category">Order ทั้งหมด</p>
+        <h3 class="title">{{ dataStatus.sumOrder }}</h3>
       </div>
       <div class="card-footer">
         <div class="stats">
-          <i class="material-icons text-danger">warning</i> <a href="#pablo">Get More Space...</a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-lg-3 col-md-6 col-sm-6">
-    <div class="card card-stats" >
-      <div class="card-header" data-background-color="green">
-        <i class="material-icons">store</i>
-      </div>
-      <div class="card-content">
-        <p class="category">Revenue</p>
-        <h3 class="title">$34,245</h3>
-      </div>
-      <div class="card-footer">
-        <div class="stats">
-          <i class="material-icons">date_range</i> Last 24 Hours
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-lg-3 col-md-6 col-sm-6">
-    <div class="card card-stats" >
-      <div class="card-header" data-background-color="red">
-        <i class="material-icons">info_outline</i>
-      </div>
-      <div class="card-content">
-        <p class="category">Fixed Issues</p>
-        <h3 class="title">75</h3>
-      </div>
-      <div class="card-footer">
-        <div class="stats">
-          <i class="material-icons">local_offer</i> Tracked from Github
+          คลิกเพื่อเข้าดูสินค้าทั้งหมด
         </div>
       </div>
     </div>
@@ -51,20 +19,55 @@
 
   <div class="col-lg-3 col-md-6 col-sm-6">
     <div class="card card-stats" >
-      <div class="card-header" data-background-color="blue">
-        <i class="fa fa-twitter"></i>
+      <div class="card-header" data-background-color="green">
+        <i class="fa ion-android-person" style="font-size: 44px"></i>
       </div>
       <div class="card-content">
-        <p class="category">Followers</p>
-        <h3 class="title">+245</h3>
+        <p class="category">All User</p>
+        <h3 class="title">{{ dataStatus.sumUser }}</h3>
       </div>
       <div class="card-footer">
         <div class="stats">
-          <i class="material-icons">update</i> Just Updated
+          ดูสินค้าทั้งหมด
         </div>
       </div>
     </div>
   </div>
+
+  <div class="col-lg-3 col-md-6 col-sm-6">
+    <div class="card card-stats" >
+      <div class="card-header" data-background-color="orange">
+        <i class="fa ion-ios-paperplane" style="font-size: 48px"></i>
+      </div>
+      <div class="card-content">
+        <p class="category">Order ที่กำลังจัดส่ง</p>
+        <h3 class="title">{{ dataStatus.sumOrderSending }}</h3>
+      </div>
+      <div class="card-footer">
+        <div class="stats">
+          ดู Order ทั้งหมด
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-3 col-md-6 col-sm-6">
+    <div class="card card-stats" >
+      <div class="card-header" data-background-color="red">
+        <i class="fa ion-ios-list" style="font-size: 46px"></i>
+      </div>
+      <div class="card-content">
+        <p class="category">สินค้าที่ยังไม่ได้ส่ง</p>
+        <h3 class="title">{{ dataStatus.sumOrderNotSend }}</h3>
+      </div>
+      <div class="card-footer">
+        <div class="stats">
+          คลิกเพื่อเข้าดูสินค้าที่ยังไม่ได้ส่ง
+        </div>
+      </div>
+    </div>
+  </div>
+
 
 </div>
 
