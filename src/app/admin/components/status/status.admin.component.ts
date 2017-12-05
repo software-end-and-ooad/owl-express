@@ -15,6 +15,7 @@ interface DataStatus {
 @Component({
   selector: 'app-adminstatus',
   templateUrl: './status.admin.component.html',
+  styleUrls: ['../../../../assets/css/style.css']
 })
 
 export class AdminStatusComponent implements OnInit{

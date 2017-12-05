@@ -1,7 +1,7 @@
 <div class="row">
 
   <div class="col-lg-3 col-md-6 col-sm-6">
-    <div class="card card-stats" >
+    <div class="card card-stats">
       <div class="card-header" data-background-color="orange">
         <i class="fa fa-archive"></i>
       </div>
@@ -9,9 +9,9 @@
         <p class="category">Order ทั้งหมด</p>
         <h3 class="title">{{ dataStatus.sumOrder }}</h3>
       </div>
-      <div class="card-footer">
+      <div class="card-footer pointer">
         <div class="stats">
-          คลิกเพื่อเข้าดูสินค้าทั้งหมด
+          <span routerLink="manage-order">Manage Order</span>
         </div>
       </div>
     </div>
@@ -26,9 +26,9 @@
         <p class="category">All User</p>
         <h3 class="title">{{ dataStatus.sumUser }}</h3>
       </div>
-      <div class="card-footer">
+      <div class="card-footer pointer">
         <div class="stats">
-          ดูสินค้าทั้งหมด
+          <span routerLink="manage-user">Manage User</span>
         </div>
       </div>
     </div>
@@ -43,9 +43,9 @@
         <p class="category">Order ที่กำลังจัดส่ง</p>
         <h3 class="title">{{ dataStatus.sumOrderSending }}</h3>
       </div>
-      <div class="card-footer">
+      <div class="card-footer pointer">
         <div class="stats">
-          ดู Order ทั้งหมด
+          <span routerLink="manage-order">Manage Order</span>
         </div>
       </div>
     </div>
@@ -60,9 +60,9 @@
         <p class="category">สินค้าที่ยังไม่ได้ส่ง</p>
         <h3 class="title">{{ dataStatus.sumOrderNotSend }}</h3>
       </div>
-      <div class="card-footer">
+      <div class="card-footer pointer">
         <div class="stats">
-          คลิกเพื่อเข้าดูสินค้าที่ยังไม่ได้ส่ง
+          <span routerLink="manage-order">Manage Order</span>
         </div>
       </div>
     </div>
