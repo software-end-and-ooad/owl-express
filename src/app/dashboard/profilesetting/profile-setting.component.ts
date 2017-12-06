@@ -44,7 +44,7 @@ export class ProfileSettingComponent implements OnInit{
 
     this.profileForm = this.formBuilder.group({
       fullname: [null, [ Validators.required, Validators.maxLength(inputLength.fullnameMax) ]],
-      tell: [null, [ Validators.required, Validators.maxLength(inputLength.tellMax), Validators.minLength(inputLength.tellMin) ]],
+      tell: [null, [ Validators.required, Validators.maxLength(inputLength.tellMax), Validators.minLength(inputLength.tellMin), Validators.pattern('[0-9]*') ]],
       subdistrict: [null, []],
       district: [null, []],
       province: [null, []],

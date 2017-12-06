@@ -36,7 +36,8 @@
       </div>
       <strong class="text-danger" *ngIf="registerForm.controls['tell'].hasError('required')" [hidden]="registerForm.controls['tell'].pristine">กรุณากรอกเบอร์ติดต่อ</strong>
       <strong class="text-danger" *ngIf="registerForm.controls['tell'].hasError('maxlength')" [hidden]="registerForm.controls['tell'].pristine">เบอร์ติดต่อต้องไม่มากกว่า {{ inputLength.tellMax }} ตัวอักษร</strong>
-      <strong class="text-danger" *ngIf="registerForm.controls['tell'].hasError('minlength')" [hidden]="registerForm.controls['tell'].pristine">เบอร์ติดต่อต้องไม่น้อยกว่า {{ inputLength.tellMin }} ตัวอักษร</strong>
+      <strong class="text-danger" *ngIf="!registerForm.controls['tell'].hasError('pattern') && registerForm.controls['tell'].hasError('minlength')" [hidden]="registerForm.controls['tell'].pristine">เบอร์ติดต่อต้องไม่น้อยกว่า {{ inputLength.tellMin }} ตัวอักษร</strong>
+      <strong class="text-danger" *ngIf="registerForm.controls['tell'].hasError('pattern')" [hidden]="registerForm.controls['tell'].pristine">เบอร์ติดต่อต้องเป็นตัวเลขเท่านั้น</strong>
 
       <div class="form-group label-floating is-empty is-info">
         <label class="control-label">รหัสผ่าน</label>

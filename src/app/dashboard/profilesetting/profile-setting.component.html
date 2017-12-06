@@ -31,7 +31,8 @@
 
                   <strong class="text-danger text-left" *ngIf="profileForm.controls['tell'].hasError('required')" [hidden]="profileForm.controls['tell'].pristine">กรุณากรอกเบอร์ิติดต่อ</strong>
                   <strong class="text-danger text-left" *ngIf="profileForm.controls['tell'].hasError('maxlength')" [hidden]="profileForm.controls['tell'].pristine">เบอรติดต่อต้องไม่เกิน {{ inputLength.tellMax }} ตัวอักษร</strong>
-                  <strong class="text-danger text-left" *ngIf="profileForm.controls['tell'].hasError('minlength')" [hidden]="profileForm.controls['tell'].pristine">เบอรติดต่อต้องมากกว่า {{ inputLength.tellMin }} ตัวอักษร</strong>
+                  <strong class="text-danger text-left" *ngIf="!profileForm.controls['tell'].hasError('pattern') && profileForm.controls['tell'].hasError('minlength')" [hidden]="profileForm.controls['tell'].pristine">เบอรติดต่อต้องมากกว่า {{ inputLength.tellMin }} ตัวอักษร</strong>
+                  <strong class="text-danger text-left" *ngIf="profileForm.controls['tell'].hasError('pattern')" [hidden]="profileForm.controls['tell'].pristine">เบอร์ติดต่อต้องเป็นตัวเลขเท่านั้น</strong>
                 </div>
 
                 <!-- Province -->
