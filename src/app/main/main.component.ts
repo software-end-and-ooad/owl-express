@@ -85,7 +85,6 @@ export class MainComponent {
             this.foundItem = -1;
           else
             this.foundItem = parseInt(res.data.status);
-          console.log(this.foundItem);
         },
         (err: any) => {
           this.foundItem = -1;

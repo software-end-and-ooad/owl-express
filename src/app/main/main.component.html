@@ -162,7 +162,8 @@
   <div class="modal-dialog modal-md" style="width: 30%">
     <div class="modal-body">
 
-      <div class="card card-signup" style="padding-bottom: 20px; border-radius: 10px">
+      <!--Found track data-->
+      <div class="card card-signup" style="padding-bottom: 20px; border-radius: 10px" *ngIf="foundItem!=-1">
         <div class="card card-testimonial card-plain" *ngFor="let process of owlProcess; let idx = index">
           <div [ngClass]="{'card-avatar': idx<=foundItem||idx==0}" style="width: 80px; height: 80px; margin: auto">
             <img [src]="process.icon">
@@ -172,6 +173,16 @@
           </div>
         </div>
       </div>
+
+      <!--Not found track data-->
+      <div class="card card-signup" style="padding-bottom: 20px; border-radius: 10px" *ngIf="foundItem<0">
+        <div class="card card-testimonial card-plain">
+          <div class="card-body">
+            <h4>ไม่พบข้อมูล</h4>
+          </div>
+        </div>
+      </div>
+
 
     </div>
   </div>
