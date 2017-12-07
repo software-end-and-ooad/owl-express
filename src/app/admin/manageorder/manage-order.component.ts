@@ -207,7 +207,7 @@ export class ManageOrderComponent implements OnInit{
               data.size                      = data.size                     == 0? 'ไม่ระบุ': data.size;
               data.postman_id                = data.postman_id               == null? 'ยังไม่เข้ารับ': data.postman_id;
               data.transport_type            = data.transport_type;
-              data.status_content            = data.status                   == null? Owlexpress.process[0].title: Owlexpress.process[data.status].title
+              data.status_content            = data.status                   == null? Owlexpress.process[0].title: data.status==undefined? Owlexpress.process[0].title: data.status==''? Owlexpress.process[0].title: Owlexpress.process[data.status].title
               data.price                     = data.price                    == null? 'ยังไม่เข้ารับ': data.price;
               data.pickup_date               = this.dataService.dateFormat(data.pickup_date);
 
