@@ -9,6 +9,7 @@ const api = {
   province: domain + 'province',
   district: domain + 'district/',
   subdistrict: domain + 'subdistrict/',
+  checktrack: domain + 'checktrack/',
 }
 
 const domainProtect = domain + 'user/';

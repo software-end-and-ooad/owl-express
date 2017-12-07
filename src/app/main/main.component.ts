@@ -1,5 +1,9 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+
+import { Owlexpress } from '../../../constance/owlProcess';
+import { API } from '../../../constance/url';
 
 @Component({
   selector: 'app-main',
@@ -9,11 +13,17 @@ export class MainComponent {
 
   @ViewChild('loginModal') public loginModal: ElementRef; // Give to navbar main for open
   @ViewChild('registerModal') public registerModal: ElementRef; // Give to navbar main for open
+  @ViewChild('#checktrackModal') public checktrackModal: ElementRef; // Give to navbar main for open
   transform: string = `translate3d(0px, 0px, 0px)`;
   logoFontSize: number = 18;
   headerHeight: string = '90vh';
 
-  constructor(private router: Router) { }
+  // checktrack modal variable
+  foundItem: any;
+  private owlProcess: Object[]  = Owlexpress.process;
+
+  constructor(private router: Router, private http: HttpClient) { }
+
 
   onWindowScroll() { // Transform background by scroll position
     this.transform = `translate3d(0px, ${pageYOffset*3/10}px, 0px)`; // Set speed parallax here
@@ -63,6 +73,24 @@ export class MainComponent {
       return true;
     else
       return false;
+  }
+
+  getTrackData(inputTrack) {
+    this.http.get(API.api.checktrack + inputTrack)
+      .subscribe(
+        (res: any) => {
+          const data = res.data;
+
+          if (data == undefined)
+            this.foundItem = -1;
+          else
+            this.foundItem = parseInt(res.data.status);
+          console.log(this.foundItem);
+        },
+        (err: any) => {
+          this.foundItem = -1;
+          console.log(err);
+        });
   }
 
 }

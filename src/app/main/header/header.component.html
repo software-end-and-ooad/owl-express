@@ -8,10 +8,10 @@
   <div class="content" style="padding: 30px 40px 40px">
 
     <div class="form-group is-info label-floating is-empty">
-      <input type="TEXT" class="form-control" required style="font-size: 2em; height: 80px" placeholder="Track-number such as H3ksi332aAo">
+      <input type="TEXT" class="form-control" required style="font-size: 2em; height: 80px" placeholder="Track-number such as H3ksi332aAo" #inputTrack>
     </div>
   </div>
 
-  <button type="submit" class="btn btn-large btn-info">ค้นหา</button>
+  <button type="submit" class="btn btn-large btn-info" data-toggle="modal" data-target="#checktrackModal" (click)="getTrackData()">ค้นหา</button>
 
 </div>
