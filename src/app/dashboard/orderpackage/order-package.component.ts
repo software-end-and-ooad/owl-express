@@ -114,7 +114,10 @@ export class OrderPackageComponent implements OnInit{
     var day = currentDate.getDate()
     var month = currentDate.getMonth() + 1
     var year = currentDate.getFullYear()
-    return year + "-" + month + "-" + day;
+    if (day.toString().length < 2)
+      return year + "-" + month + "-0" + day;
+    else
+      return year + "-" + month + "-" + day;
   }
 
   useAccountAddress() {

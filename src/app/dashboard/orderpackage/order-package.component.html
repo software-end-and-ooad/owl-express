@@ -7,7 +7,7 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header" data-background-color="blue">
-            <h4 class="title">สั่งของกับ Owl-Express</h4>
+            <h4 class="title">ส่งของกับ Owl-Express</h4>
             <p class="category">กรอกข้อมูลพัสดุของท่าน</p>
           </div>
           <div  class="card-content table-responsive">
@@ -131,10 +131,10 @@
                 </div>
 
                 <!--Pickup Date-->
-                <label class="control-label" for="">วันรับล่วงหน้า (เดือน/วัน/ปี, MM/DD/YYYY) <span class="star">*</span> </label>
+                <label class="control-label" for="">วันรับล่วงหน้า (เดือน/วัน/ปี, MM/DD/YYYY)  </label>
                 <div class="is-info label-floating is-empty text-left">
 
-                  <input type="DATE" class="form-control" formControlName="pickupDate" [attr.min]="getDateTMR()" />
+                  <input type="DATE" class="form-control" formControlName="pickupDate" [min]="getDateTMR()" />
 
                   <small class="text-danger" *ngIf="formInvalid.pickupDate == 'pickupDate_MUST_AFTER_PRESENT'">
                     วันที่รับล่วงหน้าต้องมากกว่าปัจจุบัน

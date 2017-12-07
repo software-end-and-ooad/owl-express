@@ -32,6 +32,10 @@ export class DataService {
     return this.token
   }
 
+  setUserData(data) {
+    this.user = data;
+  }
+
   getUserData() {
     return this.user;
   }

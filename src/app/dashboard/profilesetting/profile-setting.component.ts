@@ -113,7 +113,9 @@ export class ProfileSettingComponent implements OnInit{
 
     this.http.put(API.protect.profileSetting, value, {headers: headers},)
       .subscribe(
-        (res: any) => {
+        async (res: any) => {
+          const userData:any = await this.http.get(API.protect.auth, {headers: headers}).toPromise();
+          this.dataService.setUserData(userData.data);
           this.notifyService.showNotification(
             'success',
             'สำเร็จ',
