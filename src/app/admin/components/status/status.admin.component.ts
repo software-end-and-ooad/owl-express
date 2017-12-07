@@ -57,7 +57,7 @@ export class AdminStatusComponent implements OnInit{
     let order_notsend = 0;
 
     users.map((user, i) => {
-      this.dataStatus.sumOrder = user.orders.length;
+      this.dataStatus.sumOrder += user.orders.length;
 
       user.orders.map((order, i) => {
         if (order.status <= 1)
