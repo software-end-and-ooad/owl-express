@@ -164,11 +164,11 @@
 
       <div class="card card-signup" style="padding-bottom: 20px; border-radius: 10px">
         <div class="card card-testimonial card-plain" *ngFor="let process of owlProcess; let idx = index">
-          <div [ngClass]="{'card-avatar': idx<=foundItem}" style="width: 80px; height: 80px; margin: auto">
+          <div [ngClass]="{'card-avatar': idx<=foundItem||idx==0}" style="width: 80px; height: 80px; margin: auto">
             <img [src]="process.icon">
           </div>
           <div class="card-body">
-            <h4 class="card-title" [style.color]="idx<=foundItem? '#0b5021': null">{{ process.title }}</h4>
+            <h4 class="card-title" [style.color]="idx<=foundItem||idx==0? '#0b5021': null">{{ process.title }}</h4>
           </div>
         </div>
       </div>
